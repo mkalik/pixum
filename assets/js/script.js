@@ -1,7 +1,7 @@
 var genre_imdbAPI =
     'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?genres=';
 var length_imdbAPI =
-    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?moviemeter='; //comma separated numbers
+  "https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?moviemeter="; //comma separated numbers
 var actor;
 var actor_imdbAPI = 'https://imdb-api.com/en/API/SearchName/k_gqv62f21/'; //requires an actors name
 var name_imdbAPI = 'https://imdb-api.com/API/Name/k_gqv62f21/'; //requires imdbID
@@ -71,3 +71,4 @@ function useData(actor_movies) {
 // const id_title = await getActor(actor);
 // console.log(id_title);
 // getGenre(genre);
+
