@@ -21,3 +21,24 @@
     font-family: cursive;
     font-weight: 1000px
 }
+
+.suggestions {
+    display: flex;
+    margin-top: 80px;
+    justify-content: space-around;
+    height: 350px;
+}
+
+.card {
+    width: 250px;
+    background: linear-gradient(lightblue, grey);
+    border-radius: 15px;
+    border: 5px solid lightblue;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.card p {
+    text-align: center;
+    margin-top: 125px;
+    color: wheat;
+}
