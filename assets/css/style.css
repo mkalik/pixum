@@ -4,7 +4,7 @@
     --m_grey:#1f2833;
     --l_grey:#c5c6c7;
     --l_blue:#094642;
-    --d_blue:#185451;
+    --d_blue:#0f1818;
 
 }
 
@@ -15,4 +15,9 @@
     width: 50%;
     align-items: center;
     justify-content: space-between;
+}
+
+.criteria label {
+    font-family: cursive;
+    font-weight: 1000px
 }
