@@ -1,17 +1,5 @@
-var genre;
-genre = prompt('enter a genre', '');
-getGenre(genre);
-function getGenre(type) {
-    fetch(genre_imdbAPI + type)
-        .then(function (data) {
-            return data.json();
-        })
-        .then(function (results) {
-            console.log(results);
-        });
-}
 var genre_imdbAPI =
-    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?genres='; //comma separated values
+    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?genres=';
 var length_imdbAPI =
     'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?moviemeter='; //comma separated numbers
 var actor;
@@ -31,6 +19,18 @@ var json_actor;
 
 // actor = prompt('enter an actors name', '');
 // getActor(actor);
+var genre;
+genre = prompt('enter a genre', '');
+getGenre(genre);
+function getGenre(type) {
+    fetch(genre_imdbAPI + type)
+        .then(function (data) {
+            return data.json();
+        })
+        .then(function (results) {
+            console.log(results);
+        });
+}
 
 function getActor(name) {
     fetch(actor_imdbAPI + name)
