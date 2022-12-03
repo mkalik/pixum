@@ -72,3 +72,31 @@
 // console.log(id_title);
 // getGenre(genre);
 
+// connor work: targeting blank div on html to begin filling search results
+
+var searchResultContainer = $('#search-results-container')
+
+function createBlankResultCards(){
+    var numberOfResults = 4
+    for (i=0; i < numberOfResults; i++){
+        var blankResultCard = $('<div class="blank-result-card"></div>');
+
+        var moviePoster = $('<img class="movie-poster">');
+        blankResultCard.append(moviePoster);
+
+        var movieTitle = $('<h1 class= "movie-title">Title</h1>');
+        blankResultCard.append(movieTitle);
+
+        var movieRating = $('<h3 class="movie-rating">Rating</h3>')
+        blankResultCard.append(movieRating);
+
+        var moreInfoBtn = $('<button class="more-info-button">More Info</button>')
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+    }
+};
+
+createBlankResultCards();

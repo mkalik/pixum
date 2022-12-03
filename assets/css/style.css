@@ -1,15 +1,26 @@
 
  :root{
-    --d_grey:#0b0c10;
+    --d_grey:#323538;
     --m_grey:#1f2833;
     --l_grey:#c5c6c7;
     --l_blue:#66fcf1;
     --d_blue:#45a29e;
+    --l_blue_tran:#66fcf2da;
+	--d_grey_tran:#32353800;
 
 }
 
 .search-results-container{
     width: 100%;
-    height:300px;
-    background-color: lightgrey;
+    height: auto;
+    padding: 30px;
+    display: flex;
+    background-color: var(--d_grey);
+}
+
+.blank-result-card{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background:conic-gradient(from 180deg, var(--d_grey_tran), var(--l_blue_tran));
 }
