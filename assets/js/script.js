@@ -17,11 +17,11 @@ var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires i
 var id_title = {};
 var json_actor;
 
-// actor = prompt('enter an actors name', '');
-// getActor(actor);
+actor = prompt('enter an actors name', '');
+getActorID(actor);
 var genre;
-genre = prompt('enter a genre', '');
-getGenre(genre);
+// genre = prompt('enter a genre', '');
+// getGenre(genre);
 function getGenre(type) {
     fetch(genre_imdbAPI + type)
         .then(function (data) {
@@ -32,7 +32,7 @@ function getGenre(type) {
         });
 }
 
-function getActor(name) {
+function getActorID(name) {
     fetch(actor_imdbAPI + name)
         .then(function (data) {
             return data.json();
@@ -41,21 +41,24 @@ function getActor(name) {
             return results.results[0].id;
         })
         .then(function (nm_id) {
-            fetch(name_imdbAPI + nm_id)
-                .then(function (name_info) {
-                    return name_info.json();
-                })
-                .then(function (info) {
-                    console.log(info);
-                    var movies = info.knownFor;
-                    var known = {};
-                    for (var i = 0; i < movies.length; i++) {
-                        var id = movies[i].id;
-                        var title = movies[i].title;
-                        known[id] = title;
-                    }
-                    useData(known);
-                });
+            knownFor(nm_id);
+        });
+}
+function knownFor(name) {
+    fetch(name_imdbAPI + name)
+        .then(function (name_info) {
+            return name_info.json();
+        })
+        .then(function (info) {
+            console.log('in knownfor:' + info);
+            var movies = info.knownFor;
+            var known = {};
+            for (var i = 0; i < movies.length; i++) {
+                var id = movies[i].id;
+                var title = movies[i].title;
+                known[id] = title;
+            }
+            useData(known);
         });
 }
 
