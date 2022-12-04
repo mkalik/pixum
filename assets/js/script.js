@@ -27,9 +27,6 @@ function getGenre(type) {
     fetch(genre_imdbAPI + type).then(function (data) {
         return data.json();
     });
-    // .then(function (results) {
-    //     console.log(results);
-    // });
 }
 
 function getActorID(name) {
@@ -50,14 +47,6 @@ function knownFor(name) {
             return name_info.json();
         })
         .then(function (info) {
-            // var movies = info.knownFor;
-            // var known = {};
-            // for (var i = 0; i < movies.length; i++) {
-            //     var id = movies[i].id;
-            //     var title = movies[i].title;
-            //     known[id] = title;
-            // }
-            // useData(name, known);
             actor_card(info);
         });
 }
@@ -79,10 +68,7 @@ function actor_card(info) {
 
 function useData(name, actor_movies) {
     id_title = actor_movies;
-    // var actor_movies = {};
-    // var title_id = Object.keys(id_title)[0];
     console.log(id_title);
-    actor_card(id_title);
 }
 
 // const id_title = await getActor(actor);
