@@ -1,0 +1,44 @@
+
+ :root{
+    --d_grey:#0b0c10;
+    --m_grey:#1f2833;
+    --l_grey:#c5c6c7;
+    --l_blue:#094642;
+    --d_blue:#0f1818;
+
+}
+
+.criteria {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.criteria label {
+    font-family: cursive;
+    font-weight: 1000px
+}
+
+.suggestions {
+    display: flex;
+    margin-top: 80px;
+    justify-content: space-around;
+    height: 350px;
+}
+
+.card {
+    width: 250px;
+    background: linear-gradient(lightblue, grey);
+    border-radius: 15px;
+    border: 5px solid lightblue;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.card p {
+    text-align: center;
+    margin-top: 125px;
+    color: wheat;
+}
