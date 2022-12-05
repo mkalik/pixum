@@ -32,8 +32,60 @@
       PIXUM
     </h1>
 
+    <main>
+      <section class="criteria">
+        <!-- need to save each search/criteria selection to local storage -->
+        <div class="Genre">
+          <label class="label">Genre</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="e.g, Romance">
+          </div>
+        </div>
+
+        <div class="Actor">
+          <label class="label">Actors</label>
+          <div class="control">
+            <input class="input" type="text" placeholder="e.g, Brad Pitt">
+          </div>
+        </div>
+
+        <div class="Length">
+          <label class="label">Movie Length</label>
+          <div class="select">
+            <select>
+              <option>Under 90 minutes</option>
+              <option>90-120 minutes</option>
+              <option>Over 120 minutes</option>
+            </select>
+          </div>
+        </div>
+
+      </section>
+
+      <section class="suggestions">
+        <!-- Once we pull information/create new elements from API we can append within the following div tags -->
+        <div class="card" id="m1">
+          <p>movie one</p>
+        </div>
+
+        <div class="card" id="m2">
+          <p>movie two</p>
+        </div>
+
+        <div class="card" id="m3">
+          <p>movie three</p>
+        </div>
+
+        <div class="card" id="m4">
+          <p>movie four</p>
+        </div>
+      </section>
+
+
+    </main>
+
     <!-- jquery link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="../js/script.js"></script>
+    <script src="../js/script.s"></script>
   </body>
 </html>
