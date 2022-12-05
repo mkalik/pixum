@@ -1,3 +1,4 @@
+
 var genre_imdbAPI =
     'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?genres=';
 var length_imdbAPI =
@@ -80,6 +81,71 @@ function useData(name, actor_movies) {
     console.log(id_title);
 }
 
-// const id_title = await getActor(actor);
-// console.log(id_title);
-// getGenre(genre);
+
+
+// connor work: targeting blank div on html to begin filling search results
+
+var searchResultContainer = $('#search-results-container')
+
+function createBlankResultCards(){
+    var numberOfResults = 4
+    for (i=0; i < numberOfResults; i++){
+        var blankResultCard = $('<div class="blank-result-card"></div>');
+
+        var moviePoster = $('<img class="movie-poster">');
+        blankResultCard.append(moviePoster);
+
+        var movieTitle = $('<h1 class= "movie-title">Title</h1>');
+        blankResultCard.append(movieTitle);
+
+        var movieRating = $('<h3 class="movie-rating">Rating</h3>')
+        blankResultCard.append(movieRating);
+
+        var moreInfoBtn = $('<button class="more-info-button">More Info</button>')
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+    }
+};
+
+createBlankResultCards();
+
+$('#search-filter-dropdown').click(function(event){
+    var element = event.target;
+    var selectedFilter = $('#selected-filter');
+    var userSelection = $(element).text();
+
+    setTimeout(function(){
+        $(selectedFilter).text(userSelection);
+    },50);
+
+    if (userSelection === "Genre"){
+        $('.separator').css('height', '180px');
+    } else if( userSelection === "Actor"){
+        $('.separator').css('height', '60px');
+    } else if( userSelection === "Length"){
+        $('.separator').css('height', '60px');
+    }
+});
+
+function createGenreFilters(){
+    var genreFilterGrid = $('#genre-filter-grid');
+
+    var availableGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western"
+    var genreFilters = availableGenres.split(',');
+
+    var displayedGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western"
+    var displayFilters = displayedGenres.split(',');
+
+    for (i=0; i < genreFilters.length; i++){
+        var genreButton = $('<button class="button is-rounded is-small column genre-button" data-search="false" data-genre='+genreFilters[i]+'></button>');
+        $(genreButton).text(displayFilters[i]);
+        $(genreFilterGrid).append(genreButton)
+    }
+}
+
+createGenreFilters();
+
+
