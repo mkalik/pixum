@@ -72,6 +72,26 @@
 // console.log(id_title);
 // getGenre(genre);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // connor work: targeting blank div on html to begin filling search results
 
 var searchResultContainer = $('#search-results-container')
@@ -124,7 +144,7 @@ function createGenreFilters(){
 
     var availableGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western"
     var genreFilters = availableGenres.split(',');
-    
+
     var displayedGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western"
     var displayFilters = displayedGenres.split(',');
 
