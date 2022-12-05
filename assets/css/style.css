@@ -94,7 +94,7 @@ body{
 
 /* SEPARATING LINE */
 .separator{
-    height: 120px;
+    height: 180px;
     width: 2px;
     margin: 0px 45px;
     border-radius: 1px;
@@ -104,7 +104,7 @@ body{
 
 
 /* GENRE FILTERS */
-#genre-filters{
+#genre-filter-grid{
     width: 40vw;
 }
 
@@ -127,6 +127,7 @@ body{
 }
 
 .genre-button:active{
+    color: var(--l_blue);
     border-color: var(--l_blue);
 }
 
@@ -134,6 +135,7 @@ body{
     color: var(--l_blue);
     border-color: var(--l_blue);
 }
+
 
 
 /* ACTOR FILTERS */
@@ -144,6 +146,7 @@ body{
     border-color: var(--l_blue);
     font-family: 'Quicksand';
     transition:border-color 1s ease-out;
+    width: 40vw;
 }
 
 .actor-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
