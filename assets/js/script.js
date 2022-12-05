@@ -100,3 +100,40 @@ function createBlankResultCards(){
 };
 
 createBlankResultCards();
+
+$('#search-filter-dropdown').click(function(event){
+    var element = event.target;
+    var selectedFilter = $('#selected-filter');
+    var userSelection = $(element).text();
+
+    setTimeout(function(){
+        $(selectedFilter).text(userSelection);
+    },50);
+
+    if (userSelection === "Genre"){
+        $('.separator').css('height', '180px');
+    } else if( userSelection === "Actor"){
+        $('.separator').css('height', '60px');
+    } else if( userSelection === "Length"){
+        $('.separator').css('height', '60px');
+    }
+});
+
+function createGenreFilters(){
+    var genreFilterGrid = $('#genre-filter-grid');
+
+    var availableGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western"
+    var genreFilters = availableGenres.split(',');
+    
+    var displayedGenres = "action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western"
+    var displayFilters = displayedGenres.split(',');
+
+    for (i=0; i < genreFilters.length; i++){
+        var genreButton = $('<button class="button is-rounded is-small column genre-button" data-search="false" data-genre='+genreFilters[i]+'></button>');
+        $(genreButton).text(displayFilters[i]);
+        $(genreFilterGrid).append(genreButton)
+    }
+}
+
+createGenreFilters();
+
