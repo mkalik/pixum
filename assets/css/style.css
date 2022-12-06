@@ -23,6 +23,7 @@ body{
     height: auto;
     padding: 30px 0px;
     display: flex;
+    justify-content: space-between;
 }
 
 .blank-result-card{
@@ -162,4 +163,42 @@ body{
 
 ::selection {
     background: var(--l_blue_tran);
+}
+
+/* Movie RESULTS FILTERS */
+
+.blank-result-card {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 200px;
+    justify-content: flex-end;
+    align-items: center;
+    border: 3px solid var(--l_grey);
+    border-radius: 10px;
+    box-shadow: 3px 1px 12px var(--d_blue);
+}
+
+.more-info-button {
+    width: 50%;
+    border-left: 3px solid var(--l_grey);
+    border-right: 3px solid var(--l_grey);
+    border-top: 3px solid var(--l_grey);
+    border-radius: 5px 5px 0px 0px;
+}
+
+.movie-title {
+    color: var(--l_grey);
+    align-content: center;
+    margin: 10px
+}
+
+.movie-rating {
+    margin-bottom: 10px;
+}
+
+.movie-poster {
+    width: 80%;
+    border: 3px solid white;
+    height: 60%;
 }
