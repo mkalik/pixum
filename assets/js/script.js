@@ -13,6 +13,164 @@ var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
 var omdbAPI = 'http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab'; //might not even be used
 var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
+
+var search_type = 1; //1 = genre, 2 = actor , 3 = length
+
+
+
+// SEARCH FILTERS
+
+// CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
+
+$('#search-filter-dropdown').click(function (event) {
+    //function for the genre dropdown menu
+    var element = event.target;
+    var selectedFilter = $('#selected-filter');
+    var userSelection = $(element).text();
+
+    setTimeout(function () {
+        $(selectedFilter).text(userSelection);
+    }, 50);
+
+    if (userSelection === 'Genre') {
+        search_type = 1;
+        $('#actor-search').hide();
+        $('#length-search').hide();
+        $('#genre-filter-grid').show();
+        $('.separator').css('height', '180px');
+    } else if (userSelection === 'Actor') {
+        search_type = 2;
+        $('#genre-filter-grid').hide();
+        $('#length-search').hide();
+        $('#actor-search').show();
+        $('.separator').css('height', '60px');
+    } else if (userSelection === 'Length') {
+        search_type = 3;
+        $('#genre-filter-grid').hide();
+        $('#actor-search').hide();
+        $('#length-search').show();
+        $('.separator').css('height', '60px');
+    }
+});
+
+// FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
+var searchFilterContainer = $('.search-filter-container');
+
+// LOADS IN ALL OF THE FILTERS FOR EACH MAIN FILTER. DEFAULT TO GENRE SHOWN.
+function loadSearchFilters() {
+    //loads everything on the page
+    createGenreFilters();
+    createActorFilters();
+    createLengthFilters();
+    $('#actor-search').hide();
+    $('#length-search').hide();
+}
+
+loadSearchFilters();
+
+// CREATE GENRE BUTTON GRID
+function createGenreFilters() {
+    //creates a grid of buttons with genres
+    var genreFilterGrid = $(
+        '<div id="genre-filter-grid" class="columns is-multiline"></div>'
+    );
+    $(searchFilterContainer).append(genreFilterGrid);
+    var availableGenres =
+        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western';
+    var genreFilters = availableGenres.split(',');
+
+    var displayedGenres =
+        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western';
+    var displayFilters = displayedGenres.split(',');
+
+    for (var i = 0; i < genreFilters.length; i++) {
+        var genreButton = $(
+            '<button class="button is-rounded is-small column genre-button" data-search="false" data-genre=' +
+                genreFilters[i] +
+                '></button>'
+        );
+        $(genreButton).text(displayFilters[i]);
+        $(genreFilterGrid).append(genreButton);
+    }
+}
+
+// CREATE ACTOR NAME INPUT
+function createActorFilters() {
+    $(searchFilterContainer).append(
+        '<input id="actor-search" class="input is-rounded actor-search" type="text" placeholder="Adam Sandler">'
+    );
+}
+
+// CREATE LENGTH INPUT
+function createLengthFilters() {
+    $(searchFilterContainer).append(
+        '<input id="length-search" class="input is-rounded actor-search" type="text" placeholder="minutes(eg. 120)">'
+    );
+}
+
+// CLICK FUNCTION FOR GENRE BUTTONS
+$('.genre-button').click(function (event) {
+    var element = event.target;
+    console.log(element);
+    if (element.dataset.search === 'false') {
+        element.dataset.search = 'true';
+        $(element).addClass('genre-button-active')
+    } else if (element.dataset.search === 'true') {
+        element.dataset.search = 'false';
+        $(element).removeClass('genre-button-active')
+    }
+    $(element).blur();
+});
+
+
+// SEARCH BUTTON
+
+$('#search-button').click(function (event) {
+    console.log('click search');
+    event.preventDefault();
+    console.log(search_type);
+    if (search_type === 1) {
+        //genre search;
+        getGenre();
+    } else if (search_type === 2) {
+        //actor;
+    } else if (search_type === 3) {
+        //length
+    }
+});
+
+
+// CREATING SEARCH RESULTS
+
+var searchResultContainer = $('#search-results-container');
+
+function createBlankResultCards() {
+    var numberOfResults = 4;
+    for (var i = 0; i < numberOfResults; i++) {
+        var blankResultCard = $('<div class="blank-result-card"></div>');
+
+        var moviePoster = $('<img class="movie-poster">');
+        blankResultCard.append(moviePoster);
+
+        var movieTitle = $('<h1 class= "movie-title">Title</h1>');
+        blankResultCard.append(movieTitle);
+
+        var movieRating = $('<h3 class="movie-rating">Rating</h3>');
+        blankResultCard.append(movieRating);
+
+        var moreInfoBtn = $(
+            '<button class="more-info-button">More Info</button>'
+        );
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+    }
+}
+
+createBlankResultCards();
+
 var id_title = {};
 var json_actor;
 var actorInfo = document.querySelector('.actor-info');
@@ -92,138 +250,3 @@ function useData(name, actor_movies) {
     id_title = actor_movies;
     console.log(id_title);
 }
-
-// connor work: targeting blank div on html to begin filling search results
-var search_type = 1; //1 = genre, 2 = actor , 3 = length
-$('#search-filter-dropdown').click(function (event) {
-    //function for the genre dropdown menu
-    var element = event.target;
-    var selectedFilter = $('#selected-filter');
-    var userSelection = $(element).text();
-
-    setTimeout(function () {
-        $(selectedFilter).text(userSelection);
-    }, 50);
-
-    if (userSelection === 'Genre') {
-        search_type = 1;
-        $('#actor-search').hide();
-        $('#length-search').hide();
-        $('#genre-filter-grid').show();
-        $('.separator').css('height', '180px');
-    } else if (userSelection === 'Actor') {
-        search_type = 2;
-        $('#genre-filter-grid').hide();
-        $('#length-search').hide();
-        $('#actor-search').show();
-        $('.separator').css('height', '60px');
-    } else if (userSelection === 'Length') {
-        search_type = 3;
-        $('#genre-filter-grid').hide();
-        $('#actor-search').hide();
-        $('#length-search').show();
-        $('.separator').css('height', '60px');
-    }
-});
-
-var searchFilterContainer = $('.search-filter-container'); //a container that contains search types
-
-function loadSearchFilters() {
-    //loads everything on the page
-    createGenreFilters();
-    createActorFilters();
-    createLengthFilters();
-    $('#actor-search').hide();
-    $('#length-search').hide();
-}
-
-loadSearchFilters();
-
-function createGenreFilters() {
-    //creates a grid of buttons with genres
-    var genreFilterGrid = $(
-        '<div id="genre-filter-grid" class="columns is-multiline"></div>'
-    );
-    $(searchFilterContainer).append(genreFilterGrid);
-    var availableGenres =
-        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western';
-    var genreFilters = availableGenres.split(',');
-
-    var displayedGenres =
-        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western';
-    var displayFilters = displayedGenres.split(',');
-
-    for (var i = 0; i < genreFilters.length; i++) {
-        var genreButton = $(
-            '<button class="button is-rounded is-small column genre-button" data-search="false" data-genre=' +
-                genreFilters[i] +
-                '></button>'
-        );
-        $(genreButton).text(displayFilters[i]);
-        $(genreFilterGrid).append(genreButton);
-    }
-}
-
-function createActorFilters() {
-    $(searchFilterContainer).append(
-        '<input id="actor-search" class="input is-rounded actor-search" type="text" placeholder="Adam Sandler">'
-    );
-}
-
-function createLengthFilters() {
-    $(searchFilterContainer).append(
-        '<input id="length-search" class="input is-rounded actor-search" type="text" placeholder="minutes(eg. 120)">'
-    );
-}
-
-$('.genre-button').click(function (e) {
-    console.log('click');
-    if (e.target.dataset.search == 'false') {
-        e.target.dataset.search = 'true';
-    } else if (e.target.dataset.search == 'true') {
-        e.target.dataset.search = 'false';
-    }
-});
-
-$('#search-button').click(function (event) {
-    console.log('click search');
-    event.preventDefault();
-    console.log(search_type);
-    if (search_type === 1) {
-        //genre search;
-        getGenre();
-    } else if (search_type === 2) {
-        //actor;
-    } else if (search_type === 3) {
-        //length
-    }
-});
-
-var searchResultContainer = $('#search-results-container');
-
-function createBlankResultCards() {
-    var numberOfResults = 4;
-    for (var i = 0; i < numberOfResults; i++) {
-        var blankResultCard = $('<div class="blank-result-card"></div>');
-
-        var moviePoster = $('<img class="movie-poster">');
-        blankResultCard.append(moviePoster);
-
-        var movieTitle = $('<h1 class= "movie-title">Title</h1>');
-        blankResultCard.append(movieTitle);
-
-        var movieRating = $('<h3 class="movie-rating">Rating</h3>');
-        blankResultCard.append(movieRating);
-
-        var moreInfoBtn = $(
-            '<button class="more-info-button">More Info</button>'
-        );
-        blankResultCard.append(moreInfoBtn);
-
-        $(blankResultCard).attr('data-result-index', i);
-
-        searchResultContainer.append(blankResultCard);
-    }
-}
-
-createBlankResultCards();
