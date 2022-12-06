@@ -13,77 +13,17 @@ var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
 var omdbAPI = 'http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab'; //might not even be used
 var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
-var id_title = {};
-var json_actor;
-var actorInfo = document.querySelector('.actor-info');
 
-// actor = prompt('enter an actors name', '');
-// getActorID(actor);
+var search_type = 1; //1 = genre, 2 = actor , 3 = length
 
-// var genre;
-// genre = prompt('what genre(s) would you like to search for?', '');
-// getGenre(genre);
 
-function getGenre(genre) {
-    fetch(genre_imdbAPI + genre + '&count=25')
-        .then((data) => data.json())
-        .then((movies) => genre_card(movies));
-}
-function genre_card(movies) {
-    var title = [];
-    var images = [];
-    var plot = [];
-    for (var i = 0; i < movies.length; i++) {
-        title = movies[i].title;
-        images = movies[i].image;
-        plot = movies[i].plot;
-        console.log(
-            'title:  ' + title[i],
-            'plot: ' + plot[i],
-            'images: ' + images[i]
-        );
-    }
-}
-
-//actor-search;
-
-function getActorID(name) {
-    fetch(actor_imdbAPI + name)
-        .then((data) => data.json())
-        .then((results) => results.results[0].id)
-        .then((nm_id) => knownFor(nm_id));
-}
-
-function knownFor(name) {
-    fetch(name_imdbAPI + name)
-        .then((name_info) => name_info.json())
-        .then(function (info) {
-            return info;
-        })
-        .then((info) => actor_card(info));
-}
-function actor_card(info) {
-    var knownfor = info.knownFor;
-    console.log(knownfor);
-
-    // document.querySelector('.movie-1').src = knownfor[0].image;
-    var movie_titles = [];
-    for (var i = 0; i < knownfor.length; i++) {
-        movie_titles = knownfor[i].fullTitle;
-        var movie = '.movie-' + (i + 1);
-    }
-    return;
-}
-
-function useData(name, actor_movies) {
-    id_title = actor_movies;
-    console.log(id_title);
-}
 
 // SEARCH FILTERS
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
+
 $('#search-filter-dropdown').click(function (event) {
+    //function for the genre dropdown menu
     var element = event.target;
     var selectedFilter = $('#selected-filter');
     var userSelection = $(element).text();
@@ -93,16 +33,19 @@ $('#search-filter-dropdown').click(function (event) {
     }, 50);
 
     if (userSelection === 'Genre') {
+        search_type = 1;
         $('#actor-search').hide();
         $('#length-search').hide();
         $('#genre-filter-grid').show();
         $('.separator').css('height', '180px');
     } else if (userSelection === 'Actor') {
+        search_type = 2;
         $('#genre-filter-grid').hide();
         $('#length-search').hide();
         $('#actor-search').show();
         $('.separator').css('height', '60px');
     } else if (userSelection === 'Length') {
+        search_type = 3;
         $('#genre-filter-grid').hide();
         $('#actor-search').hide();
         $('#length-search').show();
@@ -185,6 +128,15 @@ $('.genre-button').click(function (event) {
 $('#search-button').click(function (event) {
     console.log('click search');
     event.preventDefault();
+    console.log(search_type);
+    if (search_type === 1) {
+        //genre search;
+        getGenre();
+    } else if (search_type === 2) {
+        //actor;
+    } else if (search_type === 3) {
+        //length
+    }
 });
 
 
@@ -218,3 +170,83 @@ function createBlankResultCards() {
 }
 
 createBlankResultCards();
+
+var id_title = {};
+var json_actor;
+var actorInfo = document.querySelector('.actor-info');
+
+function getGenre() {
+    var genreString = '';
+    var genresSearch = Array.from(
+        document.querySelector('#genre-filter-grid').children
+    );
+    console.log(genresSearch);
+    for (var x = 0; x < genresSearch.length; x++) {
+        if (genresSearch[x].dataset.search == 'true') {
+            if (genreString.size != 0) {
+                genreString += genresSearch[x].dataset.genre;
+                genreString += ',';
+            }
+        }
+    }
+    genreString = genreString.substring(0, genreString.length - 1);
+    console.log(genreString);
+    console.log('fetch');
+    fetch(genre_imdbAPI + genreString)
+        .then((data) => data.json())
+        .then(function (info) {
+            console.log(info);
+            return info;
+        })
+        .then((movies) => genre_card(movies));
+}
+function genre_card(movies) {
+    var title = [];
+    var images = [];
+    var plot = [];
+    for (var i = 0; i < movies.length; i++) {
+        title = movies[i].title;
+        images = movies[i].image;
+        plot = movies[i].plot;
+        console.log(
+            'title:  ' + title[i],
+            'plot: ' + plot[i],
+            'images: ' + images[i]
+        );
+    }
+}
+
+//actor-search;
+
+function getActorID(name) {
+    fetch(actor_imdbAPI + name)
+        .then((data) => data.json())
+        .then((results) => results.results[0].id)
+        .then((nm_id) => knownFor(nm_id));
+}
+
+function knownFor(name) {
+    fetch(name_imdbAPI + name)
+        .then((name_info) => name_info.json())
+        .then(function (info) {
+            return info;
+        })
+        .then((info) => actor_card(info));
+}
+function actor_card(info) {
+    var knownfor = info.knownFor;
+    console.log(knownfor);
+
+    // document.querySelector('.movie-1').src = knownfor[0].image;
+    var movie_titles = [];
+    for (var i = 0; i < knownfor.length; i++) {
+        movie_titles = knownfor[i].fullTitle;
+        var movie = '.movie-' + (i + 1);
+    }
+    return;
+}
+
+function useData(name, actor_movies) {
+    id_title = actor_movies;
+    console.log(id_title);
+}
