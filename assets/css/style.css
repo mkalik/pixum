@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Varela+Round&display=swap'); 
 
+/* || GENERAL CLASSES */
 :root{
     --d_grey:#323538;
     --m_grey:#1f2833;
@@ -18,20 +19,31 @@ body{
     background-color: var(--d_grey);
 }
 
-.search-results-container{
-    width: 100%;
-    height: auto;
-    padding: 30px 0px;
-    display: flex;
-    justify-content: space-between;
+::selection {
+    background: var(--l_blue_tran);
 }
 
-.blank-result-card{
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background:conic-gradient(from 180deg, var(--d_grey_tran), var(--l_blue_tran));
+/* || HEADER*/
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: auto;
+    margin-bottom: 60px;
 }
+
+.bookmarks-btn{
+    justify-self: start;
+}
+
+.header img{
+    justify-self: center;
+    width: 202px;
+    height: 77px;
+}
+
 
 /* || SEARCH AND FILTER SECTION */
 
@@ -39,10 +51,12 @@ body{
 /* MAIN CONTAINER DIV */
 .search-filter-container{
     display: flex;
+    align-items: center;
+    justify-content: center;
     height: 175px;
     width: auto;
-    align-items: center;
-    margin: 0px;
+    margin-bottom: 60px;
+    user-select: none;
 }
 
 /* DROP DOWN FOR MAIN FILTER SELECTION */
@@ -104,7 +118,7 @@ body{
 }
 
 
-/* GENRE FILTERS */
+/* GENRE BUTTON GRID STYLES */
 #genre-filter-grid{
     width: 40vw;
 }
@@ -133,39 +147,43 @@ body{
 }
 
 
-/* ACTOR FILTERS */
-.actor-search{
+/* ACTOR & LENGTH INPUT STYLES */
+.actor-length-search{
+    width: 40vw;
     border: 2px solid var(--l_blue);
     color: var(--l_blue);
     background-color: transparent;
     border-color: var(--l_blue);
     font-family: 'Quicksand';
     transition:border-color 1s ease-out;
-    width: 40vw;
 }
 
-.actor-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--l_grey);
-  }
+.actor-length-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--l_grey_tran);
+}
 
-.actor-search:hover{
+.actor-length-search:hover{
     border-color: var(--l_blue_tran);
 }
 
-.actor-search:active{
+.actor-length-search:active{
     border-color: var(--l_blue_tran);
 }
 
-.actor-input:focus{
+.actor-length-search:focus{
     border-color: var(--l_blue_tran);
 }
-/* LENGTH FILTERS */
 
-::selection {
-    background: var(--l_blue_tran);
+
+.search-results-container{
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+    display: flex;
 }
 
-/* Movie RESULTS FILTERS */
+
+/* MOVIE RESULTS FILTERS */
 
 .blank-result-card {
     display: flex;
