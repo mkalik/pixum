@@ -19,10 +19,11 @@ body{
 }
 
 .search-results-container{
-    width: 100%;
+    width: 80%;
     height: auto;
     padding: 30px 0px;
     display: flex;
+    justify-content: space-between;
 }
 
 .blank-result-card{
@@ -162,4 +163,10 @@ body{
 
 ::selection {
     background: var(--l_blue_tran);
+}
+
+/* Movie RESULTS FILTERS */
+
+.blank-result-card {
+
 }
