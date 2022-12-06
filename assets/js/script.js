@@ -17,16 +17,29 @@ var id_title = {};
 var json_actor;
 var actorInfo = document.querySelector('.actor-info');
 
-// actor = prompt('enter an actors name', '');
-// getActorID(actor);
-
-// var genre;
-// genre = prompt('what genre(s) would you like to search for?', '');
-// getGenre(genre);
-
-function getGenre(genre) {
-    fetch(genre_imdbAPI + genre + '&count=25')
+function getGenre() {
+    var genreString = '';
+    var genresSearch = Array.from(
+        document.querySelector('#genre-filter-grid').children
+    );
+    console.log(genresSearch);
+    for (var x = 0; x < genresSearch.length; x++) {
+        if (genresSearch[x].dataset.search == 'true') {
+            if (genreString.size != 0) {
+                genreString += genresSearch[x].dataset.genre;
+                genreString += ',';
+            }
+        }
+    }
+    genreString = genreString.substring(0, genreString.length - 1);
+    console.log(genreString);
+    console.log('fetch');
+    fetch(genre_imdbAPI + genreString)
         .then((data) => data.json())
+        .then(function (info) {
+            console.log(info);
+            return info;
+        })
         .then((movies) => genre_card(movies));
 }
 function genre_card(movies) {
@@ -81,8 +94,9 @@ function useData(name, actor_movies) {
 }
 
 // connor work: targeting blank div on html to begin filling search results
-
+var search_type = 1; //1 = genre, 2 = actor , 3 = length
 $('#search-filter-dropdown').click(function (event) {
+    //function for the genre dropdown menu
     var element = event.target;
     var selectedFilter = $('#selected-filter');
     var userSelection = $(element).text();
@@ -92,16 +106,19 @@ $('#search-filter-dropdown').click(function (event) {
     }, 50);
 
     if (userSelection === 'Genre') {
+        search_type = 1;
         $('#actor-search').hide();
         $('#length-search').hide();
         $('#genre-filter-grid').show();
         $('.separator').css('height', '180px');
     } else if (userSelection === 'Actor') {
+        search_type = 2;
         $('#genre-filter-grid').hide();
         $('#length-search').hide();
         $('#actor-search').show();
         $('.separator').css('height', '60px');
     } else if (userSelection === 'Length') {
+        search_type = 3;
         $('#genre-filter-grid').hide();
         $('#actor-search').hide();
         $('#length-search').show();
@@ -109,7 +126,7 @@ $('#search-filter-dropdown').click(function (event) {
     }
 });
 
-var searchFilterContainer = $('.search-filter-container');
+var searchFilterContainer = $('.search-filter-container'); //a container that contains search types
 
 function loadSearchFilters() {
     //loads everything on the page
@@ -161,19 +178,25 @@ function createLengthFilters() {
 
 $('.genre-button').click(function (e) {
     console.log('click');
-    // e.preventDefault();
-    console.log(e.target);
-    if (e.target.dataset.search === 'false') {
+    if (e.target.dataset.search == 'false') {
         e.target.dataset.search = 'true';
-    } else if (e.target.dataset.search === 'true') {
+    } else if (e.target.dataset.search == 'true') {
         e.target.dataset.search = 'false';
-        console.log('true clicked');
     }
 });
 
 $('#search-button').click(function (event) {
     console.log('click search');
     event.preventDefault();
+    console.log(search_type);
+    if (search_type === 1) {
+        //genre search;
+        getGenre();
+    } else if (search_type === 2) {
+        //actor;
+    } else if (search_type === 3) {
+        //length
+    }
 });
 
 var searchResultContainer = $('#search-results-container');
