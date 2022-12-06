@@ -126,16 +126,10 @@ body{
     border-color: var(--l_blue_tran);
 }
 
-.genre-button:active{
+.genre-button-active{
     color: var(--l_blue);
     border-color: var(--l_blue);
 }
-
-.genre-button:focus{
-    color: var(--l_blue);
-    border-color: var(--l_blue);
-}
-
 
 
 /* ACTOR FILTERS */
