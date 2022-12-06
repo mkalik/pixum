@@ -51,6 +51,12 @@ $('#search-filter-dropdown').click(function (event) {
         $('#length-search').show();
         $('.separator').css('height', '60px');
     }
+
+    $('.genre-button').attr('data-search', 'false');
+    $('.genre-button').removeClass('genre-button-active');
+    $('#actor-search').val("");  
+    $('#length-search').val("");
+
 });
 
 // FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
@@ -97,14 +103,14 @@ function createGenreFilters() {
 // CREATE ACTOR NAME INPUT
 function createActorFilters() {
     $(searchFilterContainer).append(
-        '<input id="actor-search" class="input is-rounded actor-search" type="text" placeholder="Adam Sandler">'
+        '<input id="actor-search" class="input is-rounded actor-length-search" type="text" placeholder="Adam Sandler">'
     );
 }
 
 // CREATE LENGTH INPUT
 function createLengthFilters() {
     $(searchFilterContainer).append(
-        '<input id="length-search" class="input is-rounded actor-search" type="text" placeholder="minutes(eg. 120)">'
+        '<input id="length-search" class="input is-rounded actor-length-search" type="text" placeholder="minutes(eg. 120)">'
     );
 }
 
