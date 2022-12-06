@@ -13,10 +13,7 @@ var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
 var omdbAPI = 'http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab'; //might not even be used
 var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
-
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
-
-
 
 // SEARCH FILTERS
 
@@ -114,14 +111,13 @@ $('.genre-button').click(function (event) {
     console.log(element);
     if (element.dataset.search === 'false') {
         element.dataset.search = 'true';
-        $(element).addClass('genre-button-active')
+        $(element).addClass('genre-button-active');
     } else if (element.dataset.search === 'true') {
         element.dataset.search = 'false';
-        $(element).removeClass('genre-button-active')
+        $(element).removeClass('genre-button-active');
     }
     $(element).blur();
 });
-
 
 // SEARCH BUTTON
 
@@ -138,7 +134,6 @@ $('#search-button').click(function (event) {
         //length
     }
 });
-
 
 // CREATING SEARCH RESULTS
 
@@ -177,21 +172,14 @@ var actorInfo = document.querySelector('.actor-info');
 
 function getGenre() {
     var genreString = '';
-    var genresSearch = Array.from(
-        document.querySelector('#genre-filter-grid').children
-    );
-    console.log(genresSearch);
-    for (var x = 0; x < genresSearch.length; x++) {
-        if (genresSearch[x].dataset.search == 'true') {
-            if (genreString.size != 0) {
-                genreString += genresSearch[x].dataset.genre;
-                genreString += ',';
-            }
+    console.log('fetch');
+    $('.genre-button').each(function () {
+        if ($(this).attr('data-search') == 'true'){
+            genreString += $(this).attr('data-genre') + ',';
         }
-    }
+    });
     genreString = genreString.substring(0, genreString.length - 1);
     console.log(genreString);
-    console.log('fetch');
     fetch(genre_imdbAPI + genreString)
         .then((data) => data.json())
         .then(function (info) {
@@ -200,6 +188,7 @@ function getGenre() {
         })
         .then((movies) => genre_card(movies));
 }
+
 function genre_card(movies) {
     var title = [];
     var images = [];
@@ -229,7 +218,7 @@ function knownFor(name) {
     fetch(name_imdbAPI + name)
         .then((name_info) => name_info.json())
         .then(function (info) {
-            return info;
+            return info.knownFor;
         })
         .then((info) => actor_card(info));
 }
