@@ -1,8 +1,7 @@
 var genre_imdbAPI =
-    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?genres=';
+    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?title_type=feature,tv_movie&genres=';
 var length_imdbAPI =
-    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?moviemeter='; //comma separated numbers
-var actor;
+    'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?title_type=feature,tv_movie&moviemeter='; //comma separated numbers
 var actor_imdbAPI = 'https://imdb-api.com/en/API/SearchName/k_gqv62f21/'; //requires an actors name
 var name_imdbAPI = 'https://imdb-api.com/API/Name/k_gqv62f21/'; //requires imdbID
 var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
@@ -13,10 +12,7 @@ var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
 var omdbAPI = 'http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab'; //might not even be used
 var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
-
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
-
-
 
 // SEARCH FILTERS
 
@@ -120,18 +116,18 @@ $('.genre-button').click(function (event) {
     console.log(element);
     if (element.dataset.search === 'false') {
         element.dataset.search = 'true';
-        $(element).addClass('genre-button-active')
+        $(element).addClass('genre-button-active');
     } else if (element.dataset.search === 'true') {
         element.dataset.search = 'false';
-        $(element).removeClass('genre-button-active')
+        $(element).removeClass('genre-button-active');
     }
     $(element).blur();
 });
 
-
 // SEARCH BUTTON
 
 $('#search-button').click(function (event) {
+    $(this).addClass('is-loading');
     console.log('click search');
     event.preventDefault();
     console.log(search_type);
@@ -139,18 +135,21 @@ $('#search-button').click(function (event) {
         //genre search;
         getGenre();
     } else if (search_type === 2) {
+        getActorID();
         //actor;
     } else if (search_type === 3) {
         //length
+        verifyLengthInput();
     }
 });
-
 
 // CREATING SEARCH RESULTS
 
 var searchResultContainer = $('#search-results-container');
 
-function createBlankResultCards() {
+function createBlankResultCards(movies) {
+    $('#search-button').removeClass('is-loading');
+    console.log(movies); //probably want the title and image
     var numberOfResults = 4;
     for (var i = 0; i < numberOfResults; i++) {
         var blankResultCard = $('<div class="blank-result-card"></div>');
@@ -175,84 +174,72 @@ function createBlankResultCards() {
     }
 }
 
-createBlankResultCards();
-
-var id_title = {};
-var json_actor;
-var actorInfo = document.querySelector('.actor-info');
+// createBlankResultCards();
 
 function getGenre() {
+    //searches imdb api for movies with user specified genres
     var genreString = '';
-    var genresSearch = Array.from(
-        document.querySelector('#genre-filter-grid').children
-    );
-    console.log(genresSearch);
-    for (var x = 0; x < genresSearch.length; x++) {
-        if (genresSearch[x].dataset.search == 'true') {
-            if (genreString.size != 0) {
-                genreString += genresSearch[x].dataset.genre;
-                genreString += ',';
-            }
+    $('.genre-button').each(function () {
+        //looks for all buttons that have been clicked and appends their genres to the genre string
+        if ($(this).attr('data-search') == 'true') {
+            genreString += $(this).attr('data-genre') + ',';
         }
-    }
-    genreString = genreString.substring(0, genreString.length - 1);
+    });
+    genreString = genreString.substring(0, genreString.length - 1); //removes final comma
     console.log(genreString);
-    console.log('fetch');
     fetch(genre_imdbAPI + genreString)
         .then((data) => data.json())
         .then(function (info) {
-            console.log(info);
-            return info;
+            return info.results.slice(0, 4); //gets the results array from the api call and returns the first 4 results
         })
-        .then((movies) => genre_card(movies));
-}
-function genre_card(movies) {
-    var title = [];
-    var images = [];
-    var plot = [];
-    for (var i = 0; i < movies.length; i++) {
-        title = movies[i].title;
-        images = movies[i].image;
-        plot = movies[i].plot;
-        console.log(
-            'title:  ' + title[i],
-            'plot: ' + plot[i],
-            'images: ' + images[i]
-        );
-    }
+        .then((movies) => createBlankResultCards(movies));
 }
 
 //actor-search;
-
-function getActorID(name) {
+function getActorID() {
+    //searches imdb api user inputted actor
+    var name = $('#actor-search').val();
+    console.log(name);
     fetch(actor_imdbAPI + name)
         .then((data) => data.json())
-        .then((results) => results.results[0].id)
-        .then((nm_id) => knownFor(nm_id));
-}
-
-function knownFor(name) {
-    fetch(name_imdbAPI + name)
-        .then((name_info) => name_info.json())
-        .then(function (info) {
-            return info;
+        .then(function (actorinfo) {
+            var actorID = actorinfo.results[0].id;
+            return actorID;
         })
-        .then((info) => actor_card(info));
+        .then((actorID) => getKnownFor(actorID));
 }
-function actor_card(info) {
-    var knownfor = info.knownFor;
-    console.log(knownfor);
+function getKnownFor(actorID) {
+    //gets the actor id and fetches movies that the actor is known for
+    console.log(actorID);
+    fetch(name_imdbAPI + actorID)
+        .then((info) => info.json())
+        .then(function (actorInfo) {
+            return actorInfo.knownFor;
+        })
+        .then((knownFor) => createBlankResultCards(knownFor));
+}
 
-    // document.querySelector('.movie-1').src = knownfor[0].image;
-    var movie_titles = [];
-    for (var i = 0; i < knownfor.length; i++) {
-        movie_titles = knownfor[i].fullTitle;
-        var movie = '.movie-' + (i + 1);
+function verifyLengthInput() {
+    //verifies that user length input is a number
+    var length = $('#length-search').val();
+    if (length.indexOf(',') == -1) {
+        if (!Number.isNaN(length)) {
+            getLength(',' + length);
+        } else {
+            console.log('input is not a number');
+        }
+    } else if (length.indexOf(',')) {
+        var limits = length.split(',');
+        if (!Number.isNaN(limits[0]) && !Number.isNaN(limits[1])) {
+            getLength(limits.join(','));
+        } else {
+            console.log('the limits are not both numbers');
+        }
     }
-    return;
 }
-
-function useData(name, actor_movies) {
-    id_title = actor_movies;
-    console.log(id_title);
+function getLength(length) {
+    //calls imdb api and searches for movies with user specified length
+    fetch(length_imdbAPI + length)
+        .then((data) => data.json())
+        .then((movies) => console.log(movies));
 }
