@@ -110,7 +110,7 @@ function createActorFilters() {
 // CREATE LENGTH INPUT
 function createLengthFilters() {
     $(searchFilterContainer).append(
-        '<input id="length-search" class="input is-rounded actor-length-search" type="text" placeholder="minutes(eg. 120)">'
+        '<input id="length-search" class="input is-rounded actor-length-search" type="text" placeholder="minutes (eg. 120)">'
     );
 }
 

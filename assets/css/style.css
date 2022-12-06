@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Varela+Round&display=swap'); 
 
+/* || GENERAL CLASSES */
 :root{
     --d_grey:#323538;
     --m_grey:#1f2833;
@@ -22,21 +23,27 @@ body{
     background: var(--l_blue_tran);
 }
 
+/* || HEADER*/
 
-
-.search-results-container{
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
     height: auto;
-    padding: 30px 0px;
-    display: flex;
+    margin-bottom: 60px;
 }
 
-.blank-result-card{
-    display: inline-block;
-    width: 100px;
-    height: 100px;
-    background:conic-gradient(from 180deg, var(--d_grey_tran), var(--l_blue_tran));
+.bookmarks-btn{
+    justify-self: start;
 }
+
+.header img{
+    justify-self: center;
+    width: 202px;
+    height: 77px;
+}
+
 
 /* || SEARCH AND FILTER SECTION */
 
@@ -48,7 +55,7 @@ body{
     justify-content: center;
     height: 175px;
     width: auto;
-    margin: 0px;
+    margin-bottom: 60px;
     user-select: none;
 }
 
@@ -168,3 +175,16 @@ body{
 }
 
 
+.search-results-container{
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+    display: flex;
+}
+
+.blank-result-card{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background:conic-gradient(from 180deg, var(--d_grey_tran), var(--l_blue_tran));
+}
