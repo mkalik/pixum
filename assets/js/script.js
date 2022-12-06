@@ -80,8 +80,9 @@ function useData(name, actor_movies) {
     console.log(id_title);
 }
 
-// connor work: targeting blank div on html to begin filling search results
+// SEARCH FILTERS
 
+// CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
 $('#search-filter-dropdown').click(function (event) {
     var element = event.target;
     var selectedFilter = $('#selected-filter');
@@ -109,8 +110,10 @@ $('#search-filter-dropdown').click(function (event) {
     }
 });
 
+// FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
 var searchFilterContainer = $('.search-filter-container');
 
+// LOADS IN ALL OF THE FILTERS FOR EACH MAIN FILTER. DEFAULT TO GENRE SHOWN.
 function loadSearchFilters() {
     //loads everything on the page
     createGenreFilters();
@@ -122,6 +125,7 @@ function loadSearchFilters() {
 
 loadSearchFilters();
 
+// CREATE GENRE BUTTON GRID
 function createGenreFilters() {
     //creates a grid of buttons with genres
     var genreFilterGrid = $(
@@ -147,34 +151,44 @@ function createGenreFilters() {
     }
 }
 
+// CREATE ACTOR NAME INPUT
 function createActorFilters() {
     $(searchFilterContainer).append(
         '<input id="actor-search" class="input is-rounded actor-search" type="text" placeholder="Adam Sandler">'
     );
 }
 
+// CREATE LENGTH INPUT
 function createLengthFilters() {
     $(searchFilterContainer).append(
         '<input id="length-search" class="input is-rounded actor-search" type="text" placeholder="minutes(eg. 120)">'
     );
 }
 
-$('.genre-button').click(function (e) {
-    console.log('click');
-    // e.preventDefault();
-    console.log(e.target);
-    if (e.target.dataset.search === 'false') {
-        e.target.dataset.search = 'true';
-    } else if (e.target.dataset.search === 'true') {
-        e.target.dataset.search = 'false';
-        console.log('true clicked');
+// CLICK FUNCTION FOR GENRE BUTTONS
+$('.genre-button').click(function (event) {
+    var element = event.target;
+    console.log(element);
+    if (element.dataset.search === 'false') {
+        element.dataset.search = 'true';
+        $(element).addClass('genre-button-active')
+    } else if (element.dataset.search === 'true') {
+        element.dataset.search = 'false';
+        $(element).removeClass('genre-button-active')
     }
+    $(element).blur();
 });
+
+
+// SEARCH BUTTON
 
 $('#search-button').click(function (event) {
     console.log('click search');
     event.preventDefault();
 });
+
+
+// CREATING SEARCH RESULTS
 
 var searchResultContainer = $('#search-results-container');
 
