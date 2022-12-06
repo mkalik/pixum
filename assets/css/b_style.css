@@ -21,12 +21,16 @@ body{
     background-color: var(--d_grey);
 }
 
+header {
+    padding: 10px;
+    font-size: x-large;
+    font-style: bold;
+}
 h1 {
     color: var(--l_blue);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: larger;
 }
 .criteria {
     margin-left: auto;
@@ -51,7 +55,7 @@ h1 {
 .movies {
     background-color: white;
     border-radius: 50px;
-    padding: 7px;
+    padding: 10px 10px 12px 12px;
     margin-top: 10px;
     width: fit-content;
     border: 5px solid var(--d_blue);
