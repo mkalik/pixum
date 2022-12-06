@@ -1,13 +1,37 @@
 
- :root{
-    --d_grey:#0b0c10;
+:root{
+    --d_grey:#323538;
     --m_grey:#1f2833;
-    --l_grey:#c5c6c7;
-    --l_blue:#094642;
-    --d_blue:#0f1818;
+    --l_grey:#868A8F;
+    --l_blue:#66fcf1;
+    --d_blue:#45a29e;
+    --l_blue_tran:#66fcf23b;
+	--d_grey_tran:#32353800;
+    --l_grey_tran:#c5c6c72d;
 
 }
 
+body{
+    padding: 60px 120px;
+    height: auto;
+    background-color: var(--d_grey);
+}
+
+.navbar {
+    background-color: var(--d_grey);
+}
+
+header {
+    padding: 10px;
+    font-size: x-large;
+    font-style: bold;
+}
+h1 {
+    color: var(--l_blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .criteria {
     margin-left: auto;
     margin-right: auto;
@@ -17,23 +41,37 @@
     justify-content: space-between;
 }
 
+
 .criteria label {
     font-family: cursive;
     font-weight: 1000px
 }
 
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.movies {
+    background-color: white;
+    border-radius: 50px;
+    padding: 10px 10px 12px 12px;
+    margin-top: 10px;
+    width: fit-content;
+    border: 5px solid var(--d_blue);
+}
 .suggestions {
     display: flex;
-    margin-top: 80px;
+    margin-top: 30px;
     justify-content: space-around;
     height: 350px;
 }
 
 .card {
     width: 250px;
-    background: linear-gradient(lightblue, grey);
+    background: linear-gradient(var(--l_blue), var(--l_grey));
     border-radius: 15px;
-    border: 5px solid lightblue;
+    border: 5px solid var(--d_blue);
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
