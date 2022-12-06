@@ -1,48 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <!-- neccesary for bulma -->
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>PROJECT 1</title>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- neccesary for bulma -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PROJECT 1</title>
 
-        <link rel="stylesheet" href="/assets/css/reset.css" />
-        <!-- bulma link -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-        />
-        <link rel="stylesheet" href="./assets/css/style.css" />
-    </head>
-    <body>
-        <header class="header">
-            <button href="./assets/html/bookmark.html" class="button bookmarks-btn">Bookmarks</button>
-            <img src="./assets/images/pixum.svg">
-        </header>
-        
-        <div class="search-filter-container">
-            <div id="search-filter-dropdown" class="search-filter-dropdown">
-                <p id="selected-filter">Genre</p>
-                <div class="filter-dropdown-content">
-                    <p class="filter-option">Genre</p>
-                    <p class="filter-option">Actor</p>
-                    <p class="filter-option">Length</p>
-                </div>
-            </div>
-            <div class="separator"></div>
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+    <!-- bulma link -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <button onclick="goBookmark()" class="button bookmarks-btn">
+        Bookmarks
+      </button>
+      <img src="./assets/images/pixum.svg" />
+    </header>
+
+    <div class="search-filter-container">
+      <div id="search-filter-dropdown" class="search-filter-dropdown">
+        <p id="selected-filter">Genre</p>
+        <div class="filter-dropdown-content">
+          <p class="filter-option">Genre</p>
+          <p class="filter-option">Actor</p>
+          <p class="filter-option">Length</p>
         </div>
+      </div>
+      <div class="separator"></div>
+    </div>
 
-        <div class="search-button-container">
-            <button id="search-button" class="button is-rounded">Search</button>
-        </div>
+    <div class="search-button-container">
+      <button id="search-button" class="button is-rounded">Search</button>
+    </div>
 
-        <div
-            id="search-results-container"
-            class="search-results-container"
-        ></div>
+    <div id="search-results-container" class="search-results-container"></div>
 
-        <!-- jquery link -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="assets/js/script.js"></script>
-    </body>
+    <!-- jquery link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
 </html>
