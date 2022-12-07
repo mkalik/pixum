@@ -17,11 +17,13 @@ var search_type = 1; //1 = genre, 2 = actor , 3 = length
 // SEARCH FILTERS
 
 function goBookmark() {
-    window.location.replace('assets/html/bookmark.html');
+
+  window.location.replace("./assets/html/bookmark.html");
 }
 
 function goHome() {
-    window.location.replace('../../index.html');
+  window.location.replace("../../index.html");
+
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
@@ -176,6 +178,7 @@ function generateRandomMovies() {
     return [down, up];
 }
 function createBlankResultCards(movies) {
+
     $('#search-button').removeClass('is-loading');
     console.log('log movies ' + movies);
     if (typeof movies === 'undefined') {
@@ -216,9 +219,22 @@ function createBlankResultCards(movies) {
 
         searchResultContainer.append(blankResultCard);
     }
+
 }
 
+// Add on hover to results cards
+
+function addResultsHover(){
+    if (document.querySelector("body > p:hover") != null) {
+        console.log("hovered");
+    }
+}
+
+
+//modals
+
 // createBlankResultCards();
+
 
 var resultsArray = [];
 function getGenre() {
@@ -240,6 +256,9 @@ function getGenre() {
             return info.results.slice(); //.slice(0, 4); //gets the results array from the api call and returns the first 4 results
         })
         .then((movies) => createBlankResultCards(movies));
+
+
+
 }
 
 //actor-search;
@@ -291,7 +310,8 @@ function getLength(length) {
         .then((movies) => console.log(movies));
 }
 
-$('.fa-bookmark').click(function (event) {
-    $('.fa-bookmark').css('color', 'white');
-    console.log('console');
+
+$(".fa-bookmark").click(function (event) {
+  $(".fa-bookmark").css("color", "white");
+
 });

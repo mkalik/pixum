@@ -49,7 +49,7 @@ header {
 .search-filter-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: 175px;
     width: auto;
     margin-bottom: 60px;
@@ -129,7 +129,7 @@ header {
     border-color: var(--l_grey_tran);
     font-size: 16px;
     font-family:'Quicksand';
-    transition: border-color 1s ease-out;
+    transition: border-color 0.5s ease-out;
     transition: color 0.5s ease-out;
 }
 
@@ -152,7 +152,7 @@ header {
     background-color: transparent;
     border-color: var(--l_blue);
     font-family: 'Quicksand';
-    transition:border-color 1s ease-out;
+    transition:border-color 0.5s ease-out;
 }
 
 .actor-length-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -188,12 +188,18 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 300px;
-    width: 200px;
+    height: 400px;
+    width: 300px;
     align-items: center;
-    border: 3px solid var(--l_grey);
-    border-radius: 10px;
-    box-shadow: 3px 1px 12px var(--d_blue);
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 30px #25282b;
+    transition: box-shadow 0.5s ease-out;
+    user-select: none;
+}
+
+.blank-result-card:hover{
+    box-shadow: 0px 0px 45px var(--l_grey_tran);
 }
 
 .fa-bookmark {
@@ -207,8 +213,12 @@ header {
     cursor: pointer;
     color: gold;
     transition: ease-in-out 2s;
+    
 }
 
+.fa-star {
+    color: gold;
+}
 
 .more-info-button {
     width: 50%;
@@ -219,6 +229,15 @@ header {
     border-radius: 5px 5px 0px 0px;
 }
 
+.movie-poster {
+    margin-top: 15px;
+    width: 100%;
+    height: 75%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 15px var(--l_grey_tran);
+    
+}
+
 .movie-title {
     color: var(--l_grey);
     align-content: center;
@@ -227,11 +246,6 @@ header {
 
 .movie-rating {
     margin-bottom: 10px;
+    color: white;
 }
 
-.movie-poster {
-    margin-top: 15px;
-    width: 80%;
-    border: 3px solid white;
-    height: 60%;
-}
