@@ -137,6 +137,7 @@ $('.genre-button').click(function (event) {
 
 var hasSearched = false;
 $('#search-button').click(function (event) {
+    changeSearchButtonText(event);
     $(this).addClass('is-loading');
     console.log('click search');
     event.preventDefault();
@@ -159,6 +160,14 @@ $('#search-button').click(function (event) {
     }
 });
 
+// CHANGE SEARCH BUTTON TEXT
+function changeSearchButtonText(event){
+    var possibleText = ["just Pixum already! ", "let's go flix foraging ", "search far and wide ", "formulate films ", "SHOW ME THA MOVIES "];
+    var button = event.target;
+    var randomButtonText = Math.floor(Math.random() * possibleText.length);
+    $(button).text(possibleText[randomButtonText]);
+}
+
 // CREATING SEARCH RESULTS
 
 var searchResultContainer = $('#search-results-container');
@@ -177,33 +186,72 @@ function generateRandomMovies() {
     }
     return [down, up];
 }
+
+
+// function createBlankResultCards(movies) {
+
+//     $('#search-button').removeClass('is-loading');
+//     console.log('log movies ' + movies);
+//     if (typeof movies === 'undefined') {
+//         console.log('copied');
+//         movies = resultsArray;
+//     }
+//     console.log(movies); //probably want the title and image
+//     var randslice = generateRandomMovies();
+//     var moviesDisplay = movies.slice(randslice[0], randslice[1]);
+//     console.log(moviesDisplay);
+//     resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
+//     var numberOfResults = moviesDisplay.length;
+//     for (var i = 0; i < numberOfResults; i++) {
+//         var blankResultCard = $('<div class="blank-result-card"></div>');
+
+//         var moviePoster = $(
+//             `<img src= ${moviesDisplay[i].image} class="movie-poster">`
+//         );
+//         blankResultCard.append(moviePoster);
+
+//         var bookmark = $('<i class="fa-solid fa-bookmark"></i>');
+//         blankResultCard.append(bookmark);
+
+//         var movieTitle = $(
+//             `<h1 class= "movie-title">${moviesDisplay[i].title}</h1>`
+//         );
+//         blankResultCard.append(movieTitle);
+
+//         var movieRating = $('<h3 class="movie-rating">Rating</h3>');
+//         blankResultCard.append(movieRating);
+
+//         var moreInfoBtn = $(
+//             '<button class="more-info-button">More Info</button>'
+//         );
+//         blankResultCard.append(moreInfoBtn);
+
+//         $(blankResultCard).attr('data-result-index', i);
+
+//         searchResultContainer.append(blankResultCard);
+//     }
+
+// }
+
 function createBlankResultCards(movies) {
 
     $('#search-button').removeClass('is-loading');
     console.log('log movies ' + movies);
-    if (typeof movies === 'undefined') {
-        console.log('copied');
-        movies = resultsArray;
-    }
-    console.log(movies); //probably want the title and image
-    var randslice = generateRandomMovies();
-    var moviesDisplay = movies.slice(randslice[0], randslice[1]);
-    console.log(moviesDisplay);
-    resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
-    var numberOfResults = moviesDisplay.length;
+    var numberOfResults = 4
     for (var i = 0; i < numberOfResults; i++) {
         var blankResultCard = $('<div class="blank-result-card"></div>');
 
+        var moviePosterContainer = $('<div class=movie-poster-container></div>')
         var moviePoster = $(
-            `<img src= ${moviesDisplay[i].image} class="movie-poster">`
-        );
-        blankResultCard.append(moviePoster);
+        `<img class="movie-poster">`);
+        moviePosterContainer.append(moviePoster);
+        blankResultCard.append(moviePosterContainer);
 
         var bookmark = $('<i class="fa-solid fa-bookmark"></i>');
         blankResultCard.append(bookmark);
 
         var movieTitle = $(
-            `<h1 class= "movie-title">${moviesDisplay[i].title}</h1>`
+            `<h1 class= "movie-title">Title</h1>`
         );
         blankResultCard.append(movieTitle);
 
@@ -220,7 +268,7 @@ function createBlankResultCards(movies) {
         searchResultContainer.append(blankResultCard);
     }
 
-}
+} createBlankResultCards();
 
 // Add on hover to results cards
 
