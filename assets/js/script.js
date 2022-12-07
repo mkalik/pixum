@@ -17,11 +17,11 @@ var search_type = 1; //1 = genre, 2 = actor , 3 = length
 // SEARCH FILTERS
 
 function goBookmark() {
-  window.location.replace("http://127.0.0.1:5506/assets/html/bookmark.html");
+  window.location.replace("./assets/html/bookmark.html");
 }
 
 function goHome() {
-  window.location.replace("http://127.0.0.1:5506/index.html");
+  window.location.replace("../../index.html");
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
@@ -161,13 +161,15 @@ function createBlankResultCards(movies) {
     var blankResultCard = $('<div class="blank-result-card"></div>');
 
     
-    var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
+    // var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
+    var moviePoster = $('<img class="movie-poster">');
     blankResultCard.append(moviePoster);
 
     var bookmark =$('<i class="fa-solid fa-bookmark"></i>')
     blankResultCard.append(bookmark)
 
-    var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
+    // var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
+    var movieTitle = $(`<h1 class= "movie-title">Title</h1>`);
     blankResultCard.append(movieTitle);
 
     var movieRating = $('<h3 class="movie-rating">Rating</h3>');
@@ -182,7 +184,15 @@ function createBlankResultCards(movies) {
   }
 }
 
-// createBlankResultCards();
+createBlankResultCards();
+// Add on hover to results cards
+
+function addResultsHover(){
+    if (document.querySelector("body > p:hover") != null) {
+        console.log("hovered");
+    }
+}
+
 
 function getGenre() {
   //searches imdb api for movies with user specified genres
@@ -197,7 +207,7 @@ function getGenre() {
   console.log(genreString);
   fetch(genre_imdbAPI + genreString)
     .then((data) => data.json())
-    .then(function (info) {
+    .then(function (info) { 
       return info.results.slice(0, 4); //gets the results array from the api call and returns the first 4 results
     })
     .then((movies) => createBlankResultCards(movies));
