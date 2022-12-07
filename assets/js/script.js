@@ -160,23 +160,28 @@ function createBlankResultCards(movies) {
   for (var i = 0; i < numberOfResults; i++) {
     var blankResultCard = $('<div class="blank-result-card"></div>');
 
-    
-    // var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
-    var moviePoster = $('<img class="movie-poster">');
+
+    var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
     blankResultCard.append(moviePoster);
 
-    var bookmark =$('<i class="fa-solid fa-bookmark"></i>')
-    blankResultCard.append(bookmark)
+    var bookmark = $('<i class="fa-solid fa-bookmark"></i>');
+    blankResultCard.append(bookmark);
 
     // var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
     var movieTitle = $(`<h1 class= "movie-title">Title</h1>`);
     blankResultCard.append(movieTitle);
 
-    var movieRating = $('<h3 class="movie-rating">Rating</h3>');
+    var movieRating = $(`<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`);
     blankResultCard.append(movieRating);
 
     var moreInfoBtn = $('<button class="more-info-button">More Info</button>');
     blankResultCard.append(moreInfoBtn);
+
+    var moreInfoModal;
+
+    //more-info-button.addEventListener ('click', ()=> {
+    //  moreInfoModal.classList.add('is-active')
+    // })
 
     $(blankResultCard).attr("data-result-index", i);
 
@@ -184,7 +189,6 @@ function createBlankResultCards(movies) {
   }
 }
 
-createBlankResultCards();
 // Add on hover to results cards
 
 function addResultsHover(){
@@ -192,6 +196,11 @@ function addResultsHover(){
         console.log("hovered");
     }
 }
+
+
+//modals
+
+// createBlankResultCards();
 
 
 function getGenre() {
@@ -262,6 +271,6 @@ function getLength(length) {
     .then((movies) => console.log(movies));
 }
 
-$('.fa-bookmark').click(function(event){
-    $('.fa-bookmark').css('color', 'white')
-})
+$(".fa-bookmark").click(function (event) {
+  $(".fa-bookmark").css("color", "white");
+});
