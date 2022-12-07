@@ -170,7 +170,7 @@ function createBlankResultCards(movies) {
     var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
     blankResultCard.append(movieTitle);
 
-    var movieRating = $('<h3 class="movie-rating">Rating</h3>');
+    var movieRating = $(`<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`);
     blankResultCard.append(movieRating);
 
     var moreInfoBtn = $('<button class="more-info-button">More Info</button>');

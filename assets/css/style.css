@@ -209,6 +209,9 @@ header {
     transition: ease-in-out 2s;
 }
 
+.fa-star {
+    color: gold;
+}
 
 .more-info-button {
     width: 50%;
@@ -227,6 +230,7 @@ header {
 
 .movie-rating {
     margin-bottom: 10px;
+    color: white;
 }
 
 .movie-poster {
