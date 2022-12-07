@@ -26,21 +26,50 @@ body{
 /* || HEADER*/
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    position: relative;
     width: 100%;
     height: auto;
     margin-bottom: 60px;
+    text-align: center;
 }
 
 .header img{
-    margin-left: 30%;
-    width: 202px;
-    height: 77px;
+    display: inline-block;
+    margin: 0 auto;
+    width: 236px;
+    height: 90px;
 
 }
 
+.header .button{
+    display: block;
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    color: var(--l_grey);
+    border-radius: 0px;
+    border-bottom: 2px solid var(--l_grey_tran);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    transition: all 0.5s ease-out;
+}
+
+.header .bookmark-override {
+    color: var(--l_grey);
+    font-size: 16px;
+    position: relative;
+    right: 0px;
+    transition: all 0.5s ease-out;
+}
+
+.header .button:hover{
+    color: var(--l_blue);
+    border-bottom: 2px solid var(--l_blue);
+}
+
+.header .button:hover .bookmark-override{
+    color: var(--l_blue);
+}
 
 /* || SEARCH AND FILTER SECTION */
 
@@ -117,7 +146,7 @@ header {
 
 /* GENRE BUTTON GRID STYLES */
 #genre-filter-grid{
-    width: 40vw;
+    max-width: 800px;
 }
 
 .genre-button{
@@ -129,8 +158,7 @@ header {
     border-color: var(--l_grey_tran);
     font-size: 16px;
     font-family:'Quicksand', sans-serif;
-    transition: border-color 0.5s ease-out;
-    transition: color 0.5s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .genre-button:hover{
@@ -146,12 +174,12 @@ header {
 
 /* ACTOR & LENGTH INPUT STYLES */
 .actor-length-search{
-    width: 40vw;
+    max-width: 775px;
     border: 2px solid var(--l_blue);
     color: var(--l_blue);
     background-color: transparent;
     border-color: var(--l_blue);
-    font-family: 'Quicksand'. sans-serif;
+    font-family: 'Quicksand', sans-serif;
     transition:border-color 0.5s ease-out;
 }
 
@@ -172,14 +200,7 @@ header {
 }
 
 
-.search-results-container{
-    width: 100%;
-    height: auto;
-    padding: 30px 0px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
+
 
 /* SEARCH BUTTON STYLING */
 .search-button-container{
@@ -198,7 +219,7 @@ header {
     color: var(--l_grey);
     font-family: 'Quicksand', sans-serif;
     font-weight: 600;
-    transition: width 0.5s ease-out;
+    transition: all 0.5s ease-out;
 }
 
 .search-span{
@@ -206,12 +227,32 @@ header {
 }
 
 #search-button:hover{
-    
+    /* transition: color 2s ease-out; */
+    color: var(--l_blue);
+    border-color: var(--l_blue)
+}
+
+#search-button:active{
+    color: var(--l_blue);
+    border-color: var(--l_blue);
+    box-shadow: 0px 0px 15px var(--l_grey_tran);
+}
+
+#search-button:focus{
+    color: var(--l_blue);
+    border-color: var(--l_blue);
 }
 
 
-
 /* MOVIE RESULTS FILTERS */
+.search-results-container{
+    width: 100%;
+    height: auto;
+    padding: 30px 0px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
 
 .blank-result-card {
     position: relative;
@@ -221,7 +262,7 @@ header {
     width: 300px;
     align-items: center;
     padding: 15px 30px;
-    border-radius: 5px;
+    border-radius: 10px;
     box-shadow: 0px 0px 30px #25282b;
     transition: border 0.5s ease-out;
     user-select: none;
@@ -231,31 +272,29 @@ header {
     box-shadow: 0px 0px 30px #202325;
 }
 
-
 .fa-bookmark {
     position: absolute;
     color: var(--l_blue_tran);
-    margin-left: 55%;
+    right: 45px;
     font-size: 48px;
+    transition: all 0.5s ease-out; 
 }
 
 .fa-bookmark:hover {
     cursor: pointer;
     color: gold;
-    transition: ease-in-out 0.5s;
-    
 }
 
+/* MOVIE POSTER STYLING */
 .movie-poster-container{
     object-fit: cover;
     width: 100%;
     height: 75%;
     margin-top: 15px;
     box-shadow: 0px 0px 15px var(--l_grey);
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
 }
-
 
 .movie-poster {
     box-shadow: 0px 0px 15px var(--l_grey_tran);

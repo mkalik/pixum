@@ -137,7 +137,6 @@ $('.genre-button').click(function (event) {
 
 var hasSearched = false;
 $('#search-button').click(function (event) {
-    changeSearchButtonText(event);
     $(this).addClass('is-loading');
     console.log('click search');
     event.preventDefault();
@@ -156,16 +155,17 @@ $('#search-button').click(function (event) {
             verifyLengthInput();
         }
     } else {
-        createBlankResultCards();
+        createBlankResultCards(event);
     }
 });
 
-// CHANGE SEARCH BUTTON TEXT
+// CHANGE SEARCH BUTTON TEXT (Called in create blank results cards function)
 function changeSearchButtonText(event){
     var possibleText = ["just Pixum already! ", "let's go flix foraging ", "search far and wide ", "formulate films ", "SHOW ME THA MOVIES "];
     var button = event.target;
     var randomButtonText = Math.floor(Math.random() * possibleText.length);
     $(button).text(possibleText[randomButtonText]);
+    $(button).blur();
 }
 
 // CREATING SEARCH RESULTS
@@ -191,6 +191,7 @@ function generateRandomMovies() {
 // function createBlankResultCards(movies) {
 
 //     $('#search-button').removeClass('is-loading');
+//     changeSearchButtonText(event);
 //     console.log('log movies ' + movies);
 //     if (typeof movies === 'undefined') {
 //         console.log('copied');
