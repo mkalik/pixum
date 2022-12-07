@@ -160,12 +160,11 @@ function createBlankResultCards(movies) {
   for (var i = 0; i < numberOfResults; i++) {
     var blankResultCard = $('<div class="blank-result-card"></div>');
 
-    
     var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
     blankResultCard.append(moviePoster);
 
-    var bookmark =$('<i class="fa-solid fa-bookmark"></i>')
-    blankResultCard.append(bookmark)
+    var bookmark = $('<i class="fa-solid fa-bookmark"></i>');
+    blankResultCard.append(bookmark);
 
     var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
     blankResultCard.append(movieTitle);
@@ -176,11 +175,19 @@ function createBlankResultCards(movies) {
     var moreInfoBtn = $('<button class="more-info-button">More Info</button>');
     blankResultCard.append(moreInfoBtn);
 
+    var moreInfoModal;
+
+    //more-info-button.addEventListener ('click', ()=> {
+    //  moreInfoModal.classList.add('is-active')
+    // })
+
     $(blankResultCard).attr("data-result-index", i);
 
     searchResultContainer.append(blankResultCard);
   }
 }
+
+//modals
 
 // createBlankResultCards();
 
@@ -252,6 +259,6 @@ function getLength(length) {
     .then((movies) => console.log(movies));
 }
 
-$('.fa-bookmark').click(function(event){
-    $('.fa-bookmark').css('color', 'white')
-})
+$(".fa-bookmark").click(function (event) {
+  $(".fa-bookmark").css("color", "white");
+});
