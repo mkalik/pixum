@@ -160,8 +160,12 @@ function createBlankResultCards(movies) {
   for (var i = 0; i < numberOfResults; i++) {
     var blankResultCard = $('<div class="blank-result-card"></div>');
 
+    
     var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
     blankResultCard.append(moviePoster);
+
+    var bookmark =$('<i class="fa-solid fa-bookmark"></i>')
+    blankResultCard.append(bookmark)
 
     var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
     blankResultCard.append(movieTitle);
@@ -247,3 +251,7 @@ function getLength(length) {
     .then((data) => data.json())
     .then((movies) => console.log(movies));
 }
+
+$('.fa-bookmark').click(function(event){
+    $('.fa-bookmark').css('color', 'white')
+})
