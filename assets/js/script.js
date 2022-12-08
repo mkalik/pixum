@@ -1,27 +1,22 @@
 var genre_imdbAPI =
   "https://imdb-api.com/API/AdvancedSearch/k_gqv62f21/?title_type=feature,tv_movie&genres=";
-var length_imdbAPI =
-  "https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?title_type=feature,tv_movie&moviemeter="; //comma separated numbers
-var actor_imdbAPI = "https://imdb-api.com/en/API/SearchName/k_gqv62f21/"; //requires an actors name
-var name_imdbAPI = "https://imdb-api.com/API/Name/k_gqv62f21/"; //requires imdbID
-var movie_imdbAPI = "https://imdb-api.com/en/API/Title/k_gqv62f21/";
-// var imdbID;
-// var watchAPI1 = 'https://api.watchmode.com/v1/title/';
-// var watchAPI2 = '/sources/?apiKey=VdPS48VbVT9u5JoyVOSjCyMC8zbheghplfqA9HX9'; //title must be defined, should used imdbID.
+var length_imdbAPI = 'https://imdb-api.com/API/AdvancedSearch/k_gqv62f21?title_type=feature,tv_movie&moviemeter='; //comma separated numbers
+var actor_imdbAPI = 'https://imdb-api.com/en/API/SearchName/k_gqv62f21/'; //requires an actors name
+var name_imdbAPI = 'https://imdb-api.com/API/Name/k_gqv62f21/'; //requires imdbID
+var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
+var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
-var omdbAPI = "http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab"; //might not even be used
-var ratingsAPI = "https://imdb-api.com/en/API/Ratings/k_gqv62f21/"; //requires imdbID
 
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
 
 // SEARCH FILTERS
 
 function goBookmark() {
-  window.location.replace("http://127.0.0.1:5506/assets/html/bookmark.html");
+    window.location.replace('./assets/html/bookmark.html');
 }
 
 function goHome() {
-  window.location.replace("http://127.0.0.1:5506/index.html");
+    window.location.replace('../../index.html');
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
@@ -151,61 +146,146 @@ $("#search-button").click(function (event) {
 
 // CREATING SEARCH RESULTS
 
-var searchResultContainer = $("#search-results-container");
 
-function createBlankResultCards(movies) {
-  $("#search-button").removeClass("is-loading");
-  console.log(movies); //probably want the title and image
-  var numberOfResults = 4;
-  for (var i = 0; i < numberOfResults; i++) {
-    var blankResultCard = $('<div class="blank-result-card"></div>');
-
-    
-    var moviePoster = $(`<img src=${movies[i].image} class="movie-poster">`);
-    blankResultCard.append(moviePoster);
-
-    var bookmark =$('<i class="fa-solid fa-bookmark"></i>')
-    blankResultCard.append(bookmark)
-
-    var movieTitle = $(`<h1 class= "movie-title">${movies[i].title}</h1>`);
-    blankResultCard.append(movieTitle);
-
-    var movieRating = $(`<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`);
-    blankResultCard.append(movieRating);
-
-    var movietrailer = $(`<i class="${movies[i].id} fa-regular fa-circle-play" ></i>`)
-    console.log(movietrailer)
-    blankResultCard.append(movietrailer)
-
-    var moreInfoBtn = $('<button class="more-info-button">More Info</button>');
-    blankResultCard.append(moreInfoBtn);
-
-    $(blankResultCard).attr("data-result-index", i);
-
-    searchResultContainer.append(blankResultCard);
-  }
+var searchResultContainer = $('#search-results-container');
+function generateRandomMovies() {
+    var up;
+    var down;
+    var rest;
+    down = Math.floor(Math.random() * resultsArray.length);
+    if (4 > resultsArray.length) {
+        rest = 0;
+        up = resultsArray.length - 1;
+        down = 0;
+    } else {
+        rest = 4;
+        up = down + rest;
+    }
+    return [down, up];
 }
 
-
-// createBlankResultCards();
-
-function getGenre() {
-  //searches imdb api for movies with user specified genres
-  var genreString = "";
-  $(".genre-button").each(function () {
-    //looks for all buttons that have been clicked and appends their genres to the genre string
-    if ($(this).attr("data-search") == "true") {
-      genreString += $(this).attr("data-genre") + ",";
+function createBlankResultCards(movies) {
+    $('#search-button').removeClass('is-loading');
+    console.log('log movies ' + movies);
+    if (search_type != 2) {
+        if (typeof movies === 'undefined') {
+            console.log('copied');
+            movies = resultsArray;
+        }
     }
-  });
-  genreString = genreString.substring(0, genreString.length - 1); //removes final comma
-  console.log(genreString);
-  fetch(genre_imdbAPI + genreString)
-    .then((data) => data.json())
-    .then(function (info) {
-      return info.results.slice(0, 4); //gets the results array from the api call and returns the first 4 results
-    })
-    .then((movies) => createBlankResultCards(movies));
+    console.log(movies); //probably want the title and image
+    var randslice = generateRandomMovies();
+    var moviesDisplay = movies.slice(randslice[0], randslice[1]);
+    console.log(moviesDisplay);
+    resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
+    var numberOfResults = moviesDisplay.length;
+    for (var i = 0; i < numberOfResults; i++) {
+        console.log(moviesDisplay[i].id);
+        var blankResultCard = $('<div class="blank-result-card"></div>');
+
+        var moviePoster = $(
+            `<img src= ${moviesDisplay[i].image} class="movie-poster">`
+        );
+        blankResultCard.append(moviePoster);
+
+        var bookmark = $(
+            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
+        );
+        blankResultCard.append(bookmark);
+
+        var movieTitle = $(
+            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${moviesDisplay[i].title}</h1>`
+        );
+        blankResultCard.append(movieTitle);
+
+        var movieRating = $(`<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`);
+        blankResultCard.append(movieRating);
+        
+        var movietrailer = $(`<i class="${movies[i].id} fa-regular fa-circle-play" ></i>`)
+        console.log(movietrailer)
+        blankResultCard.append(movietrailer)
+
+        var moreInfoBtn = $(
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)" >More Info</button>'
+        );
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+    
+
+    }
+}
+
+// $('.fa-solid').click(function () {
+//     console.log('clicked');
+//     $('.fa-bookmark').css('color', 'white');
+// });
+
+// Add on hover to results cards
+function clickedBookmark(event) {
+    console.log('click');
+    var click = event.target;
+    var clickParent = $(click).parent()[0];
+    console.log(clickParent);
+
+    var movieTitle = clickParent.children[0].currentSrc;
+    var moviePoster = clickParent.children[2].textContent;
+    var movieID = clickParent.children[2].dataset.id;
+    var movieRating = clickParent.children[3].textContent;
+
+    console.log(
+        'movieID: ' + movieID,
+        '\ntitle: ' + movieTitle,
+        '\nPoster: ' + moviePoster,
+        '\nrating: ' + movieRating
+    );
+
+    var movieObject = {
+        movieID: movieID,
+        title: movieTitle,
+        poster: moviePoster,
+        rating: movieRating,
+    };
+    console.log(movieObject);
+}
+
+function clickedMoreInfo(event) {
+    console.log('clicked moreinfo');
+    createModal();
+}
+
+function createModal() {
+    console.log('creating modal');
+}
+function addResultsHover() {
+    if (document.querySelector('body > p:hover') != null) {
+        console.log('hovered');
+    }
+}
+
+var resultsArray = [];
+function getGenre() {
+    //searches imdb api for movies with user specified genres
+    var genreString = '';
+    $('.genre-button').each(function () {
+        //looks for all buttons that have been clicked and appends their genres to the genre string
+        if ($(this).attr('data-search') == 'true') {
+            genreString += $(this).attr('data-genre') + ',';
+        }
+    });
+    genreString = genreString.substring(0, genreString.length - 1); //removes final comma
+    console.log(genreString);
+    fetch(genre_imdbAPI + genreString)
+        .then((data) => data.json())
+        .then(function (info) {
+            console.log(info.results);
+            resultsArray.push(...info.results);
+            return info.results.slice(); //.slice(0, 4); //gets the results array from the api call and returns the first 4 results
+        })
+        .then((movies) => createBlankResultCards(movies));
+
 }
 
 //actor-search;
@@ -221,6 +301,7 @@ function getActorID() {
     })
     .then((actorID) => getKnownFor(actorID));
 }
+
 function getKnownFor(actorID) {
   //gets the actor id and fetches movies that the actor is known for
   console.log(actorID);
@@ -233,28 +314,26 @@ function getKnownFor(actorID) {
 }
 
 function verifyLengthInput() {
-  //verifies that user length input is a number
-  var length = $("#length-search").val();
-  if (length.indexOf(",") == -1) {
-    if (!Number.isNaN(length)) {
-      getLength("," + length);
-    } else {
-      console.log("input is not a number");
-    }
-  } else if (length.indexOf(",")) {
-    var limits = length.split(",");
-    if (!Number.isNaN(limits[0]) && !Number.isNaN(limits[1])) {
-      getLength(limits.join(","));
-    } else {
-      console.log("the limits are not both numbers");
+
+    //this function should be looked over
+    //verifies that user length input is a number
+    var length = $('#length-search').val();
+    if (length.indexOf(',') == -1) {
+        if (!Number.isNaN(length)) {
+            getLength(',' + length);
+        } else {
+            console.log('input is not a number');
+        }
+    } else if (length.indexOf(',')) {
+        var limits = length.split(',');
+        if (!Number.isNaN(limits[0]) && !Number.isNaN(limits[1])) {
+            getLength(limits.join(','));
+        } else {
+            console.log('the limits are not both numbers');
+        }
+
     }
   }
-}
-function getLength(length) {
-  //calls imdb api and searches for movies with user specified length
-  fetch(length_imdbAPI + length)
-    .then((data) => data.json())
-    .then((movies) => console.log(movies));
 }
 
 
@@ -273,8 +352,13 @@ function getTrailer(trailerID) {
 
 getTrailer('tt0050083')
 
+function getLength(length) {
+    //calls imdb api and searches for movies with user specified length
+    fetch(length_imdbAPI + length)
+        .then((data) => data.json())
+        .then(function (movies) {
+            resultsArray.push(...movies.results);
+            createBlankResultCards(movies.results);
+        });
+}
 
-
-$('.fa-bookmark').click(function(event){
-    $('.fa-bookmark').css('color', 'white')
-})
