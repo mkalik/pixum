@@ -160,7 +160,7 @@ function generateRandomMovies() {
     var down;
     var rest;
     down = Math.floor(Math.random() * resultsArray.length);
-    if (4 >= resultsArray.length) {
+    if (4 > resultsArray.length) {
         rest = 0;
         up = resultsArray.length - 1;
         down = 0;
@@ -187,6 +187,7 @@ function createBlankResultCards(movies) {
     resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
     var numberOfResults = moviesDisplay.length;
     for (var i = 0; i < numberOfResults; i++) {
+        console.log(moviesDisplay[i].id);
         var blankResultCard = $('<div class="blank-result-card"></div>');
 
         var moviePoster = $(
@@ -195,12 +196,12 @@ function createBlankResultCards(movies) {
         blankResultCard.append(moviePoster);
 
         var bookmark = $(
-            '<i class="fa-solid fa-bookmark" onclick="clicked(event)"></i>'
+            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
         );
         blankResultCard.append(bookmark);
 
         var movieTitle = $(
-            `<h1 class= "movie-title">${moviesDisplay[i].title}</h1>`
+            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${moviesDisplay[i].title}</h1>`
         );
         blankResultCard.append(movieTitle);
 
@@ -208,7 +209,7 @@ function createBlankResultCards(movies) {
         blankResultCard.append(movieRating);
 
         var moreInfoBtn = $(
-            '<button class="more-info-button">More Info</button>'
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)" >More Info</button>'
         );
         blankResultCard.append(moreInfoBtn);
 
@@ -224,13 +225,41 @@ function createBlankResultCards(movies) {
 // });
 
 // Add on hover to results cards
-function clicked(event) {
-    var click = event.target;
-    var clickParent = $(click).parent();
-    console.log(clickParent);
+function clickedBookmark(event) {
     console.log('click');
+    var click = event.target;
+    var clickParent = $(click).parent()[0];
+    console.log(clickParent);
+
+    var movieTitle = clickParent.children[0].currentSrc;
+    var moviePoster = clickParent.children[2].textContent;
+    var movieID = clickParent.children[2].dataset.id;
+    var movieRating = clickParent.children[3].textContent;
+
+    console.log(
+        'movieID: ' + movieID,
+        '\ntitle: ' + movieTitle,
+        '\nPoster: ' + moviePoster,
+        '\nrating: ' + movieRating
+    );
+
+    var movieObject = {
+        movieID: movieID,
+        title: movieTitle,
+        poster: moviePoster,
+        rating: movieRating,
+    };
+    console.log(movieObject);
 }
 
+function clickedMoreInfo(event) {
+    console.log('clicked moreinfo');
+    createModal();
+}
+
+function createModal() {
+    console.log('creating modal');
+}
 function addResultsHover() {
     if (document.querySelector('body > p:hover') != null) {
         console.log('hovered');
