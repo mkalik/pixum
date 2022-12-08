@@ -130,6 +130,7 @@ $(".genre-button").click(function (event) {
 var hasSearched = false;
 $('#search-button').click(function (event) {
     $(this).addClass('is-loading');
+    changeSearchButtonText(event);
     console.log('click search');
     event.preventDefault();
     console.log(search_type);
@@ -147,9 +148,8 @@ $('#search-button').click(function (event) {
             verifyLengthInput();
         }
     } else {
-        createBlankResultCards(event);
+        createBlankResultCards();
     }
-
 });
 
 // CHANGE SEARCH BUTTON TEXT (Called in create blank results cards function)
@@ -183,7 +183,6 @@ function generateRandomMovies() {
 
 
 function createBlankResultCards(movies) {
-    changeSearchButtonText(event);
     $('#search-button').removeClass('is-loading');
     console.log('log movies ' + movies);
     if (search_type != 2) {
@@ -202,10 +201,12 @@ function createBlankResultCards(movies) {
         console.log(moviesDisplay[i].id);
         var blankResultCard = $('<div class="blank-result-card"></div>');
 
+        var moviePosterContainer = $('<div class="movie-poster-container"></div>');
         var moviePoster = $(
             `<img src= ${moviesDisplay[i].image} class="movie-poster">`
         );
-        blankResultCard.append(moviePoster);
+        moviePosterContainer.append(moviePoster)
+        blankResultCard.append(moviePosterContainer);
 
         var bookmark = $(
             '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'

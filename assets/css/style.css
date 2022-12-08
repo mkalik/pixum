@@ -288,9 +288,9 @@ header {
 
 .fa-bookmark {
     position: absolute;
-    color: var(--l_blue_tran);
+    color: var(--l_grey_tran);
     right: 60px;
-    font-size: 48px;
+    font-size: 32px;
     transition: color 0.5s ease-out; 
 }
 
@@ -301,13 +301,13 @@ header {
 
 /* MOVIE POSTER STYLING */
 .movie-poster-container{
-    object-fit: cover;
     width: 100%;
-    height: 75%;
+    height: auto;
     margin: 15px 0px;
     box-shadow: 0px 0px 15px var(--l_grey);
     border-radius: 10px;
     overflow: hidden;
+    object-fit: cover;
 }
 
 .movie-poster {
