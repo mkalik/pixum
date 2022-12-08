@@ -173,7 +173,8 @@ function createBlankResultCards(movies) {
     var movieRating = $(`<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`);
     blankResultCard.append(movieRating);
 
-    var movietrailer = $(`<i href="${trailerkey}" class="fa-regular fa-circle-play" ></i>`)
+    var movietrailer = $(`<i class="${movies[i].id} fa-regular fa-circle-play" ></i>`)
+    console.log(movietrailer)
     blankResultCard.append(movietrailer)
 
     var moreInfoBtn = $('<button class="more-info-button">More Info</button>');
@@ -184,6 +185,7 @@ function createBlankResultCards(movies) {
     searchResultContainer.append(blankResultCard);
   }
 }
+
 
 // createBlankResultCards();
 
@@ -257,20 +259,18 @@ function getLength(length) {
 
 
 function getTrailer(trailerID) {
-  
   var trailerAPI = `https://api.themoviedb.org/3/movie/${trailerID}/videos?api_key=1af200ff906e604110980655841ecfbe&append_to_response=videos`
-
   fetch(trailerAPI)
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
-        console.log(data)
-        var trailerkey = data.results[0].key
-        trailerkey = `https://www.youtube.com/watch?v=${data.results[0].key}`
+        var trailerkey = `https://www.youtube.com/watch?v=${data.results[0].key}`
         console.log(trailerkey)
-  })
+        return trailerkey
+    })
 }
+
 getTrailer('tt0050083')
 
 
