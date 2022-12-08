@@ -5,11 +5,6 @@ var length_imdbAPI =
 var actor_imdbAPI = 'https://imdb-api.com/en/API/SearchName/k_gqv62f21/'; //requires an actors name
 var name_imdbAPI = 'https://imdb-api.com/API/Name/k_gqv62f21/'; //requires imdbID
 var movie_imdbAPI = 'https://imdb-api.com/en/API/Title/k_gqv62f21/';
-// var imdbID;
-// var watchAPI1 = 'https://api.watchmode.com/v1/title/';
-// var watchAPI2 = '/sources/?apiKey=VdPS48VbVT9u5JoyVOSjCyMC8zbheghplfqA9HX9'; //title must be defined, should used imdbID.
-
-var omdbAPI = 'http://www.omdbapi.com/?i=tt3896198&apikey=c4ce22ab'; //might not even be used
 var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires imdbID
 
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
@@ -17,13 +12,11 @@ var search_type = 1; //1 = genre, 2 = actor , 3 = length
 // SEARCH FILTERS
 
 function goBookmark() {
-
-  window.location.replace("./assets/html/bookmark.html");
+    window.location.replace('./assets/html/bookmark.html');
 }
 
 function goHome() {
-  window.location.replace("../../index.html");
-
+    window.location.replace('../../index.html');
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
@@ -177,13 +170,15 @@ function generateRandomMovies() {
     }
     return [down, up];
 }
-function createBlankResultCards(movies) {
 
+function createBlankResultCards(movies) {
     $('#search-button').removeClass('is-loading');
     console.log('log movies ' + movies);
-    if (typeof movies === 'undefined') {
-        console.log('copied');
-        movies = resultsArray;
+    if (search_type != 2) {
+        if (typeof movies === 'undefined') {
+            console.log('copied');
+            movies = resultsArray;
+        }
     }
     console.log(movies); //probably want the title and image
     var randslice = generateRandomMovies();
@@ -199,7 +194,9 @@ function createBlankResultCards(movies) {
         );
         blankResultCard.append(moviePoster);
 
-        var bookmark = $('<i class="fa-solid fa-bookmark"></i>');
+        var bookmark = $(
+            '<i class="fa-solid fa-bookmark" onclick="clicked(event)"></i>'
+        );
         blankResultCard.append(bookmark);
 
         var movieTitle = $(
@@ -219,22 +216,30 @@ function createBlankResultCards(movies) {
 
         searchResultContainer.append(blankResultCard);
     }
-
 }
+
+// $('.fa-solid').click(function () {
+//     console.log('clicked');
+//     $('.fa-bookmark').css('color', 'white');
+// });
 
 // Add on hover to results cards
-
-function addResultsHover(){
-    if (document.querySelector("body > p:hover") != null) {
-        console.log("hovered");
-    }
+function clicked(event) {
+    var click = event.target;
+    var clickParent = $(click).parent();
+    console.log(clickParent);
+    console.log('click');
 }
 
+function addResultsHover() {
+    if (document.querySelector('body > p:hover') != null) {
+        console.log('hovered');
+    }
+}
 
 //modals
 
 // createBlankResultCards();
-
 
 var resultsArray = [];
 function getGenre() {
@@ -256,9 +261,6 @@ function getGenre() {
             return info.results.slice(); //.slice(0, 4); //gets the results array from the api call and returns the first 4 results
         })
         .then((movies) => createBlankResultCards(movies));
-
-
-
 }
 
 //actor-search;
@@ -274,6 +276,7 @@ function getActorID() {
         })
         .then((actorID) => getKnownFor(actorID));
 }
+
 function getKnownFor(actorID) {
     //gets the actor id and fetches movies that the actor is known for
     console.log(actorID);
@@ -286,6 +289,7 @@ function getKnownFor(actorID) {
 }
 
 function verifyLengthInput() {
+    //this function should be looked over
     //verifies that user length input is a number
     var length = $('#length-search').val();
     if (length.indexOf(',') == -1) {
@@ -303,15 +307,13 @@ function verifyLengthInput() {
         }
     }
 }
+
 function getLength(length) {
     //calls imdb api and searches for movies with user specified length
     fetch(length_imdbAPI + length)
         .then((data) => data.json())
-        .then((movies) => console.log(movies));
+        .then(function (movies) {
+            resultsArray.push(...movies.results);
+            createBlankResultCards(movies.results);
+        });
 }
-
-
-$(".fa-bookmark").click(function (event) {
-  $(".fa-bookmark").css("color", "white");
-
-});
