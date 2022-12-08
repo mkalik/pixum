@@ -23,6 +23,16 @@ body{
     background: var(--l_blue_tran);
 }
 
+.columns {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+}
+
+.columns:not(:last-child) {
+    margin-bottom: 0;
+}
+
 /* || HEADER*/
 
 header {
@@ -44,6 +54,8 @@ header {
 .header .button{
     display: block;
     position: absolute;
+    top: 25%;
+    left: 60px;
     background-color: transparent;
     border: none;
     color: var(--l_grey);
@@ -174,7 +186,7 @@ header {
 
 /* ACTOR & LENGTH INPUT STYLES */
 .actor-length-search{
-    max-width: 775px;
+    max-width: 776px;
     border: 2px solid var(--l_blue);
     color: var(--l_blue);
     background-color: transparent;
@@ -204,10 +216,10 @@ header {
 
 /* SEARCH BUTTON STYLING */
 .search-button-container{
-    margin-bottom: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 60px;
     user-select: none;
 }
 
@@ -218,6 +230,7 @@ header {
     border: 2px solid var(--l_grey_tran);
     color: var(--l_grey);
     font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
     font-weight: 600;
     transition: all 0.5s ease-out;
 }
@@ -248,7 +261,6 @@ header {
 .search-results-container{
     width: 100%;
     height: auto;
-    padding: 30px 0px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -258,13 +270,15 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 500px;
-    width: 300px;
+    height: 575px;
+    max-width: 345px;
+    min-width: 330px;
+    margin-bottom: 60px;
     align-items: center;
-    padding: 15px 30px;
+    padding: 30px 45px;
     border-radius: 10px;
-    box-shadow: 0px 0px 30px #25282b;
-    transition: border 0.5s ease-out;
+    box-shadow: 0px 0px 15px #25282b;
+    transition: all 0.5s ease-out;
     user-select: none;
 }
 
@@ -275,9 +289,9 @@ header {
 .fa-bookmark {
     position: absolute;
     color: var(--l_blue_tran);
-    right: 45px;
+    right: 60px;
     font-size: 48px;
-    transition: all 0.5s ease-out; 
+    transition: color 0.5s ease-out; 
 }
 
 .fa-bookmark:hover {
@@ -290,7 +304,7 @@ header {
     object-fit: cover;
     width: 100%;
     height: 75%;
-    margin-top: 15px;
+    margin: 15px 0px;
     box-shadow: 0px 0px 15px var(--l_grey);
     border-radius: 10px;
     overflow: hidden;
@@ -301,24 +315,28 @@ header {
 }
 
 .movie-title {
-    color: var(--l_grey);
     align-content: center;
-    margin: 10px
+    color: var(--l_grey);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
 }
 
 .movie-rating {
     margin-bottom: 10px;
-    color: white;
+    color: var(--l_grey);
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
 }
 
 
 .more-info-button {
     width: 50%;
-    margin-bottom: 0px;
-    border-left: 3px solid var(--l_grey);
-    border-right: 3px solid var(--l_grey);
-    border-top: 3px solid var(--l_grey);
-    border-radius: 5px 5px 0px 0px;
+    font-family: 'Quicksand', sans-serif;
+    background-color: transparent;
+    border: none;
+    color: var(--l_grey);
+    border-bottom: 2px solid var(--l_grey_tran);
 }
 
 
