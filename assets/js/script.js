@@ -127,22 +127,39 @@ $(".genre-button").click(function (event) {
 
 // SEARCH BUTTON
 
-$("#search-button").click(function (event) {
-  $(this).addClass("is-loading");
-  console.log("click search");
-  event.preventDefault();
-  console.log(search_type);
-  if (search_type === 1) {
-    //genre search;
-    getGenre();
-  } else if (search_type === 2) {
-    getActorID();
-    //actor;
-  } else if (search_type === 3) {
-    //length
-    verifyLengthInput();
-  }
+var hasSearched = false;
+$('#search-button').click(function (event) {
+    $(this).addClass('is-loading');
+    console.log('click search');
+    event.preventDefault();
+    console.log(search_type);
+    if (!hasSearched) {
+        hasSearched = true;
+        console.log('fetching');
+        if (search_type === 1) {
+            //genre search;
+            getGenre();
+        } else if (search_type === 2) {
+            getActorID();
+            //actor;
+        } else if (search_type === 3) {
+            //length
+            verifyLengthInput();
+        }
+    } else {
+        createBlankResultCards(event);
+    }
+
 });
+
+// CHANGE SEARCH BUTTON TEXT (Called in create blank results cards function)
+function changeSearchButtonText(event){
+    var possibleText = ["just Pixum already! ", "forage those films ", "commence cinematic scouting ", "formulate films ", "SHOW ME THA MOVIES ", "perform silver screen scrutiny "];
+    var searchButton = event.target;
+    var randomButtonText = Math.floor(Math.random() * possibleText.length);
+    $(searchButton).text(possibleText[randomButtonText]);
+    $(searchButton).blur();
+}
 
 // CREATING SEARCH RESULTS
 
@@ -164,7 +181,9 @@ function generateRandomMovies() {
     return [down, up];
 }
 
+
 function createBlankResultCards(movies) {
+    changeSearchButtonText(event);
     $('#search-button').removeClass('is-loading');
     console.log('log movies ' + movies);
     if (search_type != 2) {
@@ -213,15 +232,9 @@ function createBlankResultCards(movies) {
         $(blankResultCard).attr('data-result-index', i);
 
         searchResultContainer.append(blankResultCard);
-    
 
     }
 }
-
-// $('.fa-solid').click(function () {
-//     console.log('clicked');
-//     $('.fa-bookmark').css('color', 'white');
-// });
 
 // Add on hover to results cards
 function clickedBookmark(event) {
@@ -230,8 +243,8 @@ function clickedBookmark(event) {
     var clickParent = $(click).parent()[0];
     console.log(clickParent);
 
-    var movieTitle = clickParent.children[0].currentSrc;
-    var moviePoster = clickParent.children[2].textContent;
+    var moviePoster = clickParent.children[0].currentSrc;
+    var movieTitle = clickParent.children[2].textContent;
     var movieID = clickParent.children[2].dataset.id;
     var movieRating = clickParent.children[3].textContent;
 
@@ -256,13 +269,9 @@ function clickedMoreInfo(event) {
     createModal();
 }
 
+
 function createModal() {
     console.log('creating modal');
-}
-function addResultsHover() {
-    if (document.querySelector('body > p:hover') != null) {
-        console.log('hovered');
-    }
 }
 
 var resultsArray = [];
@@ -314,7 +323,6 @@ function getKnownFor(actorID) {
 }
 
 function verifyLengthInput() {
-
     //this function should be looked over
     //verifies that user length input is a number
     var length = $('#length-search').val();
@@ -333,7 +341,6 @@ function verifyLengthInput() {
         }
 
     }
-  }
 }
 
 

@@ -23,24 +23,65 @@ body{
     background: var(--l_blue_tran);
 }
 
+.columns {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+}
+
+.columns:not(:last-child) {
+    margin-bottom: 0;
+}
+
 /* || HEADER*/
 
 header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    position: relative;
     width: 100%;
     height: auto;
     margin-bottom: 60px;
+    text-align: center;
 }
 
 .header img{
-    margin-left: 30%;
-    width: 202px;
-    height: 77px;
+    display: inline-block;
+    margin: 0 auto;
+    width: 236px;
+    height: 90px;
 
 }
 
+.header .button{
+    display: block;
+    position: absolute;
+    top: 25%;
+    left: 60px;
+    background-color: transparent;
+    border: none;
+    color: var(--l_grey);
+    border-radius: 0px;
+    border-bottom: 2px solid var(--l_grey_tran);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    transition: all 0.5s ease-out;
+}
+
+.header .bookmark-override {
+    color: var(--l_grey);
+    font-size: 16px;
+    position: relative;
+    right: 0px;
+    transition: all 0.5s ease-out;
+}
+
+.header .button:hover{
+    color: var(--l_blue);
+    border-bottom: 2px solid var(--l_blue);
+}
+
+.header .button:hover .bookmark-override{
+    color: var(--l_blue);
+}
 
 /* || SEARCH AND FILTER SECTION */
 
@@ -52,7 +93,7 @@ header {
     justify-content: center;
     height: 175px;
     width: auto;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     user-select: none;
 }
 
@@ -117,7 +158,7 @@ header {
 
 /* GENRE BUTTON GRID STYLES */
 #genre-filter-grid{
-    width: 40vw;
+    max-width: 800px;
 }
 
 .genre-button{
@@ -128,9 +169,8 @@ header {
     background-color: transparent;
     border-color: var(--l_grey_tran);
     font-size: 16px;
-    font-family:'Quicksand';
-    transition: border-color 0.5s ease-out;
-    transition: color 0.5s ease-out;
+    font-family:'Quicksand', sans-serif;
+    transition: all 0.5s ease-out;
 }
 
 .genre-button:hover{
@@ -146,12 +186,12 @@ header {
 
 /* ACTOR & LENGTH INPUT STYLES */
 .actor-length-search{
-    width: 40vw;
+    max-width: 776px;
     border: 2px solid var(--l_blue);
     color: var(--l_blue);
     background-color: transparent;
     border-color: var(--l_blue);
-    font-family: 'Quicksand';
+    font-family: 'Quicksand', sans-serif;
     transition:border-color 0.5s ease-out;
 }
 
@@ -172,80 +212,131 @@ header {
 }
 
 
+
+
+/* SEARCH BUTTON STYLING */
+.search-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+    user-select: none;
+}
+
+#search-button {
+    width: auto;
+    padding: 15px 60px;
+    background-color: transparent;
+    border: 2px solid var(--l_grey_tran);
+    color: var(--l_grey);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.5s ease-out;
+}
+
+.search-span{
+    width: 15px;
+}
+
+#search-button:hover{
+    /* transition: color 2s ease-out; */
+    color: var(--l_blue);
+    border-color: var(--l_blue)
+}
+
+#search-button:active{
+    color: var(--l_blue);
+    border-color: var(--l_blue);
+    box-shadow: 0px 0px 15px var(--l_grey_tran);
+}
+
+#search-button:focus{
+    color: var(--l_blue);
+    border-color: var(--l_blue);
+}
+
+
+/* MOVIE RESULTS FILTERS */
 .search-results-container{
     width: 100%;
     height: auto;
-    padding: 30px 0px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
-
-/* MOVIE RESULTS FILTERS */
-
 .blank-result-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 400px;
-    width: 300px;
+    height: 575px;
+    max-width: 345px;
+    min-width: 330px;
+    margin-bottom: 60px;
     align-items: center;
-    padding: 15px 30px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 30px #25282b;
-    transition: box-shadow 0.5s ease-out;
+    padding: 30px 45px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #25282b;
+    transition: all 0.5s ease-out;
     user-select: none;
 }
 
-.blank-result-card:hover{
-    box-shadow: 0px 0px 45px var(--l_grey_tran);
+.blank-result-card:hover {
+    box-shadow: 0px 0px 30px #202325;
 }
 
 .fa-bookmark {
     position: absolute;
-    color: var(--d_blue);
-    margin-left: 70%;
-    font-size: xxx-large;
+    color: var(--l_blue_tran);
+    right: 60px;
+    font-size: 48px;
+    transition: color 0.5s ease-out; 
 }
 
 .fa-bookmark:hover {
     cursor: pointer;
     color: gold;
-    transition: ease-in-out 2s;
-    
 }
 
-.fa-star {
-    color: gold;
-}
-
-.more-info-button {
-    width: 50%;
-    margin-bottom: 0px;
-    border-left: 3px solid var(--l_grey);
-    border-right: 3px solid var(--l_grey);
-    border-top: 3px solid var(--l_grey);
-    border-radius: 5px 5px 0px 0px;
+/* MOVIE POSTER STYLING */
+.movie-poster-container{
+    object-fit: cover;
+    width: 100%;
+    height: 75%;
+    margin: 15px 0px;
+    box-shadow: 0px 0px 15px var(--l_grey);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .movie-poster {
-    margin-top: 15px;
-    width: 100%;
-    height: 75%;
-    border-radius: 5px;
     box-shadow: 0px 0px 15px var(--l_grey_tran);
-    
 }
 
 .movie-title {
-    color: var(--l_grey);
     align-content: center;
-    margin: 10px
+    color: var(--l_grey);
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
 }
 
 .movie-rating {
     margin-bottom: 10px;
-    color: white;
+    color: var(--l_grey);
+    font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
 }
+
+
+.more-info-button {
+    width: 50%;
+    font-family: 'Quicksand', sans-serif;
+    background-color: transparent;
+    border: none;
+    color: var(--l_grey);
+    border-bottom: 2px solid var(--l_grey_tran);
+}
+
 
