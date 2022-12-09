@@ -1,61 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bookmarks</title>
-    <link rel="stylesheet" href="../css/reset.css" />
-    <!-- bulma link -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-    />
-    <link rel="stylesheet" href="../css/b_style.css" />
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Bookmarks</title>
+        <link rel="stylesheet" href="../css/reset.css" />
+        <!-- bulma link -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+        />
+        <link rel="stylesheet" href="../css/b_style.css" />
+    </head>
 
-  <body>
-    <nav class="navbar has-shadow">
-      <div class="navbar-end">
-        <button
-          onclick="goHome()"
-          class="button is-primary my-2 mx-4 is-family-code"
-        >
-          Homepage
-        </button>
-      </div>
-    </nav>
+    <body>
+        <nav class="navbar has-shadow">
+            <div class="navbar-end">
+                <button
+                    onclick="goHome()"
+                    class="button is-primary my-2 mx-4 is-family-code"
+                >
+                    Homepage
+                </button>
+            </div>
+        </nav>
 
-    <header>
-      <h1>PIXUM</h1>
-    </header>
+        <header>
+            <h1>PIXUM</h1>
+        </header>
 
-    <main>
-      <section class="title">
-        <h2 class="movies is-family-code">Your Movies</h2>
-      </section>
+        <main>
+            <section class="title">
+                <h2 class="movies is-family-code">Your Movies</h2>
+            </section>
 
-      <section class="suggestions">
-        <!-- Once we pull information/create new elements from API we can append within the following div tags -->
-        <div class="card" id="m1">
-          <p>movie one</p>
-        </div>
+            <div
+                id="bookmark-results-container"
+                class="columns search-results-container"
+            ></div>
+        </main>
 
-        <div class="card" id="m2">
-          <p>movie two</p>
-        </div>
-
-        <div class="card" id="m3">
-          <p>movie three</p>
-        </div>
-
-        <div class="card" id="m4">
-          <p>movie four</p>
-        </div>
-      </section>
-    </main>
-
-    <!-- jquery link -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="../js/script.js"></script>
-  </body>
+        <!-- jquery link -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="../js/b_script.js"></script>
+    </body>
 </html>
