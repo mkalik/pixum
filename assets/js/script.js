@@ -189,28 +189,30 @@ function generateRandomMovies() {
 
 function createBlankResultCards(movies) {
     $('#search-button').removeClass('is-loading');
-    console.log('log movies ' + movies);
+
     if (search_type != 2) {
         if (typeof movies === 'undefined') {
-            console.log('copied');
             movies = resultsArray;
-        }
+        };
     }
-    console.log(movies); //probably want the title and image
+
     var randslice = generateRandomMovies();
     var moviesDisplay = movies.slice(randslice[0], randslice[1]);
-    console.log(moviesDisplay);
     resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
     var numberOfResults = moviesDisplay.length;
     for (var i = 0; i < numberOfResults; i++) {
-        console.log(moviesDisplay[i].id);
         var blankResultCard = $('<div class="blank-result-card"></div>');
 
         var moviePosterContainer = $(
             '<div class="movie-poster-container"></div>'
         );
+
+        var movieIfNullPoster = moviesDisplay[i].image
+        if (movieIfNullPoster == null){
+            movieIfNullPoster = "https://www.freeiconspng.com/img/25245";
+        }
         var moviePoster = $(
-            `<img src= ${moviesDisplay[i].image} class="movie-poster">`
+            `<img src= ${movieIfNullPoster} class="movie-poster">`
         );
         moviePosterContainer.append(moviePoster);
         blankResultCard.append(moviePosterContainer);
@@ -219,25 +221,35 @@ function createBlankResultCards(movies) {
             '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
         );
         blankResultCard.append(bookmark);
-
+        
+        var movieIfNullTitle = moviesDisplay[i].title
+        if (movieIfNullTitle == null){
+            movieIfNullTitle = "~Title~";
+        }
         var movieTitle = $(
-            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${moviesDisplay[i].title}</h1>`
+            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${movieIfNullTitle}</h1>`
         );
         blankResultCard.append(movieTitle);
 
+        var movieIfNullRating = moviesDisplay[i].imDbRating
+        console.log(movieIfNullRating);
+        console.log(typeof movieIfNullRating);
+        if (movieIfNullRating == null){
+            movieIfNullRating = "0";
+        }
         var movieRating = $(
-            `<h3 class="movie-rating">${movies[i].imDbRating} <i class="fa-solid fa-star"></i></h3>`
+            `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
         );
         blankResultCard.append(movieRating);
 
         var movietrailer = $(
-            `<i class="${movies[i].id} fa-regular fa-circle-play" ></i>`
+            `<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i>`
         );
         console.log(movietrailer);
         blankResultCard.append(movietrailer);
 
         var moreInfoBtn = $(
-            '<button class="more-info-button" onclick = "clickedMoreInfo(event)" >More Info</button>'
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
         );
         blankResultCard.append(moreInfoBtn);
 
@@ -254,7 +266,8 @@ function clickedBookmark(event) {
     var clickParent = $(click).parent()[0];
     console.log(clickParent);
 
-    var moviePoster = clickParent.children[0].currentSrc;
+    var moviePoster = clickParent.children[0].children[0].currentSrc;
+    console.log("movie poster;" + moviePoster);
     var movieTitle = clickParent.children[2].textContent;
     var movieID = clickParent.children[2].dataset.id;
     var movieRating = clickParent.children[3].textContent;
@@ -272,7 +285,17 @@ function clickedBookmark(event) {
         poster: moviePoster,
         rating: movieRating,
     };
-    console.log(movieObject);
+
+
+    if (localStorage.getItem(`${(movieObject.movieID)}`) === null){
+        localStorage.setItem(`${(movieObject.movieID)}`, JSON.stringify(movieObject));
+        $(click).addClass('fa-bookmark-active');
+        console.log("localstorage: " + localStorage.getItem(`${(movieObject.movieID)}`));
+    } else {
+        localStorage.removeItem(`${(movieObject.movieID)}`);
+        $(click).removeClass('fa-bookmark-active');
+        console.log("localstorage: " + localStorage.getItem(`${(movieObject.movieID)}`));
+    }
 }
 
 function clickedMoreInfo(event) {
@@ -362,8 +385,8 @@ async function getTrailer(trailerID) {
             return response.json();
         })
         .then(function (data) {
+            console.log(data);
             var trailerkey = `https://www.youtube.com/watch?v=${data.results[0].key}`;
-            console.log(trailerkey);
             return trailerkey;
         });
     return trailer;
