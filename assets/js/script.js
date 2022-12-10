@@ -209,12 +209,15 @@ function createResultCards(movies) {
         var moviePoster = $(
             `<img src= ${movieIfNullPoster} class="movie-poster">`
         );
+
         moviePosterContainer.append(moviePoster);
         blankResultCard.append(moviePosterContainer);
-
         var bookmark = $(
             '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
         );
+        if (localStorage.getItem(moviesDisplay[i].id) != null) {
+            $(bookmark).addClass('fa-bookmark-active');
+        }
         blankResultCard.append(bookmark);
 
         var movieIfNullTitle = moviesDisplay[i].title;
@@ -309,8 +312,21 @@ function clickedMoreInfo(event) {
 }
 
 function createModal(trailer) {
-    alert(trailer);
+    var modal = $('.modal-content');
+    var modalContainer = $('.modal');
+    $(modalContainer).removeClass('is-inactive').addClass('is-active');
+
+    $(modal).append(
+        `<iframe id = 'embedVideo' width="560" height="315" src="${trailer}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+    );
     console.log('creating modal');
+}
+function closeModal(event) {
+    var target = event.target;
+    console.log(target);
+    var modalContainer = $('.modal');
+    $(modalContainer).removeClass('is-active').addClass('is-inactive');
+    $('#embedVideo').remove();
 }
 
 var resultsArray = [];
@@ -388,7 +404,8 @@ async function getTrailer(trailerID) {
         })
         .then(function (data) {
             console.log(data);
-            var trailerkey = `https://www.youtube.com/watch?v=${data.results[0].key}`;
+            // var trailerkey = `https://www.youtube.com/watch?v=${data.results[0].key}`;
+            var trailerkey = `https://www.youtube.com/embed/${data.results[0].key}`;
             return trailerkey;
         });
     return trailer;

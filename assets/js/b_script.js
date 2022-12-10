@@ -1,8 +1,13 @@
 // var bookmarkResultContainer = $('#bookmark-result-container');
+function clearBookmarks() {
+    localStorage.clear();
+    window.location.reload();
+}
 
 function goHome() {
     window.location.replace('../../index.html');
 }
+
 
 function createBookmarkCards() {
     if (localStorage.length === 0){
