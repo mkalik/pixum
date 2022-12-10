@@ -9,7 +9,7 @@ function goHome() {
 }
 
 
-function createBookmarkCards() {
+function reateBookmarkCards() {
     if (localStorage.length === 0){
         window.alert("You have not bookmarked any movies yet! Pixum!");
         return;
