@@ -10,13 +10,11 @@ var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires i
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
 
 // SEARCH FILTERS
-
+console.log(localStorage);
 function goBookmark() {
-    window.location.replace('./assets/html/bookmark.html');
-}
-
-function goHome() {
-    window.location.replace('../../index.html');
+    window.location.href = './assets/html/bookmark.html';
+    var localItems = localStorage.getItem(`tt0106220`);
+    console.log(localItems);
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
@@ -148,7 +146,7 @@ $('#search-button').click(function (event) {
             verifyLengthInput();
         }
     } else {
-        createBlankResultCards();
+        createResultCards();
     }
 });
 
@@ -187,13 +185,13 @@ function generateRandomMovies() {
     return [down, up];
 }
 
-function createBlankResultCards(movies) {
+function createResultCards(movies) {
     $('#search-button').removeClass('is-loading');
 
     if (search_type != 2) {
         if (typeof movies === 'undefined') {
             movies = resultsArray;
-        };
+        }
     }
 
     var randslice = generateRandomMovies();
@@ -207,9 +205,9 @@ function createBlankResultCards(movies) {
             '<div class="movie-poster-container"></div>'
         );
 
-        var movieIfNullPoster = moviesDisplay[i].image
-        if (movieIfNullPoster == null){
-            movieIfNullPoster = "https://www.freeiconspng.com/img/25245";
+        var movieIfNullPoster = moviesDisplay[i].image;
+        if (movieIfNullPoster == null) {
+            movieIfNullPoster = 'https://www.freeiconspng.com/img/25245';
         }
         var moviePoster = $(
             `<img src= ${movieIfNullPoster} class="movie-poster">`
@@ -221,21 +219,21 @@ function createBlankResultCards(movies) {
             '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
         );
         blankResultCard.append(bookmark);
-        
-        var movieIfNullTitle = moviesDisplay[i].title
-        if (movieIfNullTitle == null){
-            movieIfNullTitle = "~Title~";
+
+        var movieIfNullTitle = moviesDisplay[i].title;
+        if (movieIfNullTitle == null) {
+            movieIfNullTitle = '~Title~';
         }
         var movieTitle = $(
             `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${movieIfNullTitle}</h1>`
         );
         blankResultCard.append(movieTitle);
 
-        var movieIfNullRating = moviesDisplay[i].imDbRating
+        var movieIfNullRating = moviesDisplay[i].imDbRating;
         console.log(movieIfNullRating);
         console.log(typeof movieIfNullRating);
-        if (movieIfNullRating == null){
-            movieIfNullRating = "0";
+        if (movieIfNullRating == null) {
+            movieIfNullRating = '0';
         }
         var movieRating = $(
             `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
@@ -259,6 +257,7 @@ function createBlankResultCards(movies) {
     }
 }
 
+var movieObject = {};
 // Add on hover to results cards
 function clickedBookmark(event) {
     console.log('click');
@@ -267,7 +266,7 @@ function clickedBookmark(event) {
     console.log(clickParent);
 
     var moviePoster = clickParent.children[0].children[0].currentSrc;
-    console.log("movie poster;" + moviePoster);
+    console.log('movie poster;' + moviePoster);
     var movieTitle = clickParent.children[2].textContent;
     var movieID = clickParent.children[2].dataset.id;
     var movieRating = clickParent.children[3].textContent;
@@ -279,22 +278,28 @@ function clickedBookmark(event) {
         '\nrating: ' + movieRating
     );
 
-    var movieObject = {
+    movieObject = {
         movieID: movieID,
         title: movieTitle,
         poster: moviePoster,
         rating: movieRating,
     };
 
-
-    if (localStorage.getItem(`${(movieObject.movieID)}`) === null){
-        localStorage.setItem(`${(movieObject.movieID)}`, JSON.stringify(movieObject));
+    if (localStorage.getItem(`${movieObject.movieID}`) === null) {
+        localStorage.setItem(
+            `${movieObject.movieID}`,
+            JSON.stringify(movieObject)
+        );
         $(click).addClass('fa-bookmark-active');
-        console.log("localstorage: " + localStorage.getItem(`${(movieObject.movieID)}`));
+        console.log(
+            'localstorage: ' + localStorage.getItem(`${movieObject.movieID}`)
+        );
     } else {
-        localStorage.removeItem(`${(movieObject.movieID)}`);
+        localStorage.removeItem(`${movieObject.movieID}`);
         $(click).removeClass('fa-bookmark-active');
-        console.log("localstorage: " + localStorage.getItem(`${(movieObject.movieID)}`));
+        console.log(
+            'localstorage: ' + localStorage.getItem(`${movieObject.movieID}`)
+        );
     }
 }
 
@@ -330,7 +335,7 @@ function getGenre() {
             resultsArray.push(...info.results);
             return info.results.slice(); //.slice(0, 4); //gets the results array from the api call and returns the first 4 results
         })
-        .then((movies) => createBlankResultCards(movies));
+        .then((movies) => createResultCards(movies));
 }
 
 //actor-search;
@@ -355,7 +360,7 @@ function getKnownFor(actorID) {
         .then(function (actorInfo) {
             return actorInfo.knownFor;
         })
-        .then((knownFor) => createBlankResultCards(knownFor));
+        .then((knownFor) => createResultCards(knownFor));
 }
 
 function verifyLengthInput() {
@@ -398,6 +403,6 @@ function getLength(length) {
         .then((data) => data.json())
         .then(function (movies) {
             resultsArray.push(...movies.results);
-            createBlankResultCards(movies.results);
+            createResultCards(movies.results);
         });
 }

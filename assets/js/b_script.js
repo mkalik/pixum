@@ -3,12 +3,13 @@
 function goHome() {
     window.location.replace('../../index.html');
 }
-
-var localItems = [];
-for (var i = 0; i < localStorage.length; i++) {
-    localItems.push(localStorage.getItem(localStorage.key(i)));
-}
-console.log(localItems);
+console.log(localStorage);
+// tt0106220:"{"movieID":"tt0106220","title":"Addams Family Values","poster":"https://m.media-amazon.com/images/M/MV5BZWFhNjY0YjItNjM5NC00NzAwLWI3ZWUtMTlkNTA0ZWVkNjBkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.6837_AL_.jpg","rating":"6.8 "}"
+var localItems = localStorage.getItem(`tt0106220`);
+console.log(localStorage.key(0));
+// for (var i = 0; i < localStorage.length; i++) {
+//     localItems.push(localStorage.getItem(`${movieObject.movieID}`));
+// }
 // function createBookmarkCards(movies) {
 //     var moviesDisplay = movies;
 //     console.log(moviesDisplay);
