@@ -10,11 +10,8 @@ var ratingsAPI = 'https://imdb-api.com/en/API/Ratings/k_gqv62f21/'; //requires i
 var search_type = 1; //1 = genre, 2 = actor , 3 = length
 
 // SEARCH FILTERS
-console.log(localStorage);
 function goBookmark() {
     window.location.href = './assets/html/bookmark.html';
-    var localItems = localStorage.getItem(`tt0106220`);
-    console.log(localItems);
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
