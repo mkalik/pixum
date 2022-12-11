@@ -1,50 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <!-- neccesary for bulma -->
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>PROJECT 1</title>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- neccesary for bulma -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PROJECT 1</title>
 
-        <link rel="stylesheet" href="/assets/css/reset.css" />
-        <!-- bulma link -->
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
-        />
-        <link rel="stylesheet" href="./assets/css/style.css" />
-        <script
-            src="https://kit.fontawesome.com/bf37de4bfe.js"
-            crossorigin="anonymous"
-        ></script>
-    </head>
-    <body>
-        <header class="header">
-            <button onclick="goBookmark()" class="button bookmarks-btn">
-                <i class="fa-solid fa-bookmark bookmark-override"></i>
-                Bookmarks
-            </button>
-            <img src="./assets/images/pixum.svg" />
-        </header>
+    <link rel="stylesheet" href="/assets/css/reset.css" />
+    <!-- bulma link -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/bf37de4bfe.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="header">
+      <button onclick="goBookmark()" class="button bookmarks-btn">
+        <i class="fa-solid fa-bookmark bookmark-override"></i>
+        Bookmarks
+      </button>
+      <img src="./assets/images/pixum.svg" />
+    </header>
 
-        <div class="search-filter-container">
-            <div id="search-filter-dropdown" class="search-filter-dropdown">
-                <p id="selected-filter">Genre</p>
-                <div class="filter-dropdown-content">
-                    <p class="filter-option">Genre</p>
-                    <p class="filter-option">Actor</p>
-                    <p class="filter-option">Length</p>
-                </div>
-            </div>
-            <div class="separator"></div>
+    <div class="search-filter-container">
+      <div id="search-filter-dropdown" class="search-filter-dropdown">
+        <p id="selected-filter">Genre</p>
+        <div class="filter-dropdown-content">
+          <p class="filter-option">Genre</p>
+          <p class="filter-option">Actor</p>
+          <p class="filter-option">Length</p>
         </div>
+      </div>
+      <div class="separator"></div>
+    </div>
 
-        <div class="search-button-container">
-            <button id="search-button" class="button is-rounded">
-                just Pixum already!<span class="search-span"></span
-                ><i class="fa-solid fa-magnifying-glass search-icon"></i>
-            </button>
-        </div>
+    <div class="search-button-container">
+      <button id="search-button" class="button is-rounded">
+        just Pixum already!<span class="search-span"></span
+        ><i class="fa-solid fa-magnifying-glass search-icon"></i>
+      </button>
+    </div>
+
 
         <div
             id="search-results-container"
@@ -54,19 +55,20 @@
             show more
         </button>
 
-        <div class="modal is-inactive">
-            <div class="modal-background"></div>
-            <div class="modal-content has-background-white py-6 px-6">
-                <h3 class="title mb-6">Movie Title</h3>
-            </div>
-            <button
-                class="modal-close is-large is-info"
-                onclick="closeModal(event)"
-            ></button>
-        </div>
 
-        <!-- jquery link -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-        <script src="assets/js/script.js"></script>
-    </body>
+    <div class="modal is-inactive">
+      <div class="modal-background"></div>
+      <div class="modal-content has-background-white py-6 px-6">
+        <h3 id="Mod" class="title mb-6">Movie Title</h3>
+      </div>
+      <button
+        class="modal-close is-large is-info"
+        onclick="closeModal(event)"
+      ></button>
+    </div>
+
+    <!-- jquery link -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
 </html>
