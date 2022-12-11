@@ -15,40 +15,45 @@ function goBookmark() {
 }
 
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
-$("#search-filter-dropdown").click(function (event) {
-  //function for the genre dropdown menu
-  var element = event.target;
-  var selectedFilter = $("#selected-filter");
-  var userSelection = $(element).text();
 
-  setTimeout(function () {
-    $(selectedFilter).text(userSelection);
-  }, 50);
+$('#search-filter-dropdown').click(function (event) {
+    //function for the genre dropdown menu
+    var element = event.target;
+    var selectedFilter = $('#selected-filter');
+    var userSelection = $(element).text();
 
-  if (userSelection === "Genre") {
-    search_type = 1;
-    $("#actor-search").hide();
-    $("#length-search").hide();
-    $("#genre-filter-grid").show();
-    $(".separator").css("height", "180px");
-  } else if (userSelection === "Actor") {
-    search_type = 2;
-    $("#genre-filter-grid").hide();
-    $("#length-search").hide();
-    $("#actor-search").show();
-    $(".separator").css("height", "60px");
-  } else if (userSelection === "Length") {
-    search_type = 3;
-    $("#genre-filter-grid").hide();
-    $("#actor-search").hide();
-    $("#length-search").show();
-    $(".separator").css("height", "60px");
-  }
+    setTimeout(function () {
+        $(selectedFilter).text(userSelection);
+    }, 50);
 
-  $(".genre-button").attr("data-search", "false");
-  $(".genre-button").removeClass("genre-button-active");
-  $("#actor-search").val("");
-  $("#length-search").val("");
+    if (userSelection === 'Genre') {
+        search_type = 1;
+        hasSearched = false;
+        $('#actor-search').hide();
+        $('#length-search').hide();
+        $('#genre-filter-grid').show();
+        $('.separator').css('height', '180px');
+    } else if (userSelection === 'Actor') {
+        search_type = 2;
+        hasSearched = false;
+        $('#genre-filter-grid').hide();
+        $('#length-search').hide();
+        $('#actor-search').show();
+        $('.separator').css('height', '60px');
+    } else if (userSelection === 'Length') {
+        search_type = 3;
+        hasSearched = false;
+        $('#genre-filter-grid').hide();
+        $('#actor-search').hide();
+        $('#length-search').show();
+        $('.separator').css('height', '60px');
+    }
+
+    $('.genre-button').attr('data-search', 'false');
+    $('.genre-button').removeClass('genre-button-active');
+    $('#actor-search').val('');
+    $('#length-search').val('');
+
 });
 
 // FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
@@ -123,24 +128,30 @@ $(".genre-button").click(function (event) {
 // SEARCH BUTTON
 
 var hasSearched = false;
-$("#search-button").click(function (event) {
-  $(this).addClass("is-loading");
-  changeSearchButtonText(event);
-  console.log("click search");
-  event.preventDefault();
-  console.log(search_type);
-  if (!hasSearched) {
-    hasSearched = true;
-    console.log("fetching");
-    if (search_type === 1) {
-      //genre search;
-      getGenre();
-    } else if (search_type === 2) {
-      getActorID();
-      //actor;
-    } else if (search_type === 3) {
-      //length
-      verifyLengthInput();
+
+$('#search-button').click(function (event) {
+    $(this).addClass('is-loading');
+    changeSearchButtonText(event);
+    console.log('click search');
+    event.preventDefault();
+    console.log(search_type);
+    if (!hasSearched) {
+        resultsArray = [];
+        console.log('fetching');
+        if (search_type === 1) {
+            //genre search;
+            hasSearched = true;
+            getGenre();
+        } else if (search_type === 2) {
+            getActorID();
+            //actor;
+        } else if (search_type === 3) {
+            //length
+            verifyLengthInput();
+        }
+    } else {
+        createResultCards();
+
     }
   } else {
     createResultCards();
@@ -165,44 +176,96 @@ function changeSearchButtonText(event) {
 
 // CREATING SEARCH RESULTS
 
-var searchResultContainer = $("#search-results-container");
-function generateRandomMovies() {
-  var up;
-  var down;
-  var rest;
-  down = Math.floor(Math.random() * resultsArray.length);
-  if (4 > resultsArray.length) {
-    rest = 0;
-    up = resultsArray.length - 1;
-    down = 0;
-  } else {
-    rest = 4;
-    up = down + rest;
-  }
-  return [down, up];
+
+var searchResultContainer = $('#search-results-container');
+
+function generateRandomMovies(moviesDisplay) {
+    for (var i = 0; i < 4; i++) {
+        var randomMovie = Math.floor(Math.random() * resultsArray.length);
+        moviesDisplay.push(resultsArray[randomMovie]);
+        if (search_type == 1) {
+            resultsArray.splice(randomMovie, 1);
+        }
+    }
+    return moviesDisplay;
 }
 
 function createResultCards(movies) {
-  $("#search-button").removeClass("is-loading");
-
-  if (search_type != 2) {
-    if (typeof movies === "undefined") {
-      movies = resultsArray;
+    //creates cards that contain the movies the user searched for
+    $('#search-button').removeClass('is-loading');
+    console.log(movies);
+    var moviesDisplay = [];
+    if (search_type == 1) {
+        if (typeof movies === 'undefined') {
+            movies = resultsArray;
+        }
+        moviesDisplay = generateRandomMovies(moviesDisplay);
+        console.log(moviesDisplay.length);
+    } else if (search_type == 2) {
+        moviesDisplay = movies;
     }
-  }
+    var numberOfResults = moviesDisplay.length;
+    console.log('num results: ' + numberOfResults);
+    for (var i = 0; i < numberOfResults; i++) {
+        var blankResultCard = $('<div class="blank-result-card"></div>');
 
-  var randslice = generateRandomMovies();
-  var moviesDisplay = movies.slice(randslice[0], randslice[1]);
-  resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
-  var numberOfResults = moviesDisplay.length;
-  for (var i = 0; i < numberOfResults; i++) {
-    var blankResultCard = $('<div class="blank-result-card"></div>');
+        var moviePosterContainer = $(
+            '<div class="movie-poster-container"></div>'
+        );
 
-    var moviePosterContainer = $('<div class="movie-poster-container"></div>');
+        var movieIfNullPoster = moviesDisplay[i].image;
+        if (movieIfNullPoster == null) {
+            movieIfNullPoster = 'https://www.freeiconspng.com/img/25245';
+        }
+        var moviePoster = $(
+            `<img src= ${movieIfNullPoster} class="movie-poster">`
+        );
 
-    var movieIfNullPoster = moviesDisplay[i].image;
-    if (movieIfNullPoster == null) {
-      movieIfNullPoster = "https://www.freeiconspng.com/img/25245";
+        moviePosterContainer.append(moviePoster);
+        blankResultCard.append(moviePosterContainer);
+        var bookmark = $(
+            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
+        );
+        if (localStorage.getItem(moviesDisplay[i].id) != null) {
+            $(bookmark).addClass('fa-bookmark-active');
+        }
+        blankResultCard.append(bookmark);
+
+        var movieIfNullTitle = moviesDisplay[i].title;
+        if (movieIfNullTitle == null) {
+            movieIfNullTitle = '~Title~';
+        }
+        var movieTitle = $(
+            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${movieIfNullTitle}</h1>`
+        );
+        blankResultCard.append(movieTitle);
+
+        var movieIfNullRating = moviesDisplay[i].imDbRating;
+        console.log(movieIfNullRating);
+        console.log(typeof movieIfNullRating);
+        if (movieIfNullRating == null) {
+            movieIfNullRating = '0';
+        }
+        var movieRating = $(
+            `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
+        );
+        blankResultCard.append(movieRating);
+
+        var movietrailer = $(
+            `<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i>`
+        );
+        console.log(movietrailer);
+        blankResultCard.append(movietrailer);
+
+        var moreInfoBtn = $(
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
+        );
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+
     }
     var moviePoster = $(`<img src= ${movieIfNullPoster} class="movie-poster">`);
 
@@ -256,6 +319,8 @@ function createResultCards(movies) {
 var movieObject = {};
 // Add on hover to results cards
 function clickedBookmark(event) {
+
+    //adds some things to local storage when a user clicks on the little banner at the top right of movie posters
   console.log("click");
   var click = event.target;
   var clickParent = $(click).parent()[0];
@@ -284,6 +349,7 @@ function clickedBookmark(event) {
   if (localStorage.getItem(`${movieObject.movieID}`) === null) {
     localStorage.setItem(`${movieObject.movieID}`, JSON.stringify(movieObject));
     $(click).addClass("fa-bookmark-active");
+
     console.log(
       "localstorage: " + localStorage.getItem(`${movieObject.movieID}`)
     );
@@ -295,6 +361,7 @@ function clickedBookmark(event) {
     );
   }
 }
+
 
 async function clickedMoreInfo(event) {
   var click = event.target;
@@ -325,6 +392,7 @@ async function getMovie(movieID) {
   return json.title;
 }
 
+
 function createModal(youtubeurl, title) {
   var modal = $(".modal-content");
   var modalContainer = $(".modal");
@@ -337,11 +405,14 @@ function createModal(youtubeurl, title) {
   console.log("creating modal");
 }
 function closeModal(event) {
-  var target = event.target;
-  console.log(target);
-  var modalContainer = $(".modal");
-  $(modalContainer).removeClass("is-active").addClass("is-inactive");
-  $("#embedVideo").remove();
+
+    //closes the modal that contains the trailer
+    var target = event.target;
+    console.log(target);
+    var modalContainer = $('.modal');
+    $(modalContainer).removeClass('is-active').addClass('is-inactive');
+    $('#embedVideo').remove();
+
 }
 
 var resultsArray = [];
@@ -411,6 +482,16 @@ function verifyLengthInput() {
   }
 }
 
+function getLength(length) {
+    //calls imdb api and searches for movies with user specified length
+    fetch(length_imdbAPI + length)
+        .then((data) => data.json())
+        .then(function (movies) {
+            resultsArray.push(...movies.results);
+            createResultCards(movies.results);
+        });
+}
+
 async function getTrailer(trailerID) {
   var trailerAPI = `https://api.themoviedb.org/3/movie/${trailerID}/videos?api_key=1af200ff906e604110980655841ecfbe&append_to_response=videos`;
   var response = await fetch(trailerAPI);
@@ -422,6 +503,7 @@ async function getTrailer(trailerID) {
   }
   return [`https://www.youtube.com/embed/D5XEeFV1Pc0`, false];
 }
+
 
 function getLength(length) {
   //calls imdb api and searches for movies with user specified length
@@ -454,3 +536,4 @@ function createBlankRCT() {
 // $trigger.addEventListener('click', () => {
 //     openModal($target);
 //   });//test function for modals
+
