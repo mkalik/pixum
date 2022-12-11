@@ -294,7 +294,12 @@ header {
     transition: color 0.5s ease-out;
     cursor: pointer; 
 }
-
+.fa-regular {
+    position: absolute;
+    margin-top: 525px;
+    margin-left: 85px;
+    justify-self: flex-end;
+}
 .fa-bookmark:hover {
     color: gold;
 }
@@ -341,6 +346,10 @@ header {
     border: none;
     color: var(--l_grey);
     border-bottom: 2px solid var(--l_grey_tran);
+}
+
+.more-info-button:hover {
+    cursor: pointer;
 }
 
 
