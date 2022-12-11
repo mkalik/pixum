@@ -27,18 +27,21 @@ $('#search-filter-dropdown').click(function (event) {
 
     if (userSelection === 'Genre') {
         search_type = 1;
+        hasSearched = false;
         $('#actor-search').hide();
         $('#length-search').hide();
         $('#genre-filter-grid').show();
         $('.separator').css('height', '180px');
     } else if (userSelection === 'Actor') {
         search_type = 2;
+        hasSearched = false;
         $('#genre-filter-grid').hide();
         $('#length-search').hide();
         $('#actor-search').show();
         $('.separator').css('height', '60px');
     } else if (userSelection === 'Length') {
         search_type = 3;
+        hasSearched = false;
         $('#genre-filter-grid').hide();
         $('#actor-search').hide();
         $('#length-search').show();
@@ -130,10 +133,11 @@ $('#search-button').click(function (event) {
     event.preventDefault();
     console.log(search_type);
     if (!hasSearched) {
-        hasSearched = true;
+        resultsArray = [];
         console.log('fetching');
         if (search_type === 1) {
             //genre search;
+            hasSearched = true;
             getGenre();
         } else if (search_type === 2) {
             getActorID();
@@ -166,35 +170,34 @@ function changeSearchButtonText(event) {
 // CREATING SEARCH RESULTS
 
 var searchResultContainer = $('#search-results-container');
-function generateRandomMovies() {
-    var up;
-    var down;
-    var rest;
-    down = Math.floor(Math.random() * resultsArray.length);
-    if (4 > resultsArray.length) {
-        rest = 0;
-        up = resultsArray.length - 1;
-        down = 0;
-    } else {
-        rest = 4;
-        up = down + rest;
+
+function generateRandomMovies(moviesDisplay) {
+    for (var i = 0; i < 4; i++) {
+        var randomMovie = Math.floor(Math.random() * resultsArray.length);
+        moviesDisplay.push(resultsArray[randomMovie]);
+        if (search_type == 1) {
+            resultsArray.splice(randomMovie, 1);
+        }
     }
-    return [down, up];
+    return moviesDisplay;
 }
 
 function createResultCards(movies) {
+    //creates cards that contain the movies the user searched for
     $('#search-button').removeClass('is-loading');
-
-    if (search_type != 2) {
+    console.log(movies);
+    var moviesDisplay = [];
+    if (search_type == 1) {
         if (typeof movies === 'undefined') {
             movies = resultsArray;
         }
+        moviesDisplay = generateRandomMovies(moviesDisplay);
+        console.log(moviesDisplay.length);
+    } else if (search_type == 2) {
+        moviesDisplay = movies;
     }
-
-    var randslice = generateRandomMovies();
-    var moviesDisplay = movies.slice(randslice[0], randslice[1]);
-    resultsArray.splice(randslice[0], randslice[1] - randslice[0]);
     var numberOfResults = moviesDisplay.length;
+    console.log('num results: ' + numberOfResults);
     for (var i = 0; i < numberOfResults; i++) {
         var blankResultCard = $('<div class="blank-result-card"></div>');
 
@@ -260,6 +263,7 @@ function createResultCards(movies) {
 var movieObject = {};
 // Add on hover to results cards
 function clickedBookmark(event) {
+    //adds some things to local storage when a user clicks on the little banner at the top right of movie posters
     console.log('click');
     var click = event.target;
     var clickParent = $(click).parent()[0];
@@ -304,6 +308,7 @@ function clickedBookmark(event) {
 }
 
 function clickedMoreInfo(event) {
+    //handles what happens when a user clicks the more info line in the  movie cards
     var click = event.target;
     var clickParent = $(click).parent()[0];
     var movieID = clickParent.children[2].dataset.id;
@@ -312,6 +317,7 @@ function clickedMoreInfo(event) {
 }
 
 function createModal(trailer) {
+    //creates a modal that contains a movie trailer
     var modal = $('.modal-content');
     var modalContainer = $('.modal');
     $(modalContainer).removeClass('is-inactive').addClass('is-active');
@@ -322,6 +328,7 @@ function createModal(trailer) {
     console.log('creating modal');
 }
 function closeModal(event) {
+    //closes the modal that contains the trailer
     var target = event.target;
     console.log(target);
     var modalContainer = $('.modal');
@@ -396,6 +403,16 @@ function verifyLengthInput() {
     }
 }
 
+function getLength(length) {
+    //calls imdb api and searches for movies with user specified length
+    fetch(length_imdbAPI + length)
+        .then((data) => data.json())
+        .then(function (movies) {
+            resultsArray.push(...movies.results);
+            createResultCards(movies.results);
+        });
+}
+
 async function getTrailer(trailerID) {
     var trailerAPI = `https://api.themoviedb.org/3/movie/${trailerID}/videos?api_key=1af200ff906e604110980655841ecfbe&append_to_response=videos`;
     var trailer = await fetch(trailerAPI)
@@ -409,14 +426,4 @@ async function getTrailer(trailerID) {
             return trailerkey;
         });
     return trailer;
-}
-
-function getLength(length) {
-    //calls imdb api and searches for movies with user specified length
-    fetch(length_imdbAPI + length)
-        .then((data) => data.json())
-        .then(function (movies) {
-            resultsArray.push(...movies.results);
-            createResultCards(movies.results);
-        });
 }
