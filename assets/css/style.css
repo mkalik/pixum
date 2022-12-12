@@ -1,6 +1,5 @@
 /* import google fonts */
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Rubik+Iso&family=VT323&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=VT323&display=swap');
 
 /* || GENERAL CLASSES */
 :root{
@@ -22,6 +21,7 @@ html, body {
 body{
     padding: 30px 60px;
     background-color: var(--d_grey);
+    position: relative;
 }
 
 ::selection {
@@ -71,6 +71,7 @@ header {
     border-radius: 0px;
     border-bottom: 1px solid var(--l_grey_tran);
     font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
     font-weight: 600;
     transition: all 0.5s ease-out;
 }
@@ -301,6 +302,7 @@ header {
     transition: color 0.5s ease-out;
     cursor: pointer; 
 }
+
 .fa-regular {
     position: absolute;
     margin-top: 525px;
@@ -320,6 +322,7 @@ header {
 /* MOVIE POSTER STYLING */
 .movie-poster-container{
     height: auto;
+    min-height: 500px;
     width: 100%;
     margin-top: 39px;
     margin-bottom: 15px;
@@ -407,6 +410,10 @@ a:visited{
 }
 
 footer{
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 30px;
     user-select: none;
     font-family: 'Quicksand', sans-serif;
     font-size: 16px;
