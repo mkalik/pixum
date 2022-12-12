@@ -319,6 +319,9 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
+    getallinfo(movieID).then(returnValue => 
+      $(`.modal-content`).append(returnValue)
+      )
     getdescription(movieID).then(returnValue => 
       $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
@@ -347,13 +350,23 @@ async function getdescription(movieID) {
     return json.plot;
 }
 
-async function getyear(movieID) {
+async function getallinfo(movieID) {
     const response = await fetch(
       `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
     console.log(json)
-    return json.plot;
+    var allinfo = $(`<div class='info'></div>`)
+    //metacritic rating
+    allinfo.append(`<p class='metacritic'><i class="fa-solid fa-tomato"></i>${json.metacriticRating}% </p>`)
+    //run time
+    allinfo.append(`<p class='runtime'>${json.runtimeStr}</p>`)
+    //rating
+    allinfo.append(`<p class='rating'>${json.contentRating}</p>`)
+    //release year
+    allinfo.append(`<p class='year'>${json.year}</p>`)
+    console.log(allinfo)
+    return allinfo;
 }
 
 async function getyear(movieID) {
@@ -380,7 +393,7 @@ function createModal(youtubeurl, title) {
     console.log('trailer');
     $('#Mod').html(title);
     $(modal).append(
-        `<iframe id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        `<iframe class = 'youtubevid' id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
     );
     console.log('creating modal');
 }

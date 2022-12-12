@@ -364,7 +364,9 @@ header {
 }
 
 .title {
+    display: flex;
     color: var(--l_grey);
+    justify-content: center;
 }
 
 .movieplot {
@@ -374,5 +376,35 @@ header {
     padding: 15px;
     border-radius: 10px;
     font-family: 'Quicksand', sans-serif;
+}
+
+.youtubevid {
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+}
+
+.metacritic {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.runtime {
+    margin-right: 5px;
+}
+
+.rating {
+    background-color: var(--l_grey);
+    color: black;
+    padding: 3px;
+    border-radius: 30px;
+    margin-right: 5px;
+}
+
+.year {
+    margin-left: auto;
+    
 }
 
