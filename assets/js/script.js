@@ -127,6 +127,18 @@ $('.genre-button').click(function (event) {
 // SEARCH BUTTON
 
 var hasSearched = false;
+$('#actor-search').keydown(function (event) {
+    console.log('hello');
+    if (event.keyCode == 13) {
+        if ($('#actor-search').val() === '') {
+            alert('please enter an actors name!');
+        } else {
+            $('#search-button').addClass('is-loading');
+            console.log(event.target);
+            getActorID();
+        }
+    }
+});
 
 $('#search-button').click(function (event) {
     $(this).addClass('is-loading');
@@ -181,19 +193,19 @@ function generateRandomMovies(moviesDisplay) {
             resultsArray.splice(randomMovie, 1);
         }
     }
-    return moviesDisplay;
 }
 
 function createResultCards(movies) {
     //creates cards that contain the movies the user searched for
     $('#search-button').removeClass('is-loading');
+    $('#actor-search').val('');
     console.log(movies);
     var moviesDisplay = [];
     if (search_type == 1) {
         if (typeof movies === 'undefined') {
             movies = resultsArray;
         }
-        moviesDisplay = generateRandomMovies(moviesDisplay);
+        generateRandomMovies(moviesDisplay);
         console.log(moviesDisplay.length);
     } else if (search_type == 2) {
         moviesDisplay = movies;
@@ -324,8 +336,7 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
-    //   console.log(results);
-    //   getMovie(movieID).then(function (json) {
+    //   console.log(results); getMovie(movieID).then(function (json) {
     //     console.log(json, "title for movie id");
     //   });
     //   getTrailer(movieID).then((trailer) => createModal(trailer));
@@ -340,8 +351,8 @@ async function getMovie(movieID) {
 }
 
 function createModal(youtubeurl, title) {
-    var modal = $('.modal-content');
-    var modalContainer = $('.modal');
+    var modal = $('#moreInfoContent');
+    var modalContainer = $('#moreInfoModal');
     $(modalContainer).removeClass('is-inactive').addClass('is-active');
     console.log('trailer');
     $('#Mod').html(title);
@@ -350,11 +361,18 @@ function createModal(youtubeurl, title) {
     );
     console.log('creating modal');
 }
+function closeErrorModal(event) {
+    var target = event.target;
+    console.log(target);
+    var modalContainer = $('#errorModal');
+    $('#errorModalContent').text = '';
+    $(modalContainer).removeClass('is-active').addClass('is-inactive');
+}
 function closeModal(event) {
     //closes the modal that contains the trailer
     var target = event.target;
     console.log(target);
-    var modalContainer = $('.modal');
+    var modalContainer = $('#moreInfoModal');
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
     $('#embedVideo').remove();
 }
@@ -389,21 +407,40 @@ function getActorID() {
     fetch(actor_imdbAPI + name)
         .then((data) => data.json())
         .then(function (actorinfo) {
-            var actorID = actorinfo.results[0].id;
-            return actorID;
+            console.log(actorinfo);
+            if (actorinfo.results.length == 0) {
+                $('#errorModal')
+                    .addClass('is-active')
+                    .removeClass('is-inactive');
+                $('#errorModalContent').val(
+                    `we couldnt find: ${name}, please make sure youve spelled it correctly!`
+                );
+                var errorID = 'error';
+                return errorID;
+            } else {
+                var actorID = actorinfo.results[0].id;
+
+                return actorID;
+            }
         })
         .then((actorID) => getKnownFor(actorID));
 }
 
 function getKnownFor(actorID) {
     //gets the actor id and fetches movies that the actor is known for
-    console.log(actorID);
-    fetch(name_imdbAPI + actorID)
-        .then((info) => info.json())
-        .then(function (actorInfo) {
-            return actorInfo.knownFor;
-        })
-        .then((knownFor) => createResultCards(knownFor));
+    if (actorID != 'error') {
+        console.log(actorID);
+        fetch(name_imdbAPI + actorID)
+            .then((info) => info.json())
+            .then(function (actorInfo) {
+                return actorInfo.knownFor;
+            })
+            .then((knownFor) => createResultCards(knownFor));
+    } else {
+        $('#search-button').removeClass('is-loading');
+        $('#actor-search').val('');
+        hasSearched == false;
+    }
 }
 
 function verifyLengthInput() {
@@ -426,6 +463,12 @@ function verifyLengthInput() {
     }
 }
 
+var errorMovies = {
+    image: '../images/errorImage.png',
+    title: 'couldnt fetch this title',
+    imdbRating: 'couldnt fetch this movie',
+    id: null,
+};
 function getLength(length) {
     //calls imdb api and searches for movies with user specified length
     fetch(length_imdbAPI + length)
@@ -433,6 +476,14 @@ function getLength(length) {
         .then(function (movies) {
             resultsArray.push(...movies.results);
             createResultCards(movies.results);
+        })
+        .catch(function () {
+            var i = 0;
+            while (i < 4) {
+                resultsArray.push(errorMovies);
+                i++;
+            }
+            createResultCards(resultsArray);
         });
 }
 
@@ -448,15 +499,6 @@ async function getTrailer(trailerID) {
     return [`https://www.youtube.com/embed/D5XEeFV1Pc0`, false];
 }
 
-function getLength(length) {
-    //calls imdb api and searches for movies with user specified length
-    fetch(length_imdbAPI + length)
-        .then((data) => data.json())
-        .then(function (movies) {
-            resultsArray.push(...movies.results);
-            createResultCards(movies.results);
-        });
-}
 //test function for modals
 function createBlankRCT() {
     alert('hi!');
