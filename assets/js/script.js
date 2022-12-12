@@ -268,7 +268,7 @@ function createResultCards(movies) {
         console.log(movieIfNullRating);
         console.log(typeof movieIfNullRating);
         if (movieIfNullRating == null) {
-            movieIfNullRating = '0';
+            movieIfNullRating = '';
         }
         var movieRating = $(
             `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
@@ -358,7 +358,7 @@ async function clickedMoreInfo(event) {
       $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
     getstreams(movieID).then(returnValue => 
-      $(`<div class='streams'>${returnValue}</div>`).append(`<div class='streams'>${returnValue}</div>`)
+      $(`.modal-content`).append(`<div class='streams'><a href='${returnValue}' target='_blank' class='rentoption'>View Rent Option</a></div>`)
     )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
@@ -584,7 +584,7 @@ async function getTrailer(trailerID) {
     var response = await fetch(trailerAPI);
     var data = await response.json();
     console.log(trailerAPI, trailerID);
-    console.log(data.results)
+    console.log(data)
     for (var i = 0; i < data.results.length; i++) {
       if (data.results[i].name === "Official Trailer") {
       return [`https://www.youtube.com/embed/${data.results[i].key}`, true];    

@@ -494,9 +494,16 @@ footer .footer-pixum{
 
 .streams {
     position: absolute;
-    justify-content: center;
     margin-top: 160px;
-    margin-left: auto;
+    margin-left: 170px;
     margin-right: auto;
-    background-color: lightgray;
+    padding: 15px;
+}
+
+.rentoption {
+    text-decoration: none;
+    padding: 5px;
+    color: black;
+    background-color: var(--l_grey);
+    border-radius: 40px;
 }
