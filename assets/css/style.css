@@ -350,4 +350,29 @@ header {
     cursor: pointer;
 }
 
+/*Modal Content*/
+.modal-content {
+    height: 500px;
+    display: block;
+    align-items: center;
+    background-color: var(--l_grey);
+    overflow-y: scroll;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, var(--d_grey) 60%, var(--l_blue) 250%);
+    color: var(--l_grey);
+    
+}
+
+.title {
+    color: var(--l_grey);
+}
+
+.movieplot {
+    margin-top: 20px;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'Quicksand', sans-serif;
+}
 

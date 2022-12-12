@@ -320,7 +320,7 @@ async function clickedMoreInfo(event) {
     }
     createModal(url, title);
     getdescription(movieID).then(returnValue => 
-      $(`.modal-content`).append(`<p>${returnValue}</p>`)
+      $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
@@ -345,7 +345,25 @@ async function getdescription(movieID) {
     const json = await response.json();
     console.log(json)
     return json.plot;
-      }
+}
+
+async function getyear(movieID) {
+    const response = await fetch(
+      `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+    );
+    const json = await response.json();
+    console.log(json)
+    return json.plot;
+}
+
+async function getyear(movieID) {
+  const response = await fetch(
+    `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+  );
+  const json = await response.json();
+  console.log(json)
+  return json.plot;
+}
 /*function getdescription(movieID) {
   fetch(`https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`)
         .then((data) => data.json())
@@ -364,10 +382,6 @@ function createModal(youtubeurl, title) {
     $(modal).append(
         `<iframe id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
     );
-    $(modal).append(
-        `<p class='movieplot${title}'></p>`  );
-  $(modal).append(
-        `<p class='moviedate${title}'></p>`);
     console.log('creating modal');
 }
 function closeModal(event) {
@@ -377,6 +391,7 @@ function closeModal(event) {
     var modalContainer = $('.modal');
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
     $('#embedVideo').remove();
+    $('.movieplot').remove()
 }
 
 var resultsArray = [];
