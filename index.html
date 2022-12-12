@@ -24,10 +24,11 @@
         <i class="fa-solid fa-bookmark bookmark-override"></i>
         Bookmarks
       </button>
-      <img src="./assets/images/pixum.svg" />
+      <p>Pixum</p>
     </header>
 
     <div class="search-filter-container">
+      <p>Search movies by</p>
       <div id="search-filter-dropdown" class="search-filter-dropdown">
         <p id="selected-filter">Genre</p>
         <div class="filter-dropdown-content">
@@ -40,21 +41,19 @@
     </div>
 
     <div class="search-button-container">
-      <button id="search-button" class="button is-rounded">
-        just Pixum already!<span class="search-span"></span
-        ><i class="fa-solid fa-magnifying-glass search-icon"></i>
-      </button>
+      <button id="search-button" class="button is-rounded"><i class="fa-solid fa-magnifying-glass search-icon"></i>Search</button>
     </div>
 
-
-        <div
+    <div
             id="search-results-container"
             class="columns search-results-container"
-        ></div>
-        <button class="showmore" onclick="createResultCards()">
-            show more
-        </button>
+    ></div>
 
+    <div class="show-more-container">
+      <button class="show-more" onclick="createResultCards()">
+            Show More <i class="fa-solid fa-angle-down"></i>
+      </button>
+    </div>
 
     <div class="modal is-inactive">
       <div class="modal-background"></div>
@@ -66,6 +65,11 @@
         onclick="closeModal(event)"
       ></button>
     </div>
+
+    <footer>
+      <p><span class="footer-pixum">Pixum</span> Movie Finder | <a href="https://github.com/mkalik/pixum" target="_blank">- GitHub -</a></p>
+      <p>@2022 by Malik Kouyate | John Leamy | Savannah Munn | Connor Mulligan</p>
+    </footer>
 
     <!-- jquery link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
