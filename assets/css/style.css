@@ -301,10 +301,12 @@ header {
     transition: color 0.5s ease-out;
     cursor: pointer; 
 }
+
 .fa-regular {
     margin-left: 10px;
     justify-self: flex-end;
 }
+
 
 .results-card-bookmark:hover {
     color: var(--l_blue);

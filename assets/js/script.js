@@ -271,7 +271,6 @@ function createResultCards(movies) {
         );
         blankResultCard.append(movieRating);
 
-
         var moreInfoBtn = $(
             '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i></button>'
         );
