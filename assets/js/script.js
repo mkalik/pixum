@@ -17,42 +17,52 @@ function goBookmark() {
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
 
 $('#search-filter-dropdown').click(function (event) {
-    //function for the genre dropdown menu
-    var element = event.target;
-    var selectedFilter = $('#selected-filter');
-    var userSelection = $(element).text();
+  //function for the genre dropdown menu
+  var element = event.target;
+  var selectedFilter = $('#selected-filter');
+  var userSelection = $(element).text();
 
-    setTimeout(function () {
-        $(selectedFilter).text(userSelection);
-    }, 50);
+  setTimeout(function () {
+    $(selectedFilter).text(userSelection);
+  }, 50);
 
-    if (userSelection === 'Genre') {
-        search_type = 1;
-        hasSearched = false;
-        $('#actor-search').hide();
-        $('#length-search').hide();
-        $('#genre-filter-grid').show();
-        $('.separator').css('height', '180px');
-    } else if (userSelection === 'Actor') {
-        search_type = 2;
-        hasSearched = false;
-        $('#genre-filter-grid').hide();
-        $('#length-search').hide();
-        $('#actor-search').show();
-        $('.separator').css('height', '60px');
-    } else if (userSelection === 'Length') {
-        search_type = 3;
-        hasSearched = false;
-        $('#genre-filter-grid').hide();
-        $('#actor-search').hide();
-        $('#length-search').show();
-        $('.separator').css('height', '60px');
-    }
+  if (userSelection === 'Genre') {
+      search_type = 1;
+      hasSearched = false;
+      $('#actor-search').hide();
+      $('#length-search').hide();
+      $('#genre-filter-grid').css('height', '1px');
+      $('#genre-filter-grid').css('opacity', '0');
+      $('#genre-filter-grid').show();
+      setTimeout(function () {
+        $('#genre-filter-grid').css('height', 'auto');
+        $('#genre-filter-grid').css('opacity', '1');
+      }, 500);
+      $('.separator').css('height', '180px');
+  } else if (userSelection === 'Actor') {
+      search_type = 2;
+      hasSearched = false;
+      $('#genre-filter-grid').hide();
+      $('#length-search').hide();
+      $('#actor-search').show();
+      $('.separator').css('height', '60px');
+  } else if (userSelection === 'Length') {
+      search_type = 3;
+      hasSearched = false;
+      $('#genre-filter-grid').hide();
+      $('#actor-search').hide();
+      $('#length-search').show();
+      $('.separator').css('height', '60px');
+  }
 
-    $('.genre-button').attr('data-search', 'false');
-    $('.genre-button').removeClass('genre-button-active');
-    $('#actor-search').val('');
-    $('#length-search').val('');
+  $('.genre-button').attr('data-search', 'false');
+  $('.genre-button').removeClass('genre-button-active');
+  $('#actor-search').val('');
+  $('#length-search').val('');
+
+  setTimeout(function () {
+    changeSearchButtonText();
+  }, 50);
 });
 
 // FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
@@ -142,7 +152,6 @@ $('#actor-search').keydown(function (event) {
 
 $('#search-button').click(function (event) {
     $(this).addClass('is-loading');
-    changeSearchButtonText(event);
     console.log('click search');
     event.preventDefault();
     console.log(search_type);
@@ -153,32 +162,36 @@ $('#search-button').click(function (event) {
             //genre search;
             hasSearched = true;
             getGenre();
+            $('.show-more-container').css('display', 'flex');
         } else if (search_type === 2) {
             getActorID();
+            $('.show-more-container').css('display', 'none');
             //actor;
         } else if (search_type === 3) {
             //length
             verifyLengthInput();
+            $('.show-more-container').css('display', 'none');
         }
     } else {
         createResultCards();
     }
 });
 
-// CHANGE SEARCH BUTTON TEXT (Called in create blank results cards function)
-function changeSearchButtonText(event) {
+// CHANGE SEARCH BUTTON TEXT (called when the user changes the main search criteria dropown)
+function changeSearchButtonText() {
+  var searchButton = $('#search-button');
     var possibleText = [
-        'just Pixum already! ',
-        'forage those films ',
-        'commence cinematic scouting ',
-        'formulate films ',
-        'SHOW ME THA MOVIES ',
-        'perform silver screen scrutiny ',
+        'Just Pixum Already! ',
+        'Forage for Films ',
+        'Collect Cinema Commendations ',
+        'Formulate Films ',
+        'SHOW ME THA MOVIES! ',
+        'Search the Silver Screen ',
     ];
-    var searchButton = event.target;
     var randomButtonText = Math.floor(Math.random() * possibleText.length);
     $(searchButton).text(possibleText[randomButtonText]);
-    $(searchButton).blur();
+    $(searchButton).append($('<i class="fa-solid fa-magnifying-glass search-icon"></i>'))
+    ;
 }
 
 // CREATING SEARCH RESULTS
@@ -199,6 +212,7 @@ function createResultCards(movies) {
     //creates cards that contain the movies the user searched for
     $('#search-button').removeClass('is-loading');
     $('#actor-search').val('');
+    $('#search-button').blur()
     console.log(movies);
     var moviesDisplay = [];
     if (search_type == 1) {
@@ -230,7 +244,7 @@ function createResultCards(movies) {
         moviePosterContainer.append(moviePoster);
         blankResultCard.append(moviePosterContainer);
         var bookmark = $(
-            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
+            '<i class="fa-solid fa-bookmark results-card-bookmark" onclick="clickedBookmark(event)"></i>'
         );
         if (localStorage.getItem(moviesDisplay[i].id) != null) {
             $(bookmark).addClass('fa-bookmark-active');
@@ -273,6 +287,8 @@ function createResultCards(movies) {
         searchResultContainer.append(blankResultCard);
     }
 }
+
+
 
 var movieObject = {};
 // Add on hover to results cards
