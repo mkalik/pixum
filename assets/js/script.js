@@ -271,14 +271,9 @@ function createResultCards(movies) {
         );
         blankResultCard.append(movieRating);
 
-        var movietrailer = $(
-            `<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i>`
-        );
-        console.log(movietrailer);
-        blankResultCard.append(movietrailer);
 
         var moreInfoBtn = $(
-            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i></button>'
         );
         blankResultCard.append(moreInfoBtn);
 
@@ -352,7 +347,16 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
-    //   console.log(results); getMovie(movieID).then(function (json) {
+
+    getallinfo(movieID).then(returnValue => 
+      $(`.modal-content`).append(returnValue)
+      )
+    getdescription(movieID).then(returnValue => 
+      $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
+    )
+    //   console.log(results);
+    //   getMovie(movieID).then(function (json) {
+
     //     console.log(json, "title for movie id");
     //   });
     //   getTrailer(movieID).then((trailer) => createModal(trailer));
@@ -363,9 +367,59 @@ async function getMovie(movieID) {
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
+    console.log(json)
     return json.title;
 }
 
+async function getdescription(movieID) {
+    const response = await fetch(
+          `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+    );
+    const json = await response.json();
+    console.log(json)
+    return json.plot;
+}
+
+async function getallinfo(movieID) {
+    const response = await fetch(
+      `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+    );
+    const json = await response.json();
+    console.log(json)
+    var allinfo = $(`<div class='info'></div>`)
+    //metacritic rating
+    if (!json.metacriticRating) {
+      allinfo.append(`<p class='metacritic'>(No current rating)</p>`)
+    } else {
+      allinfo.append(`<p class='metacritic'><i class="fa-solid fa-star fa-color"></i> ${json.metacriticRating}% </p>`)
+    }  
+    //run time
+    allinfo.append(`<p class='runtime'>${json.runtimeStr}</p>`)
+    //rating
+    allinfo.append(`<p class='rating'>${json.contentRating}</p>`)
+    //release year
+    allinfo.append(`<p class='year'>(${json.year})</p>`)
+    console.log(allinfo)
+    return allinfo;
+}
+
+async function getyear(movieID) {
+  const response = await fetch(
+    `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+  );
+  const json = await response.json();
+  console.log(json)
+  return json.plot;
+}
+/*function getdescription(movieID) {
+  fetch(`https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`)
+        .then((data) => data.json())
+        .then(function (info) {
+          console.log(info.plot)
+            return info;
+        })
+}
+*/
 function createModal(youtubeurl, title) {
     var modal = $('#moreInfoContent');
     var modalContainer = $('#moreInfoModal');
@@ -373,7 +427,7 @@ function createModal(youtubeurl, title) {
     console.log('trailer');
     $('#Mod').html(title);
     $(modal).append(
-        `<iframe id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+        `<iframe class = 'youtubevid' id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
     );
     console.log('creating modal');
 }
@@ -391,6 +445,8 @@ function closeModal(event) {
     var modalContainer = $('#moreInfoModal');
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
     $('#embedVideo').remove();
+    $('.movieplot').remove();
+    $('.info').remove();
 }
 
 var resultsArray = [];

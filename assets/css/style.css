@@ -302,9 +302,7 @@ header {
     cursor: pointer; 
 }
 .fa-regular {
-    position: absolute;
-    margin-top: 525px;
-    margin-left: 85px;
+    margin-left: 10px;
     justify-self: flex-end;
 }
 
@@ -390,6 +388,71 @@ header {
     color: var(--l_blue);
 }
 
+/*Modal Content*/
+.modal-content {
+    height: 500px;
+    display: block;
+    align-items: center;
+    background-color: var(--l_grey);
+    overflow-y: scroll;
+    border-radius: 10px;
+    background-image: linear-gradient(0deg, var(--d_grey) 60%, var(--l_blue) 250%);
+    color: var(--l_grey);
+    
+}
+
+.title {
+    display: flex;
+    color: var(--l_grey);
+    justify-content: center;
+}
+
+.movieplot {
+    margin-top: 20px;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.youtubevid {
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+}
+
+.metacritic {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.runtime {
+    margin-right: 5px;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--l_grey);
+}
+
+.rating {
+    color: var(--l_grey);
+    padding: 3px;
+    margin-left: 10px;
+    border: 3px solid var(--l_grey)
+}
+
+.year {
+    margin-left: auto;
+}
+
+.fa-tomato {
+    justify-self: start;
+    height: 50px;
+    width: 50px;
+}
 
 /* FOOTER */
 a{
