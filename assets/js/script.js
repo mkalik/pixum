@@ -309,7 +309,9 @@ async function clickedMoreInfo(event) {
     var click = event.target;
     var clickParent = $(click).parent()[0];
     var movieID = clickParent.children[2].dataset.id;
+    
     console.log('clicked moreinfo');
+    $('.modal.content')
     let [title, urlresult] = await Promise.all([
         getMovie(movieID),
         getTrailer(movieID),
@@ -319,6 +321,7 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
+    getdescription(movieID)
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
     //     console.log(json, "title for movie id");
@@ -331,7 +334,19 @@ async function getMovie(movieID) {
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
+    console.log(json)
     return json.title;
+}
+
+async function getdescription(movieID) {
+  fetch(`https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`)
+        .then((data) => data.json())
+        .then(function (info) {
+          console.log(info.plot)
+          var movieplot = $(`<p class="movieplot">${info.plot}</p>`)
+          console.log(movieplot)
+          return movieplot
+        });
 }
 
 function createModal(youtubeurl, title) {
