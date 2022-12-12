@@ -358,7 +358,7 @@ async function clickedMoreInfo(event) {
       $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
     getstreams(movieID).then(returnValue => 
-      $(`.modal-content`).append(`<div class='streams'><a href='${returnValue}' target='_blank' class='rentoption'>View Rent Option</a></div>`)
+      $(`.modal-content`).append(`<div class='streams'><a href='${returnValue}' target='_blank' class='rentoption'>Watch Options</a></div>`)
     )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
