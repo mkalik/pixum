@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- neccesary for bulma -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PROJECT 1</title>
+    <head>
+        <meta charset="UTF-8" />
+        <!-- neccesary for bulma -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>PROJECT 1</title>
+
 
     <link rel="stylesheet" href="/assets/css/reset.css" />
     <!-- bulma link -->
@@ -55,17 +56,31 @@
       </button>
     </div>
 
-    <div class="modal is-inactive">
-      <div class="modal-background"></div>
-      <div class="modal-content has-background-white py-6 px-6">
-        <h3 id="Mod" class="title mb-6">Movie Title</h3>
-      </div>
-      <button
-        class="modal-close is-large is-info"
-        onclick="closeModal(event)"
-      ></button>
-    </div>
-
+    <div id="moreInfoModal" class="modal is-inactive">
+            <div class="modal-background"></div>
+            <div
+                id="moreInfoContent"
+                class="modal-content has-background-white py-6 px-6"
+            >
+                <h3 id="Mod" class="title mb-6">Movie Title</h3>
+            </div>
+            <button
+                class="modal-close is-large is-info"
+                onclick="closeModal(event)"
+            ></button>
+        </div>
+        <div id="errorModal" class="modal is-inactive">
+            <div class="modal-background"></div>
+            <div
+                id="errorModalContent"
+                class="modal-content has-background-white py-6 px-6"
+            ></div>
+            <button
+                class="modal-close is-large is-info"
+                onclick="closeErrorModal(event)"
+            ></button>
+        </div>
+        
     <footer>
       <p><span class="footer-pixum">Pixum</span> Movie Finder | <a href="https://github.com/mkalik/pixum" target="_blank">- GitHub -</a></p>
       <p>@2022 by Malik Kouyate | John Leamy | Savannah Munn | Connor Mulligan</p>
@@ -75,4 +90,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="assets/js/script.js"></script>
   </body>
+
+
 </html>
