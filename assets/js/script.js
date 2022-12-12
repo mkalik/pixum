@@ -358,13 +358,17 @@ async function getallinfo(movieID) {
     console.log(json)
     var allinfo = $(`<div class='info'></div>`)
     //metacritic rating
-    allinfo.append(`<p class='metacritic'><i class="fa-solid fa-tomato"></i>${json.metacriticRating}% </p>`)
+    if (!json.metacriticRating) {
+      allinfo.append(`<p class='metacritic'>(No current rating)</p>`)
+    } else {
+      allinfo.append(`<p class='metacritic'><i class="fa-solid fa-star fa-color"></i> ${json.metacriticRating}% </p>`)
+    }  
     //run time
     allinfo.append(`<p class='runtime'>${json.runtimeStr}</p>`)
     //rating
     allinfo.append(`<p class='rating'>${json.contentRating}</p>`)
     //release year
-    allinfo.append(`<p class='year'>${json.year}</p>`)
+    allinfo.append(`<p class='year'>(${json.year})</p>`)
     console.log(allinfo)
     return allinfo;
 }
@@ -404,7 +408,8 @@ function closeModal(event) {
     var modalContainer = $('.modal');
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
     $('#embedVideo').remove();
-    $('.movieplot').remove()
+    $('.movieplot').remove();
+    $('.info').remove();
 }
 
 var resultsArray = [];

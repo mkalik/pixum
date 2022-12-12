@@ -393,18 +393,26 @@ header {
 
 .runtime {
     margin-right: 5px;
+    margin-left: 10px;
+    margin-top: auto;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--l_grey);
 }
 
 .rating {
-    background-color: var(--l_grey);
-    color: black;
+    color: var(--l_grey);
     padding: 3px;
-    border-radius: 30px;
-    margin-right: 5px;
+    margin-left: 10px;
+    border: 3px solid var(--l_grey)
 }
 
 .year {
     margin-left: auto;
-    
+}
+
+.fa-tomato {
+    justify-self: start;
+    height: 50px;
+    width: 50px;
 }
 
