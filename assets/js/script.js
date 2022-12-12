@@ -197,138 +197,86 @@ function generateRandomMovies(moviesDisplay) {
     return moviesDisplay;
 }
 
-// function createResultCards(movies) {
-//     //creates cards that contain the movies the user searched for
-//    $('#search-button').removeClass('is-loading');
-//    $('#search-button').blur()
-//     console.log(movies);
-//     var moviesDisplay = [];
-//     if (search_type == 1) {
-//         if (typeof movies === 'undefined') {
-//             movies = resultsArray;
-//         }
-//         moviesDisplay = generateRandomMovies(moviesDisplay);
-//         console.log(moviesDisplay.length);
-//     } else if (search_type == 2) {
-//         moviesDisplay = movies;
-//     }
-//     var numberOfResults = moviesDisplay.length;
-//     console.log('num results: ' + numberOfResults);
-//     for (var i = 0; i < numberOfResults; i++) {
-//         var blankResultCard = $('<div class="blank-result-card"></div>');
-
-//         var moviePosterContainer = $(
-//             '<div class="movie-poster-container"></div>'
-//         );
-
-//         var movieIfNullPoster = moviesDisplay[i].image;
-//         if (movieIfNullPoster == null) {
-//             movieIfNullPoster = 'https://www.freeiconspng.com/img/25245';
-//         }
-//         var moviePoster = $(
-//             `<img src= ${movieIfNullPoster} class="movie-poster">`
-//         );
-
-//         moviePosterContainer.append(moviePoster);
-//         blankResultCard.append(moviePosterContainer);
-//         var bookmark = $(
-//             '<i class="fa-solid fa-bookmark results-card-bookmark" onclick="clickedBookmark(event)"></i>'
-//         );
-//         if (localStorage.getItem(moviesDisplay[i].id) != null) {
-//             $(bookmark).addClass('fa-bookmark-active');
-//         }
-//         blankResultCard.append(bookmark);
-
-//         var movieIfNullTitle = moviesDisplay[i].title;
-//         if (movieIfNullTitle == null) {
-//             movieIfNullTitle = '~Title~';
-//         }
-//         var movieTitle = $(
-//             `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${movieIfNullTitle}</h1>`
-//         );
-//         blankResultCard.append(movieTitle);
-
-//         var movieIfNullRating = moviesDisplay[i].imDbRating;
-//         console.log(movieIfNullRating);
-//         console.log(typeof movieIfNullRating);
-//         if (movieIfNullRating == null) {
-//             movieIfNullRating = '0';
-//         }
-//         var movieRating = $(
-//             `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
-//         );
-//         blankResultCard.append(movieRating);
-
-//         var movietrailer = $(
-//             `<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i>`
-//         );
-//         console.log(movietrailer);
-//         blankResultCard.append(movietrailer);
-
-//         var moreInfoBtn = $(
-//             '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
-//         );
-//         blankResultCard.append(moreInfoBtn);
-
-//         $(blankResultCard).attr('data-result-index', i);
-
-//         searchResultContainer.append(blankResultCard);
-//     }
-// }
-
 function createResultCards(movies) {
-  //creates cards that contain the movies the user searched for
-  var numberOfResults = 4;
-  for (var i = 0; i < numberOfResults; i++) {
-      var blankResultCard = $('<div class="blank-result-card"></div>');
+    //creates cards that contain the movies the user searched for
+   $('#search-button').removeClass('is-loading');
+   $('#search-button').blur()
+    console.log(movies);
+    var moviesDisplay = [];
+    if (search_type == 1) {
+        if (typeof movies === 'undefined') {
+            movies = resultsArray;
+        }
+        moviesDisplay = generateRandomMovies(moviesDisplay);
+        console.log(moviesDisplay.length);
+    } else if (search_type == 2) {
+        moviesDisplay = movies;
+    }
+    var numberOfResults = moviesDisplay.length;
+    console.log('num results: ' + numberOfResults);
+    for (var i = 0; i < numberOfResults; i++) {
+        var blankResultCard = $('<div class="blank-result-card"></div>');
 
-      if (i == 0){
         var moviePosterContainer = $(
-          '<div class="movie-poster-container"></div>'
-      );
-      var moviePoster = $(
-          `<img src= 'https://m.media-amazon.com/images/M/MV5BNjA3NGExZDktNDlhZC00NjYyLTgwNmUtZWUzMDYwMTZjZWUyXkEyXkFqcGdeQXVyMTU1MDM3NDk0._V1_Ratio0.6837_AL_.jpg' class="movie-poster">`
-      );
-      moviePosterContainer.append(moviePoster);
-      blankResultCard.append(moviePosterContainer);
-      } else {
-      var moviePosterContainer = $(
-          '<div class="movie-poster-container"></div>'
-      );
-      var moviePoster = $(
-          `<img src= 'https://m.media-amazon.com/images/M/MV5BZWFhNjY0YjItNjM5NC00NzAwLWI3ZWUtMTlkNTA0ZWVkNjBkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_Ratio0.6837_AL_.jpg' class="movie-poster">`
-      );
-      moviePosterContainer.append(moviePoster);
-      blankResultCard.append(moviePosterContainer);
-      }
+            '<div class="movie-poster-container"></div>'
+        );
 
-      var bookmark = $(
-          '<i class="fa-solid fa-bookmark results-card-bookmark" onclick="clickedBookmark(event)"></i>'
-      );
-      blankResultCard.append(bookmark);
+        var movieIfNullPoster = moviesDisplay[i].image;
+        if (movieIfNullPoster == null) {
+            movieIfNullPoster = 'https://www.freeiconspng.com/img/25245';
+        }
+        var moviePoster = $(
+            `<img src= ${movieIfNullPoster} class="movie-poster">`
+        );
 
-      var movieTitle = $(
-          `<h1 class= "movie-title">Everything Everywhere</h1>`
-      );
-      blankResultCard.append(movieTitle);
+        moviePosterContainer.append(moviePoster);
+        blankResultCard.append(moviePosterContainer);
+        var bookmark = $(
+            '<i class="fa-solid fa-bookmark results-card-bookmark" onclick="clickedBookmark(event)"></i>'
+        );
+        if (localStorage.getItem(moviesDisplay[i].id) != null) {
+            $(bookmark).addClass('fa-bookmark-active');
+        }
+        blankResultCard.append(bookmark);
 
-      var movieRating = $(
-          `<h3 class="movie-rating">O <i class="fa-solid fa-star"></i></h3>`
-      );
-      blankResultCard.append(movieRating);
+        var movieIfNullTitle = moviesDisplay[i].title;
+        if (movieIfNullTitle == null) {
+            movieIfNullTitle = '~Title~';
+        }
+        var movieTitle = $(
+            `<h1 data-id= ${moviesDisplay[i].id} class= "movie-title">${movieIfNullTitle}</h1>`
+        );
+        blankResultCard.append(movieTitle);
 
-      var moreInfoBtn = $(
-          '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
-      );
-      blankResultCard.append(moreInfoBtn);
+        var movieIfNullRating = moviesDisplay[i].imDbRating;
+        console.log(movieIfNullRating);
+        console.log(typeof movieIfNullRating);
+        if (movieIfNullRating == null) {
+            movieIfNullRating = '0';
+        }
+        var movieRating = $(
+            `<h3 class="movie-rating">${movieIfNullRating} <i class="fa-solid fa-star"></i></h3>`
+        );
+        blankResultCard.append(movieRating);
 
-      $(blankResultCard).attr('data-result-index', i);
+        var movietrailer = $(
+            `<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i>`
+        );
+        console.log(movietrailer);
+        blankResultCard.append(movietrailer);
 
-      searchResultContainer.append(blankResultCard);
-  }
+        var moreInfoBtn = $(
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info</button>'
+        );
+        blankResultCard.append(moreInfoBtn);
+
+        $(blankResultCard).attr('data-result-index', i);
+
+        searchResultContainer.append(blankResultCard);
+    }
 }
 
-createResultCards()
+
 
 var movieObject = {};
 // Add on hover to results cards
