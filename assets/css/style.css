@@ -295,9 +295,7 @@ header {
     cursor: pointer; 
 }
 .fa-regular {
-    position: absolute;
-    margin-top: 525px;
-    margin-left: 85px;
+    margin-left: 10px;
     justify-self: flex-end;
 }
 .fa-bookmark:hover {
