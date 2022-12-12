@@ -357,6 +357,9 @@ async function clickedMoreInfo(event) {
     getdescription(movieID).then(returnValue => 
       $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
+    getstreams(movieID).then(returnValue => 
+      $(`<div class='streams'>${returnValue}</div>`).append(`<div class='streams'>${returnValue}</div>`)
+    )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
 
@@ -392,7 +395,7 @@ async function getallinfo(movieID) {
     var allinfo = $(`<div class='info'></div>`)
     //metacritic rating
     if (!json.metacriticRating) {
-      allinfo.append(`<p class='metacritic'>(No current rating)</p>`)
+      allinfo.append(`<p class='metacritic'>(No current score)</p>`)
     } else {
       allinfo.append(`<p class='metacritic'><i class="fa-solid fa-star fa-color"></i> ${json.metacriticRating}% </p>`)
     }  
@@ -404,6 +407,19 @@ async function getallinfo(movieID) {
     allinfo.append(`<p class='year'>(${json.year})</p>`)
     console.log(allinfo)
     return allinfo;
+}
+
+async function getstreams(movieID) {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieID}/watch/providers?api_key=1af200ff906e604110980655841ecfbe`
+    );      
+    const json = await response.json();
+    var link = $(`link`)
+    if (!json.results['US']) {
+      return ('Not yet avaliable for rent')
+    } else {
+      return json.results['US'].link;
+    }
 }
 
 async function getyear(movieID) {
@@ -450,6 +466,7 @@ function closeModal(event) {
     $('#embedVideo').remove();
     $('.movieplot').remove();
     $('.info').remove();
+    $('.streams').remove();
 }
 
 var resultsArray = [];
@@ -567,12 +584,17 @@ async function getTrailer(trailerID) {
     var response = await fetch(trailerAPI);
     var data = await response.json();
     console.log(trailerAPI, trailerID);
-
-    if (data.results.length > 0) {
-        return [`https://www.youtube.com/embed/${data.results[0].key}`, true];
+    console.log(data.results)
+    for (var i = 0; i < data.results.length; i++) {
+      if (data.results[i].name === "Official Trailer") {
+      return [`https://www.youtube.com/embed/${data.results[i].key}`, true];    
+      } else if (data.results[i].name.includes('Trailer')) {
+      return [`https://www.youtube.com/embed/${data.results[i].key}`, true]
+      } else if (data.results[i].name.includes('Teaser')) {
+      return [`https://www.youtube.com/embed/${data.results[i].key}`, true]
+      }
     }
-    return [`https://www.youtube.com/embed/D5XEeFV1Pc0`, false];
-}
+  }
 
 //test function for modals
 function createBlankRCT() {
