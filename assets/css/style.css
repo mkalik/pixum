@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Varela+Round&display=swap'); 
+/* import google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Rubik+Iso&family=VT323&display=swap');
+
 
 /* || GENERAL CLASSES */
 :root{
@@ -13,9 +15,12 @@
 
 }
 
+html, body {
+    min-height: 100vh;
+}
+
 body{
-    padding: 60px 120px;
-    height: auto;
+    padding: 30px 60px;
     background-color: var(--d_grey);
 }
 
@@ -39,28 +44,32 @@ header {
     position: relative;
     width: 100%;
     height: auto;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
     text-align: center;
+    user-select: none;
 }
 
-.header img{
+.header p{
     display: inline-block;
     margin: 0 auto;
-    width: 236px;
-    height: 90px;
+    font-family: 'VT323', sans-serif;
+    font-size: 96px;
+    letter-spacing: 15px;
+    color: var(--l_blue);
 
 }
 
 .header .button{
     display: block;
     position: absolute;
-    top: 25%;
+    top: 50%;
     left: 60px;
+    transform: translate(0, -50%);
     background-color: transparent;
     border: none;
     color: var(--l_grey);
     border-radius: 0px;
-    border-bottom: 2px solid var(--l_grey_tran);
+    border-bottom: 1px solid var(--l_grey_tran);
     font-family: 'Quicksand', sans-serif;
     font-weight: 600;
     transition: all 0.5s ease-out;
@@ -76,7 +85,7 @@ header {
 
 .header .button:hover{
     color: var(--l_blue);
-    border-bottom: 2px solid var(--l_blue);
+    border-bottom: 1px solid var(--l_blue);
 }
 
 .header .button:hover .bookmark-override{
@@ -91,10 +100,13 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 175px;
+    max-height: 175px;
     width: auto;
     margin-bottom: 30px;
     user-select: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    color: var(--l_grey);
 }
 
 /* DROP DOWN FOR MAIN FILTER SELECTION */
@@ -107,7 +119,6 @@ header {
 .search-filter-dropdown #selected-filter{
     height: 1.75em;
     width: 180px;
-    padding: 0px 5px;
     border-bottom: 2px solid var(--l_blue_tran);
     background: transparent;
     color: var(--l_blue);
@@ -167,6 +178,7 @@ header {
     padding: 5px;
     color:var(--l_grey);
     background-color: transparent;
+    border: 1px solid;
     border-color: var(--l_grey_tran);
     font-size: 16px;
     font-family:'Quicksand', sans-serif;
@@ -186,16 +198,16 @@ header {
 
 /* ACTOR & LENGTH INPUT STYLES */
 .actor-length-search{
-    max-width: 776px;
+    max-width: 800px;
     border: 2px solid var(--l_blue);
     color: var(--l_blue);
     background-color: transparent;
-    border-color: var(--l_blue);
+    border-color: var(--l_grey_tran);
     font-family: 'Quicksand', sans-serif;
-    transition:border-color 0.5s ease-out;
+    transition: border-color 0.5s ease-out;
 }
 
-.actor-length-search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+.actor-length-search::placeholder {
     color: var(--l_grey_tran);
 }
 
@@ -203,15 +215,9 @@ header {
     border-color: var(--l_blue_tran);
 }
 
-.actor-length-search:active{
-    border-color: var(--l_blue_tran);
-}
-
 .actor-length-search:focus{
-    border-color: var(--l_blue_tran);
+    border-color: var(--l_blue);
 }
-
-
 
 
 /* SEARCH BUTTON STYLING */
@@ -227,7 +233,7 @@ header {
     width: auto;
     padding: 15px 60px;
     background-color: transparent;
-    border: 2px solid var(--l_grey_tran);
+    border: 1px solid var(--l_grey_tran);
     color: var(--l_grey);
     font-family: 'Quicksand', sans-serif;
     font-size: 16px;
@@ -235,8 +241,10 @@ header {
     transition: all 0.5s ease-out;
 }
 
-.search-span{
-    width: 15px;
+.search-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 16px;
 }
 
 #search-button:hover{
@@ -259,23 +267,21 @@ header {
 
 /* MOVIE RESULTS FILTERS */
 .search-results-container{
-    width: 100%;
-    height: auto;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    width: 100%;
+    height: auto;
 }
 
 .blank-result-card {
+    flex: 300px 1 1;
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 575px;
-    max-width: 345px;
-    min-width: 330px;
-    margin-bottom: 60px;
+    margin: 0px 30px 60px 30px;
     align-items: center;
-    padding: 15px 30px;
+    padding: 15px 30px 30px 30px;
     border-radius: 10px;
     box-shadow: 0px 0px 15px #25282b;
     transition: all 0.5s ease-out;
@@ -286,10 +292,11 @@ header {
     box-shadow: 0px 0px 30px #202325;
 }
 
-.fa-bookmark {
+.results-card-bookmark {
     position: absolute;
     color: var(--l_grey_tran);
-    right: 60px;
+    top: -9px;
+    right: 45px;
     font-size: 32px;
     transition: color 0.5s ease-out;
     cursor: pointer; 
@@ -298,56 +305,87 @@ header {
     margin-left: 10px;
     justify-self: flex-end;
 }
-.fa-bookmark:hover {
-    color: gold;
+
+.results-card-bookmark:hover {
+    color: var(--l_blue);
 }
 
+/* this is results card bookmark, but i just kept it called fa-bookmark-active */
 .fa-bookmark-active{
-    color: gold;
+    color: var(--l_blue);
 }
 
 /* MOVIE POSTER STYLING */
 .movie-poster-container{
-    width: 100%;
     height: auto;
-    margin: 15px 0px;
+    width: 100%;
+    margin-top: 39px;
+    margin-bottom: 15px;
     box-shadow: 0px 0px 15px var(--l_grey);
     border-radius: 10px;
     overflow: hidden;
-    object-fit: cover;
+    object-fit: contain;
 }
 
-.movie-poster {
-    box-shadow: 0px 0px 15px var(--l_grey_tran);
+.movie-poster-container img {
+    height: 100%;
 }
 
 .movie-title {
-    align-content: center;
+    margin-bottom: 15px;
+    text-align: center;
     color: var(--l_grey);
     font-family: 'Quicksand', sans-serif;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 16px;
 }
 
 .movie-rating {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: var(--l_grey);
-    font-size: 16px;
     font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
 }
 
 
 .more-info-button {
-    width: 50%;
-    font-family: 'Quicksand', sans-serif;
-    background-color: transparent;
+    width: auto;
     border: none;
-    color: var(--l_grey);
     border-bottom: 2px solid var(--l_grey_tran);
+    background-color: transparent;
+    color: var(--l_grey);
+    font-family: 'Quicksand', sans-serif;
+    transition:  all 0.5s ease-out;
 }
 
 .more-info-button:hover {
     cursor: pointer;
+    border-bottom: 2px solid var(--l_blue);
+    color: var(--l_blue);
+}
+
+/* SHOW MORE BUTTON */
+.show-more-container{
+    justify-content: center;
+    user-select: none;
+    display: none;
+}
+
+.show-more{
+    margin-bottom: 60px;
+    border: none;
+    background-color: transparent;
+    color: var(--l_grey_tran);
+    font-family: 'Quicksand', sans-serif;
+    font-size: 32px;
+    transition: all 0.5s ease-out;
+    /* display: none; */
+
+}
+
+.show-more:hover{
+    cursor: pointer;
+    color: var(--l_blue);
 }
 
 /*Modal Content*/
@@ -416,3 +454,32 @@ header {
     width: 50px;
 }
 
+/* FOOTER */
+a{
+    color: var(--l_blue);
+    text-decoration: underline;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+a:visited{
+    color: var(--l_blue);
+    text-decoration: underline;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+footer{
+    user-select: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    color: var(--l_grey);
+    text-align: center;
+    line-height: 30px;
+}
+
+footer .footer-pixum{
+    font-family: "VT323";
+    color: var(--l_blue);
+    letter-spacing: 2px;
+}

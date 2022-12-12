@@ -17,42 +17,52 @@ function goBookmark() {
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
 
 $('#search-filter-dropdown').click(function (event) {
-    //function for the genre dropdown menu
-    var element = event.target;
-    var selectedFilter = $('#selected-filter');
-    var userSelection = $(element).text();
+  //function for the genre dropdown menu
+  var element = event.target;
+  var selectedFilter = $('#selected-filter');
+  var userSelection = $(element).text();
 
-    setTimeout(function () {
-        $(selectedFilter).text(userSelection);
-    }, 50);
+  setTimeout(function () {
+    $(selectedFilter).text(userSelection);
+  }, 50);
 
-    if (userSelection === 'Genre') {
-        search_type = 1;
-        hasSearched = false;
-        $('#actor-search').hide();
-        $('#length-search').hide();
-        $('#genre-filter-grid').show();
-        $('.separator').css('height', '180px');
-    } else if (userSelection === 'Actor') {
-        search_type = 2;
-        hasSearched = false;
-        $('#genre-filter-grid').hide();
-        $('#length-search').hide();
-        $('#actor-search').show();
-        $('.separator').css('height', '60px');
-    } else if (userSelection === 'Length') {
-        search_type = 3;
-        hasSearched = false;
-        $('#genre-filter-grid').hide();
-        $('#actor-search').hide();
-        $('#length-search').show();
-        $('.separator').css('height', '60px');
-    }
+  if (userSelection === 'Genre') {
+      search_type = 1;
+      hasSearched = false;
+      $('#actor-search').hide();
+      $('#length-search').hide();
+      $('#genre-filter-grid').css('height', '1px');
+      $('#genre-filter-grid').css('opacity', '0');
+      $('#genre-filter-grid').show();
+      setTimeout(function () {
+        $('#genre-filter-grid').css('height', 'auto');
+        $('#genre-filter-grid').css('opacity', '1');
+      }, 500);
+      $('.separator').css('height', '180px');
+  } else if (userSelection === 'Actor') {
+      search_type = 2;
+      hasSearched = false;
+      $('#genre-filter-grid').hide();
+      $('#length-search').hide();
+      $('#actor-search').show();
+      $('.separator').css('height', '60px');
+  } else if (userSelection === 'Length') {
+      search_type = 3;
+      hasSearched = false;
+      $('#genre-filter-grid').hide();
+      $('#actor-search').hide();
+      $('#length-search').show();
+      $('.separator').css('height', '60px');
+  }
 
-    $('.genre-button').attr('data-search', 'false');
-    $('.genre-button').removeClass('genre-button-active');
-    $('#actor-search').val('');
-    $('#length-search').val('');
+  $('.genre-button').attr('data-search', 'false');
+  $('.genre-button').removeClass('genre-button-active');
+  $('#actor-search').val('');
+  $('#length-search').val('');
+
+  setTimeout(function () {
+    changeSearchButtonText();
+  }, 50);
 });
 
 // FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
@@ -127,10 +137,21 @@ $('.genre-button').click(function (event) {
 // SEARCH BUTTON
 
 var hasSearched = false;
+$('#actor-search').keydown(function (event) {
+    console.log('hello');
+    if (event.keyCode == 13) {
+        if ($('#actor-search').val() === '') {
+            alert('please enter an actors name!');
+        } else {
+            $('#search-button').addClass('is-loading');
+            console.log(event.target);
+            getActorID();
+        }
+    }
+});
 
 $('#search-button').click(function (event) {
     $(this).addClass('is-loading');
-    changeSearchButtonText(event);
     console.log('click search');
     event.preventDefault();
     console.log(search_type);
@@ -141,32 +162,36 @@ $('#search-button').click(function (event) {
             //genre search;
             hasSearched = true;
             getGenre();
+            $('.show-more-container').css('display', 'flex');
         } else if (search_type === 2) {
             getActorID();
+            $('.show-more-container').css('display', 'none');
             //actor;
         } else if (search_type === 3) {
             //length
             verifyLengthInput();
+            $('.show-more-container').css('display', 'none');
         }
     } else {
         createResultCards();
     }
 });
 
-// CHANGE SEARCH BUTTON TEXT (Called in create blank results cards function)
-function changeSearchButtonText(event) {
+// CHANGE SEARCH BUTTON TEXT (called when the user changes the main search criteria dropown)
+function changeSearchButtonText() {
+  var searchButton = $('#search-button');
     var possibleText = [
-        'just Pixum already! ',
-        'forage those films ',
-        'commence cinematic scouting ',
-        'formulate films ',
-        'SHOW ME THA MOVIES ',
-        'perform silver screen scrutiny ',
+        'Just Pixum Already! ',
+        'Forage for Films ',
+        'Collect Cinema Commendations ',
+        'Formulate Films ',
+        'SHOW ME THA MOVIES! ',
+        'Search the Silver Screen ',
     ];
-    var searchButton = event.target;
     var randomButtonText = Math.floor(Math.random() * possibleText.length);
     $(searchButton).text(possibleText[randomButtonText]);
-    $(searchButton).blur();
+    $(searchButton).append($('<i class="fa-solid fa-magnifying-glass search-icon"></i>'))
+    ;
 }
 
 // CREATING SEARCH RESULTS
@@ -181,19 +206,20 @@ function generateRandomMovies(moviesDisplay) {
             resultsArray.splice(randomMovie, 1);
         }
     }
-    return moviesDisplay;
 }
 
 function createResultCards(movies) {
     //creates cards that contain the movies the user searched for
     $('#search-button').removeClass('is-loading');
+    $('#actor-search').val('');
+    $('#search-button').blur()
     console.log(movies);
     var moviesDisplay = [];
     if (search_type == 1) {
         if (typeof movies === 'undefined') {
             movies = resultsArray;
         }
-        moviesDisplay = generateRandomMovies(moviesDisplay);
+        generateRandomMovies(moviesDisplay);
         console.log(moviesDisplay.length);
     } else if (search_type == 2) {
         moviesDisplay = movies;
@@ -218,7 +244,7 @@ function createResultCards(movies) {
         moviePosterContainer.append(moviePoster);
         blankResultCard.append(moviePosterContainer);
         var bookmark = $(
-            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
+            '<i class="fa-solid fa-bookmark results-card-bookmark" onclick="clickedBookmark(event)"></i>'
         );
         if (localStorage.getItem(moviesDisplay[i].id) != null) {
             $(bookmark).addClass('fa-bookmark-active');
@@ -256,6 +282,8 @@ function createResultCards(movies) {
         searchResultContainer.append(blankResultCard);
     }
 }
+
+
 
 var movieObject = {};
 // Add on hover to results cards
@@ -319,6 +347,7 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
+
     getallinfo(movieID).then(returnValue => 
       $(`.modal-content`).append(returnValue)
       )
@@ -327,6 +356,7 @@ async function clickedMoreInfo(event) {
     )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
+
     //     console.log(json, "title for movie id");
     //   });
     //   getTrailer(movieID).then((trailer) => createModal(trailer));
@@ -391,8 +421,8 @@ async function getyear(movieID) {
 }
 */
 function createModal(youtubeurl, title) {
-    var modal = $('.modal-content');
-    var modalContainer = $('.modal');
+    var modal = $('#moreInfoContent');
+    var modalContainer = $('#moreInfoModal');
     $(modalContainer).removeClass('is-inactive').addClass('is-active');
     console.log('trailer');
     $('#Mod').html(title);
@@ -401,11 +431,18 @@ function createModal(youtubeurl, title) {
     );
     console.log('creating modal');
 }
+function closeErrorModal(event) {
+    var target = event.target;
+    console.log(target);
+    var modalContainer = $('#errorModal');
+    $('#errorModalContent').text = '';
+    $(modalContainer).removeClass('is-active').addClass('is-inactive');
+}
 function closeModal(event) {
     //closes the modal that contains the trailer
     var target = event.target;
     console.log(target);
-    var modalContainer = $('.modal');
+    var modalContainer = $('#moreInfoModal');
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
     $('#embedVideo').remove();
     $('.movieplot').remove();
@@ -442,21 +479,40 @@ function getActorID() {
     fetch(actor_imdbAPI + name)
         .then((data) => data.json())
         .then(function (actorinfo) {
-            var actorID = actorinfo.results[0].id;
-            return actorID;
+            console.log(actorinfo);
+            if (actorinfo.results.length == 0) {
+                $('#errorModal')
+                    .addClass('is-active')
+                    .removeClass('is-inactive');
+                $('#errorModalContent').val(
+                    `we couldnt find: ${name}, please make sure youve spelled it correctly!`
+                );
+                var errorID = 'error';
+                return errorID;
+            } else {
+                var actorID = actorinfo.results[0].id;
+
+                return actorID;
+            }
         })
         .then((actorID) => getKnownFor(actorID));
 }
 
 function getKnownFor(actorID) {
     //gets the actor id and fetches movies that the actor is known for
-    console.log(actorID);
-    fetch(name_imdbAPI + actorID)
-        .then((info) => info.json())
-        .then(function (actorInfo) {
-            return actorInfo.knownFor;
-        })
-        .then((knownFor) => createResultCards(knownFor));
+    if (actorID != 'error') {
+        console.log(actorID);
+        fetch(name_imdbAPI + actorID)
+            .then((info) => info.json())
+            .then(function (actorInfo) {
+                return actorInfo.knownFor;
+            })
+            .then((knownFor) => createResultCards(knownFor));
+    } else {
+        $('#search-button').removeClass('is-loading');
+        $('#actor-search').val('');
+        hasSearched == false;
+    }
 }
 
 function verifyLengthInput() {
@@ -479,6 +535,12 @@ function verifyLengthInput() {
     }
 }
 
+var errorMovies = {
+    image: '../images/errorImage.png',
+    title: 'couldnt fetch this title',
+    imdbRating: 'couldnt fetch this movie',
+    id: null,
+};
 function getLength(length) {
     //calls imdb api and searches for movies with user specified length
     fetch(length_imdbAPI + length)
@@ -486,6 +548,14 @@ function getLength(length) {
         .then(function (movies) {
             resultsArray.push(...movies.results);
             createResultCards(movies.results);
+        })
+        .catch(function () {
+            var i = 0;
+            while (i < 4) {
+                resultsArray.push(errorMovies);
+                i++;
+            }
+            createResultCards(resultsArray);
         });
 }
 
@@ -501,15 +571,6 @@ async function getTrailer(trailerID) {
     return [`https://www.youtube.com/embed/D5XEeFV1Pc0`, false];
 }
 
-function getLength(length) {
-    //calls imdb api and searches for movies with user specified length
-    fetch(length_imdbAPI + length)
-        .then((data) => data.json())
-        .then(function (movies) {
-            resultsArray.push(...movies.results);
-            createResultCards(movies.results);
-        });
-}
 //test function for modals
 function createBlankRCT() {
     alert('hi!');
