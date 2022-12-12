@@ -309,9 +309,7 @@ async function clickedMoreInfo(event) {
     var click = event.target;
     var clickParent = $(click).parent()[0];
     var movieID = clickParent.children[2].dataset.id;
-    
     console.log('clicked moreinfo');
-    $('.modal.content')
     let [title, urlresult] = await Promise.all([
         getMovie(movieID),
         getTrailer(movieID),
@@ -321,7 +319,9 @@ async function clickedMoreInfo(event) {
         title += ' Video Not Found';
     }
     createModal(url, title);
-    getdescription(movieID)
+    getdescription(movieID).then(returnValue => 
+      $(`.modal-content`).append(`<p>${returnValue}</p>`)
+    )
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
     //     console.log(json, "title for movie id");
@@ -339,16 +339,22 @@ async function getMovie(movieID) {
 }
 
 async function getdescription(movieID) {
+    const response = await fetch(
+          `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+    );
+    const json = await response.json();
+    console.log(json)
+    return json.plot;
+      }
+/*function getdescription(movieID) {
   fetch(`https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`)
         .then((data) => data.json())
         .then(function (info) {
           console.log(info.plot)
-          var movieplot = $(`<p class="movieplot">${info.plot}</p>`)
-          console.log(movieplot)
-          return movieplot
-        });
+            return info;
+        })
 }
-
+*/
 function createModal(youtubeurl, title) {
     var modal = $('.modal-content');
     var modalContainer = $('.modal');
@@ -358,6 +364,10 @@ function createModal(youtubeurl, title) {
     $(modal).append(
         `<iframe id = 'embedVideo' width="560" height="315" src="${youtubeurl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
     );
+    $(modal).append(
+        `<p class='movieplot${title}'></p>`  );
+  $(modal).append(
+        `<p class='moviedate${title}'></p>`);
     console.log('creating modal');
 }
 function closeModal(event) {
