@@ -302,10 +302,6 @@ header {
     cursor: pointer; 
 }
 .fa-regular {
-    position: absolute;
-    margin-top: 525px;
-    margin-left: 85px;
-    justify-self: flex-end;
 }
 
 .results-card-bookmark:hover {
