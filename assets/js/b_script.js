@@ -10,10 +10,10 @@ function goHome() {
 
 
 function createBookmarkCards() {
-    if (localStorage.length === 0){
-        window.alert("You have not bookmarked any movies yet! Pixum!");
-        return;
-    }
+    // if (localStorage.length === 0){
+    //     window.alert("You have not bookmarked any movies yet! Pixum!");
+    //     return;
+    // }
     
     var localItems = [];
 
@@ -22,7 +22,6 @@ function createBookmarkCards() {
     localItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
     }
 
-    console.log(localItems)
     // for loop that looks through each index of the array, uses the key at that index
     // to grab the object from local storage, creates things using the objects values
 
@@ -31,6 +30,12 @@ function createBookmarkCards() {
         var bookmarkedMovie = localItems[i]
     
         var blankResultCard = $('<div class="blank-result-card"></div>');
+        
+        if (localItems.length < 4){
+        $('.search-results-container').css('justify-content', 'center');
+        $(blankResultCard).css('max-width','430px');
+        $(blankResultCard).css('height','auto');
+        }
 
         var moviePosterContainer = $(
             '<div class="movie-poster-container"></div>'
@@ -42,7 +47,7 @@ function createBookmarkCards() {
         blankResultCard.append(moviePosterContainer);
 
         var bookmark = $(
-            '<i class="fa-solid fa-bookmark" onclick="clickedBookmark(event)"></i>'
+            '<i class="fa-solid fa-bookmark results-card-bookmark fa-bookmark-active" onclick="clickedBookmark(event)"></i>'
         );
         blankResultCard.append(bookmark);
 

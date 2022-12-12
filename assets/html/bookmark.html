@@ -19,36 +19,21 @@
     </head>
 
     <body>
-        <nav class="navbar has-shadow">
-            <div class="navbar-end">
-                <button
-                    onclick="goHome()"
-                    class="button is-primary my-2 mx-4 is-family-code"
-                >
-                    Homepage
-                </button>
+        <nav class="navbar">
+            <div>
+                <button onclick="goHome()" class="button home-button">Home</button>
             </div>
-            <div class="navbar-start">
-                <button
-                    class="button is-info my-2 mx-4 is-family-code"
-                    onclick="clearBookmarks()"
-                >
-                    clear bookmarks
-                </button>
+            
+            <div>
+                <p>Your Movies </p>
+            </div>
+            
+            <div>
+                <button class="button clear-bookmarks" onclick="clearBookmarks()">Clear Bookmarks</button>
             </div>
         </nav>
 
-        <header>
-            <div class="titleimg">
-                <img src="/assets/images/pixum.svg">
-            </div>
-        </header>
-
         <main>
-            <section class="title">
-                <h2 class="movies is-family-code">Your Movies </h2>
-            </section>
-
             <div
                 id="bookmark-results-container"
                 class="columns search-results-container"

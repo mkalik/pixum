@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Varela+Round&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=VT323&display=swap');
 
 :root{
     --d_grey:#323538;
@@ -13,39 +13,39 @@
 }
 
 .navbar {
-    background-color: var(--d_grey);
-}
-
-.titleimg img{
-    margin-top: 20px;
-    padding: 10px;
-    height: 80px
-}
-
-h1 {
-    color: var(--l_blue);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    background-color: transparent;
+    margin-bottom: 60px;
+    border-bottom: 1px solid var(--l_grey_tran);
+    
 }
 
-.title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.movies {
-    margin-top: -50px;
-    color: var(--l_blue);
-    border-radius: 50px;
-    padding: 10px 10px 12px 12px;
-    width: fit-content;
-    box-shadow: 0px 0px 15px #25282b;
-}
-
-.movies p {
+.home-button, .clear-bookmarks{
+    color: var(--l_grey);
+    background-color: transparent;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid var(--l_grey_tran);
     font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.5s ease-out;
 }
+
+.home-button:hover, .clear-bookmarks:hover{
+    color: var(--l_blue);
+    border-color: var(--l_blue);
+}
+
+.navbar p {
+    color: var(--l_blue);
+    font-family: "VT323", sans-serif;
+    font-size: 64px;
+    letter-spacing: 15px;
+}
+
 .suggestions {
     display: flex;
     margin-top: 30px;

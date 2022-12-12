@@ -46,6 +46,7 @@ $('#search-filter-dropdown').click(function (event) {
       $('#length-search').hide();
       $('#actor-search').show();
       $('.separator').css('height', '60px');
+      $('.show-more-container').css('display', 'none');
   } else if (userSelection === 'Length') {
       search_type = 3;
       hasSearched = false;
@@ -53,6 +54,7 @@ $('#search-filter-dropdown').click(function (event) {
       $('#actor-search').hide();
       $('#length-search').show();
       $('.separator').css('height', '60px');
+      $('.show-more-container').css('display', 'none');
   }
 
   $('.genre-button').attr('data-search', 'false');
@@ -165,12 +167,12 @@ $('#search-button').click(function (event) {
             $('.show-more-container').css('display', 'flex');
         } else if (search_type === 2) {
             getActorID();
-            $('.show-more-container').css('display', 'none');
+            // $('.show-more-container').css('display', 'none');
             //actor;
         } else if (search_type === 3) {
             //length
             verifyLengthInput();
-            $('.show-more-container').css('display', 'none');
+            // $('.show-more-container').css('display', 'none');
         }
     } else {
         createResultCards();
@@ -213,6 +215,8 @@ function createResultCards(movies) {
     $('#search-button').removeClass('is-loading');
     $('#actor-search').val('');
     $('#search-button').blur()
+    $('footer').css('position','relative');
+    $('footer').css('bottom','0px');
     console.log(movies);
     var moviesDisplay = [];
     if (search_type == 1) {
