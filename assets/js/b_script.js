@@ -61,13 +61,8 @@ function createBookmarkCards() {
         );
         blankResultCard.append(movieRating);
 
-        var movietrailer = $(
-            `<i class="${bookmarkedMovie.movieID} fa-regular fa-circle-play" ></i>`
-        );
-        blankResultCard.append(movietrailer);
-
         var moreInfoBtn = $(
-            '<button class="more-info-button" onclick = "clickedMoreInfo(event)" >More Info</button>'
+            '<button class="more-info-button" onclick = "clickedMoreInfo(event)">More Info<i class="${moviesDisplay[i].id} fa-regular fa-circle-play" ></i></button>'
         );
         blankResultCard.append(moreInfoBtn);
 
