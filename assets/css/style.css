@@ -321,7 +321,7 @@ header {
 /* MOVIE POSTER STYLING */
 .movie-poster-container{
     height: auto;
-    min-height: 500px;
+    min-height: 490px;
     width: 100%;
     margin-top: 39px;
     margin-bottom: 15px;
@@ -332,6 +332,7 @@ header {
 }
 
 .movie-poster-container img {
+    width: 100%;
     height: 100%;
 }
 
@@ -397,27 +398,19 @@ header {
     height: 500px;
     display: block;
     align-items: center;
-    background-color: var(--l_grey);
     overflow-y: scroll;
     border-radius: 10px;
-    background-image: linear-gradient(0deg, var(--d_grey) 60%, var(--l_blue) 250%);
-    color: var(--l_grey);
-    
+    /* background-image: linear-gradient(0deg, rgba(50,53,56,1) 75%, rgba(102,252,241,1) 50%); */
+    background-image: linear-gradient(0deg, rgba(50,53,56,1) 0%, rgba(50,53,56,1) 55%, rgba(102,252,241,1) 65%);
+    color: var(--l_grey); 
 }
 
 .title {
     display: flex;
     color: var(--l_grey);
-    justify-content: center;
-}
-
-.movieplot {
-    margin-top: 20px;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
-    border-radius: 10px;
     font-family: 'Quicksand', sans-serif;
+    justify-content: center;
+    font-size: 32px;
 }
 
 .youtubevid {
@@ -426,36 +419,50 @@ header {
 
 .info {
     display: flex;
+    width: 100%;
 }
 
 .metacritic {
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: 15px;
 }
 
 .runtime {
-    margin-right: 5px;
-    margin-left: 10px;
-    margin-top: auto;
-    margin-bottom: 10px;
-    border-bottom: 1px solid var(--l_grey);
+    margin-right: 15px;
+    border-bottom: 1px solid var(--l_grey_tran);
 }
 
 .rating {
     color: var(--l_grey);
     padding: 3px;
     margin-left: 10px;
-    border: 3px solid var(--l_grey)
+    border: 1px solid var(--l_grey)
 }
 
 .year {
     margin-left: auto;
 }
 
-.fa-tomato {
-    justify-self: start;
-    height: 50px;
-    width: 50px;
+.movieplot {
+    margin: 30px 0px;
+    justify-content: center;
+    text-align: left;
+    padding: 0px 15px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16px;
+}
+
+.streams {
+    display: flex;
+    justify-content: center;
+}
+
+.rent-option {
+    font-family: 'Quicksand', sans-serif;
+    color: var(--l_grey);
+}
+
+.rent-option:hover {
+    color: var(--l_blue);
 }
 
 /* FOOTER */
@@ -490,20 +497,4 @@ footer .footer-pixum{
     font-family: "VT323";
     color: var(--l_blue);
     letter-spacing: 2px;
-}
-
-.streams {
-    position: absolute;
-    margin-top: 160px;
-    margin-left: 170px;
-    margin-right: auto;
-    padding: 15px;
-}
-
-.rentoption {
-    text-decoration: none;
-    padding: 5px;
-    color: black;
-    background-color: var(--l_grey);
-    border-radius: 40px;
 }
