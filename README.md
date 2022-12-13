@@ -30,7 +30,8 @@ THEN I can view that movies main critic scores and ratings, along with their str
 
 
 ## Website Screenshot
-
+!['main page']('./assets/images/mainPagePixum.png')
+!['bookmark page']('./assets/images/bookmarkPagePixum.png')
 
 ## Deployed Application
-
+!('Check it out')[https://mkalik.github.io/pixum/]
