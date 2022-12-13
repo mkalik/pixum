@@ -17,54 +17,55 @@ function goBookmark() {
 // CLICK FUNCTION FOR THE MAIN FILTER (GENRE, ACTOR, LENGTH)
 
 $('#search-filter-dropdown').click(function (event) {
-  //function for the genre dropdown menu
-  var element = event.target;
-  var selectedFilter = $('#selected-filter');
-  var userSelection = $(element).text();
+    //function for the genre dropdown menu
+    var element = event.target;
+    var selectedFilter = $('#selected-filter');
+    var userSelection = $(element).text();
 
-  setTimeout(function () {
-    $(selectedFilter).text(userSelection);
-  }, 50);
+    setTimeout(function () {
+        $(selectedFilter).text(userSelection);
+    }, 50);
 
-  if (userSelection === 'Genre') {
-      search_type = 1;
-      hasSearched = false;
-      $('#actor-search').hide();
-      $('#length-search').hide();
-      $('#genre-filter-grid').css('height', '1px');
-      $('#genre-filter-grid').css('opacity', '0');
-      $('#genre-filter-grid').show();
-      setTimeout(function () {
-        $('#genre-filter-grid').css('height', 'auto');
-        $('#genre-filter-grid').css('opacity', '1');
-      }, 500);
-      $('.separator').css('height', '180px');
-  } else if (userSelection === 'Actor') {
-      search_type = 2;
-      hasSearched = false;
-      $('#genre-filter-grid').hide();
-      $('#length-search').hide();
-      $('#actor-search').show();
-      $('.separator').css('height', '60px');
-      $('.show-more-container').css('display', 'none');
-  } else if (userSelection === 'Length') {
-      search_type = 3;
-      hasSearched = false;
-      $('#genre-filter-grid').hide();
-      $('#actor-search').hide();
-      $('#length-search').show();
-      $('.separator').css('height', '60px');
-      $('.show-more-container').css('display', 'none');
-  }
+    if (userSelection === 'Genre') {
+        search_type = 1;
+        hasSearched = false;
+        $('#actor-search').hide();
+        $('#length-search').hide();
+        $('#genre-filter-grid').css('height', '1px');
+        $('#genre-filter-grid').css('opacity', '0');
+        $('#genre-filter-grid').show();
+        setTimeout(function () {
+            $('#genre-filter-grid').css('height', 'auto');
+            $('#genre-filter-grid').css('opacity', '1');
+        }, 500);
+        $('.separator').css('height', '180px');
+    } else if (userSelection === 'Actor') {
+        search_type = 2;
+        hasSearched = false;
+        $('#genre-filter-grid').hide();
+        $('#length-search').hide();
+        $('#actor-search').show();
+        $('.separator').css('height', '60px');
+        $('.show-more-container').css('display', 'none');
+    } 
+    // else if (userSelection === 'Length') {
+    //     search_type = 3;
+    //     hasSearched = false;
+    //     $('#genre-filter-grid').hide();
+    //     $('#actor-search').hide();
+    //     $('#length-search').show();
+    //     $('.separator').css('height', '60px');
+    //     $('.show-more-container').css('display', 'none');
+    // }
 
-  $('.genre-button').attr('data-search', 'false');
-  $('.genre-button').removeClass('genre-button-active');
-  $('#actor-search').val('');
-  $('#length-search').val('');
+    $('.genre-button').attr('data-search', 'false');
+    $('.genre-button').removeClass('genre-button-active');
+    $('#actor-search').val('');
+    $('#length-search').val('');
 
-  setTimeout(function () {
-    changeSearchButtonText();
-  }, 50);
+    setTimeout(function () {
+        changeSearchButtonText();
+    }, 50);
 });
 
 // FINDS THE MAIN DIV CONTAINING THE SPECIFIC FILTERS
@@ -75,7 +76,7 @@ function loadSearchFilters() {
     //loads everything on the page
     createGenreFilters();
     createActorFilters();
-    createLengthFilters();
+    // createLengthFilters();
     $('#actor-search').hide();
     $('#length-search').hide();
 }
@@ -90,11 +91,11 @@ function createGenreFilters() {
     );
     $(searchFilterContainer).append(genreFilterGrid);
     var availableGenres =
-        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game_show,history,horror,music,musical,mystery,news,reality tv,romance,sci_fi,sport,talk show,thriller,war,western';
+        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,history,horror,music,musical,mystery,news,romance,sci_fi,sport,thriller,war,western';
     var genreFilters = availableGenres.split(',');
 
     var displayedGenres =
-        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,game show,history,horror,music,musical,mystery,news,reality tv,romance,sci fi,sport,talk show,thriller,war,western';
+        'action,adventure,animation,biography,comedy,crime,documentary,drama,family,fantasy,film noir,history,horror,music,musical,mystery,news,romance,sci fi,sport,thriller,war,western';
     var displayFilters = displayedGenres.split(',');
 
     for (var i = 0; i < genreFilters.length; i++) {
@@ -143,7 +144,10 @@ $('#actor-search').keydown(function (event) {
     console.log('hello');
     if (event.keyCode == 13) {
         if ($('#actor-search').val() === '') {
-            alert('please enter an actors name!');
+            $('#errorModal').removeClass('is-inactive').addClass('is-active');
+            $('#errorModalContent').append(
+                '<p id="errorMessage">ERROR: Please enter an actors name</p>'
+            );
         } else {
             $('#search-button').addClass('is-loading');
             console.log(event.target);
@@ -166,7 +170,19 @@ $('#search-button').click(function (event) {
             getGenre();
             $('.show-more-container').css('display', 'flex');
         } else if (search_type === 2) {
-            getActorID();
+            if ($('#actor-search').val() === '') {
+                $(this).removeClass('is-loading');
+                $('#errorModal')
+                    .removeClass('is-inactive')
+                    .addClass('is-active');
+                $('#errorModalContent').append(
+                    '<p id="errorMessage">ERROR: Please enter an actors name</p>'
+                );
+            } else {
+                $('#search-button').addClass('is-loading');
+                console.log(event.target);
+                getActorID();
+            }
             // $('.show-more-container').css('display', 'none');
             //actor;
         } else if (search_type === 3) {
@@ -181,7 +197,7 @@ $('#search-button').click(function (event) {
 
 // CHANGE SEARCH BUTTON TEXT (called when the user changes the main search criteria dropown)
 function changeSearchButtonText() {
-  var searchButton = $('#search-button');
+    var searchButton = $('#search-button');
     var possibleText = [
         'Just Pixum Already! ',
         'Forage for Films ',
@@ -192,8 +208,9 @@ function changeSearchButtonText() {
     ];
     var randomButtonText = Math.floor(Math.random() * possibleText.length);
     $(searchButton).text(possibleText[randomButtonText]);
-    $(searchButton).append($('<i class="fa-solid fa-magnifying-glass search-icon"></i>'))
-    ;
+    $(searchButton).append(
+        $('<i class="fa-solid fa-magnifying-glass search-icon"></i>')
+    );
 }
 
 // CREATING SEARCH RESULTS
@@ -214,9 +231,9 @@ function createResultCards(movies) {
     //creates cards that contain the movies the user searched for
     $('#search-button').removeClass('is-loading');
     $('#actor-search').val('');
-    $('#search-button').blur()
-    $('footer').css('position','relative');
-    $('footer').css('bottom','0px');
+    $('#search-button').blur();
+    $('footer').css('position', 'relative');
+    $('footer').css('bottom', '0px');
     console.log(movies);
     var moviesDisplay = [];
     if (search_type == 1) {
@@ -285,8 +302,6 @@ function createResultCards(movies) {
         searchResultContainer.append(blankResultCard);
     }
 }
-
-
 
 var movieObject = {};
 // Add on hover to results cards
@@ -365,7 +380,7 @@ async function clickedMoreInfo(event) {
       )
     },1000);
     
-    
+ 
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
 
@@ -379,62 +394,64 @@ async function getMovie(movieID) {
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
-    console.log(json)
+    console.log(json);
     return json.title;
 }
 
 async function getdescription(movieID) {
     const response = await fetch(
-          `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+        `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
-    console.log(json)
+    console.log(json);
     return json.plot;
 }
 
 async function getallinfo(movieID) {
     const response = await fetch(
-      `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+        `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
     const json = await response.json();
-    console.log(json)
-    var allinfo = $(`<div class='info'></div>`)
+    console.log(json);
+    var allinfo = $(`<div class='info'></div>`);
     //metacritic rating
     if (!json.metacriticRating) {
-      allinfo.append(`<p class='metacritic'>(No current score)</p>`)
+        allinfo.append(`<p class='metacritic'>(No current score)</p>`);
     } else {
-      allinfo.append(`<p class='metacritic'><i class="fa-solid fa-star fa-color"></i> ${json.metacriticRating}% </p>`)
-    }  
+        allinfo.append(
+            `<p class='metacritic'><i class="fa-solid fa-star fa-color"></i> ${json.metacriticRating}% </p>`
+        );
+    }
     //run time
-    allinfo.append(`<p class='runtime'>${json.runtimeStr}</p>`)
+    allinfo.append(`<p class='runtime'>${json.runtimeStr}</p>`);
     //rating
-    allinfo.append(`<p class='rating'>${json.contentRating}</p>`)
+    allinfo.append(`<p class='rating'>${json.contentRating}</p>`);
     //release year
-    allinfo.append(`<p class='year'>(${json.year})</p>`)
-    console.log(allinfo)
+    allinfo.append(`<p class='year'>(${json.year})</p>`);
+    console.log(allinfo);
     return allinfo;
 }
 
 async function getstreams(movieID) {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieID}/watch/providers?api_key=1af200ff906e604110980655841ecfbe`
-    );      
+        `https://api.themoviedb.org/3/movie/${movieID}/watch/providers?api_key=1af200ff906e604110980655841ecfbe`
+    );
     const json = await response.json();
-    var link = $(`link`)
+    var link = $(`link`);
     if (!json.results['US']) {
-      return ('Not yet avaliable for rent')
+        return 'Not yet avaliable for rent';
     } else {
-      return json.results['US'].link;
+        return json.results['US'].link;
     }
 }
 
 async function getyear(movieID) {
-  const response = await fetch(
-    `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
-  );
-  const json = await response.json();
-  console.log(json)
-  return json.plot;
+    const response = await fetch(
+        `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
+    );
+    const json = await response.json();
+    console.log(json);
+    return json.plot;
 }
 /*function getdescription(movieID) {
   fetch(`https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`)
@@ -460,7 +477,7 @@ function closeErrorModal(event) {
     var target = event.target;
     console.log(target);
     var modalContainer = $('#errorModal');
-    $('#errorModalContent').text = '';
+    $('#errorMessage').remove();
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
 }
 function closeModal(event) {
@@ -510,8 +527,8 @@ function getActorID() {
                 $('#errorModal')
                     .addClass('is-active')
                     .removeClass('is-inactive');
-                $('#errorModalContent').val(
-                    `we couldnt find: ${name}, please make sure youve spelled it correctly!`
+                $('#errorModalContent').append(
+                    `<p id = "errorMessage"> ERROR: <br> we couldnt find-${name}, please make sure youve spelled it correctly!</p>`
                 );
                 var errorID = 'error';
                 return errorID;
@@ -590,17 +607,26 @@ async function getTrailer(trailerID) {
     var response = await fetch(trailerAPI);
     var data = await response.json();
     console.log(trailerAPI, trailerID);
-    console.log(data)
+    console.log(data);
     for (var i = 0; i < data.results.length; i++) {
-      if (data.results[i].name === "Official Trailer") {
-      return [`https://www.youtube.com/embed/${data.results[i].key}`, true];    
-      } else if (data.results[i].name.includes('Trailer')) {
-      return [`https://www.youtube.com/embed/${data.results[i].key}`, true]
-      } else if (data.results[i].name.includes('Teaser')) {
-      return [`https://www.youtube.com/embed/${data.results[i].key}`, true]
-      }
+        if (data.results[i].name === 'Official Trailer') {
+            return [
+                `https://www.youtube.com/embed/${data.results[i].key}`,
+                true,
+            ];
+        } else if (data.results[i].name.includes('Trailer')) {
+            return [
+                `https://www.youtube.com/embed/${data.results[i].key}`,
+                true,
+            ];
+        } else if (data.results[i].name.includes('Teaser')) {
+            return [
+                `https://www.youtube.com/embed/${data.results[i].key}`,
+                true,
+            ];
+        }
     }
-  }
+}
 
 //test function for modals
 function createBlankRCT() {
