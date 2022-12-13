@@ -37,9 +37,9 @@ https://bulma.io/documentation/
 
 
 ## Website Screenshot
-!['main page']('./assets/images/mainPagePixum.png')
-!['bookmark page']('./assets/images/bookmarkPagePixum.png')
+!['main page'](./assets/images/mainPagePixum.png)
+!['bookmark page'](./assets/images/bookmarkPagePixum.png)
 
 ## Deployed Application
-!('Check it out')[https://mkalik.github.io/pixum/]
+['Check it out'](https://mkalik.github.io/pixum/)
 
