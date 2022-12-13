@@ -491,3 +491,19 @@ footer .footer-pixum{
     color: var(--l_blue);
     letter-spacing: 2px;
 }
+
+.streams {
+    position: absolute;
+    margin-top: 160px;
+    margin-left: 170px;
+    margin-right: auto;
+    padding: 15px;
+}
+
+.rentoption {
+    text-decoration: none;
+    padding: 5px;
+    color: black;
+    background-color: var(--l_grey);
+    border-radius: 40px;
+}
