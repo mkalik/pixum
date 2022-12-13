@@ -1,36 +1,17 @@
-# pixum
-When you can't decide what to watch, or want to find something new... Mannnn, PIXUM!
+# Pixum
+When you can't decide what to watch, or want to find something new... QUIT SCROLLING AND PIXUM ALREADY!
 
-## Challenge Description | User Story
+## Description |
 
-AS someone looking for new movies, or old ones that fly under the radar,
-I WANT to be able to see a selection of films based on my chosen search criteria.
-SO THAT I can enjoy a new movie, or revisit a classic.
+When it's finally time to relax and enjoy a movie, people often spend more time scrolling through options than watching the movie itself! Our Web Application, "Pixum" is designed to rid users of this painful experience, allowing them to find a suitable movie within a few short seconds.
 
-### Acceptance Criteria
+After arriving on Pixum's homepage, the user is prompted with search criteria rergarding Genre, Actors, and Movie Length. After inputting their perfered choices, Pixum generates four watchworthy films to fit the users interests.
 
-AS a user, I want to find a list of movies using simple search criteria,
+To aid Pixum users with their Movie selection, each movie card has a dynamic "More Info" button that provides trailers, ratings, and a spoilerfree splot summary to ensure their choice is just right for them
+## Technologies Used |
+Primary Developement Tools: 
+- HTML
+- CSS
+- JavaScript
 
-IT IS ACHIEVED
-
-WHEN I open the app
-THEN there is a ‘Find Movie’ button
-
-WHEN I click on the button, 
-THEN I am presented with a set of criteria to choose from
-
-WHEN I am scrolling through the criteria
-THEN I have the option of searching based of Genre, Release Date, Movie Length, Etc... 
-
-WHEN I click ‘submit’
-THEN series of movies is generated based off the criteria I selected
-
-WHEN I click on a movie
-THEN I can view that movies main critic scores and ratings, along with their streaming services 
-
-
-## Website Screenshot
-
-
-## Deployed Application
 
