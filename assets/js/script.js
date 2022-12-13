@@ -11,6 +11,7 @@ var search_type = 1; //1 = genre, 2 = actor , 3 = length
 
 // SEARCH FILTERS
 function goBookmark() {
+    //redirects a user to the bookmarks page
     window.location.href = './assets/html/bookmark.html';
 }
 
@@ -27,6 +28,7 @@ $('#search-filter-dropdown').click(function (event) {
     }, 50);
 
     if (userSelection === 'Genre') {
+        //following two lines indicate a search type and whether or not to ping an api again.
         search_type = 1;
         hasSearched = false;
         $('#actor-search').hide();
@@ -40,6 +42,7 @@ $('#search-filter-dropdown').click(function (event) {
         }, 500);
         $('.separator').css('height', '180px');
     } else if (userSelection === 'Actor') {
+        //see line 31
         search_type = 2;
         hasSearched = false;
         $('#genre-filter-grid').hide();
@@ -111,20 +114,24 @@ function createGenreFilters() {
 
 // CREATE ACTOR NAME INPUT
 function createActorFilters() {
+    //adds a text input field to the page that allows for a user to input an actors name
     $(searchFilterContainer).append(
         '<input id="actor-search" class="input is-rounded actor-length-search" type="text" placeholder="Adam Sandler">'
     );
 }
 
 // CREATE LENGTH INPUT
-function createLengthFilters() {
-    $(searchFilterContainer).append(
-        '<input id="length-search" class="input is-rounded actor-length-search" type="text" placeholder="minutes (eg. 120)">'
-    );
-}
+// ended up not including this as it wasnt a very good search criteria
+// function createLengthFilters() {
+//     $(searchFilterContainer).append(
+//         '<input id="length-search" class="input is-rounded actor-length-search" type="text" placeholder="minutes (eg. 120)">'
+//     );
+// }
 
 // CLICK FUNCTION FOR GENRE BUTTONS
 $('.genre-button').click(function (event) {
+    //this function is used in combination with the actual genreSearch api call. It determines which button was clicked and adds an attribute that lets the 
+    //function know which genres to search for. It also allows for a user to click again to remove a genre
     var element = event.target;
     console.log(element);
     if (element.dataset.search === 'false') {
@@ -139,7 +146,7 @@ $('.genre-button').click(function (event) {
 
 // SEARCH BUTTON
 
-var hasSearched = false;
+var hasSearched = false;//this was for the showmore button. Instead of pinging an api multiple times, it allows for quick population of a page with more results
 $('#actor-search').keydown(function (event) {
     console.log('hello');
     if (event.keyCode == 13) {
@@ -157,20 +164,22 @@ $('#actor-search').keydown(function (event) {
 });
 
 $('#search-button').click(function (event) {
+    //the actual search button on the page. Changes looks based on if a fetch call is being made or not.
     $(this).addClass('is-loading');
     console.log('click search');
     event.preventDefault();
     console.log(search_type);
     if (!hasSearched) {
+        //this array stores all of the results from a genre search and allows for quick population of more movies on a page
         resultsArray = [];
         console.log('fetching');
         if (search_type === 1) {
             //genre search;
-            hasSearched = true;
+            hasSearched = true;//again allows for quick population of a page.
             getGenre();
             $('.show-more-container').css('display', 'flex');
         } else if (search_type === 2) {
-            if ($('#actor-search').val() === '') {
+            if ($('#actor-search').val() === '') {//error checks. Makes sure that a user doesnt have a blank input field when searching for an actor
                 $(this).removeClass('is-loading');
                 $('#errorModal')
                     .removeClass('is-inactive')
@@ -179,7 +188,7 @@ $('#search-button').click(function (event) {
                     '<p id="errorMessage">ERROR: Please enter an actors name</p>'
                 );
             } else {
-                $('#search-button').addClass('is-loading');
+                $('#search-button').addClass('is-loading');//if  the input is looking good then the api is called.
                 console.log(event.target);
                 getActorID();
             }
@@ -218,6 +227,7 @@ function changeSearchButtonText() {
 var searchResultContainer = $('#search-results-container');
 
 function generateRandomMovies(moviesDisplay) {
+    //random displays movies when a genre search happens so that the same results dont populate the page every time.
     for (var i = 0; i < 4; i++) {
         var randomMovie = Math.floor(Math.random() * resultsArray.length);
         moviesDisplay.push(resultsArray[randomMovie]);
@@ -303,7 +313,7 @@ function createResultCards(movies) {
     }
 }
 
-var movieObject = {};
+var movieObject = {};//the object that gets stored locally.
 // Add on hover to results cards
 function clickedBookmark(event) {
     //adds some things to local storage when a user clicks on the little banner at the top right of movie posters
@@ -325,14 +335,14 @@ function clickedBookmark(event) {
         '\nrating: ' + movieRating
     );
 
-    movieObject = {
+    movieObject = {//the actual movie object added to local storage
         movieID: movieID,
         title: movieTitle,
         poster: moviePoster,
         rating: movieRating,
     };
 
-    if (localStorage.getItem(`${movieObject.movieID}`) === null) {
+    if (localStorage.getItem(`${movieObject.movieID}`) === null) {//where things are put into local storage
         localStorage.setItem(
             `${movieObject.movieID}`,
             JSON.stringify(movieObject)
@@ -351,7 +361,7 @@ function clickedBookmark(event) {
     }
 }
 
-async function clickedMoreInfo(event) {
+async function clickedMoreInfo(event) {//a listener for the moreinfo portion of a movie tile. This function calls the movie trailer api adds them to the popup modal
     var click = event.target;
     var clickParent = $(click).parent()[0];
     var movieID = clickParent.children[2].dataset.id;
@@ -389,7 +399,7 @@ async function clickedMoreInfo(event) {
     //   getTrailer(movieID).then((trailer) => createModal(trailer));
 }
 
-async function getMovie(movieID) {
+async function getMovie(movieID) {//gets a movie based on a movie id
     const response = await fetch(
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
@@ -398,7 +408,7 @@ async function getMovie(movieID) {
     return json.title;
 }
 
-async function getdescription(movieID) {
+async function getdescription(movieID) {//gets a description for a movie
     const response = await fetch(
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
@@ -407,7 +417,7 @@ async function getdescription(movieID) {
     return json.plot;
 }
 
-async function getallinfo(movieID) {
+async function getallinfo(movieID) {//gets all of the info for a movie
     const response = await fetch(
         `https://imdb-api.com/en/API/Title/k_gqv62f21/${movieID}`
     );
@@ -473,14 +483,14 @@ function createModal(youtubeurl, title) {
     );
     console.log('creating modal');
 }
-function closeErrorModal(event) {
+function closeErrorModal(event) {//closes an error modal.
     var target = event.target;
     console.log(target);
     var modalContainer = $('#errorModal');
     $('#errorMessage').remove();
     $(modalContainer).removeClass('is-active').addClass('is-inactive');
 }
-function closeModal(event) {
+function closeModal(event) {//closes a moreinfo modal
     //closes the modal that contains the trailer
     var target = event.target;
     console.log(target);
@@ -523,7 +533,7 @@ function getActorID() {
         .then((data) => data.json())
         .then(function (actorinfo) {
             console.log(actorinfo);
-            if (actorinfo.results.length == 0) {
+            if (actorinfo.results.length == 0) {//error checking
                 $('#errorModal')
                     .addClass('is-active')
                     .removeClass('is-inactive');
@@ -557,50 +567,50 @@ function getKnownFor(actorID) {
         hasSearched == false;
     }
 }
+//not actually used.
+//function verifyLengthInput() {
+//    //this function should be looked over
+//    //verifies that user length input is a number
+//    var length = $('#length-search').val();
+//    if (length.indexOf(',') == -1) {
+//        if (!Number.isNaN(length)) {
+//            getLength(',' + length);
+//        } else {
+//            console.log('input is not a number');
+//        }
+//    } else if (length.indexOf(',')) {
+//        var limits = length.split(',');
+//        if (!Number.isNaN(limits[0]) && !Number.isNaN(limits[1])) {
+//            getLength(limits.join(','));
+//        } else {
+//            console.log('the limits are not both numbers');
+//        }
+//    }
+//}
 
-function verifyLengthInput() {
-    //this function should be looked over
-    //verifies that user length input is a number
-    var length = $('#length-search').val();
-    if (length.indexOf(',') == -1) {
-        if (!Number.isNaN(length)) {
-            getLength(',' + length);
-        } else {
-            console.log('input is not a number');
-        }
-    } else if (length.indexOf(',')) {
-        var limits = length.split(',');
-        if (!Number.isNaN(limits[0]) && !Number.isNaN(limits[1])) {
-            getLength(limits.join(','));
-        } else {
-            console.log('the limits are not both numbers');
-        }
-    }
-}
-
-var errorMovies = {
+var errorMovies = {//an array to display if something doesnt get returned from a fetch call correctly.
     image: '../images/errorImage.png',
     title: 'couldnt fetch this title',
     imdbRating: 'couldnt fetch this movie',
     id: null,
 };
-function getLength(length) {
-    //calls imdb api and searches for movies with user specified length
-    fetch(length_imdbAPI + length)
-        .then((data) => data.json())
-        .then(function (movies) {
-            resultsArray.push(...movies.results);
-            createResultCards(movies.results);
-        })
-        .catch(function () {
-            var i = 0;
-            while (i < 4) {
-                resultsArray.push(errorMovies);
-                i++;
-            }
-            createResultCards(resultsArray);
-        });
-}
+//function getLength(length) {//not used but would get the results from a length search
+//    //calls imdb api and searches for movies with user specified length
+//    fetch(length_imdbAPI + length)
+//        .then((data) => data.json())
+//        .then(function (movies) {
+//            resultsArray.push(...movies.results);
+//            createResultCards(movies.results);
+//        })
+//        .catch(function () {
+//            var i = 0;
+//            while (i < 4) {
+//                resultsArray.push(errorMovies);
+//                i++;
+//            }
+//            createResultCards(resultsArray);
+//        });
+//}
 
 async function getTrailer(trailerID) {
     var trailerAPI = `https://api.themoviedb.org/3/movie/${trailerID}/videos?api_key=1af200ff906e604110980655841ecfbe&append_to_response=videos`;
@@ -629,8 +639,8 @@ async function getTrailer(trailerID) {
 }
 
 //test function for modals
-function createBlankRCT() {
-    alert('hi!');
+// function createBlankRCT() {
+    // alert('hi!');
     //   const modalsContainer = document.getElementById("modals-container");
     //   movies.forEach(function (movie, index) {
     //     const modal = document.createElement("div");
@@ -646,7 +656,7 @@ function createBlankRCT() {
     //     openModal(modal);
     //     modalsContainer.append(modal);
     //   });
-}
+// }
 // $trigger.addEventListener('click', () => {
 //     openModal($target);
 //   });//test function for modals
