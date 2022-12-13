@@ -353,13 +353,19 @@ async function clickedMoreInfo(event) {
 
     getallinfo(movieID).then(returnValue => 
       $(`.modal-content`).append(returnValue)
-      )
+    )
+
     getdescription(movieID).then(returnValue => 
       $(`.modal-content`).append(`<p class='movieplot'>${returnValue}</p>`)
     )
-    getstreams(movieID).then(returnValue => 
-      $(`.modal-content`).append(`<div class='streams'><a href='${returnValue}' target='_blank' class='rentoption'>Watch Options</a></div>`)
-    )
+    
+    setTimeout(function(){
+      getstreams(movieID).then(returnValue => 
+        $(`.modal-content`).append(`<div class='streams'><a href='${returnValue}' target='_blank' class='rent-option'>Watch Options</a></div>`)
+      )
+    },1000);
+    
+    
     //   console.log(results);
     //   getMovie(movieID).then(function (json) {
 
